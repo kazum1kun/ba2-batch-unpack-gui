@@ -2,7 +2,8 @@ from PySide6.QtCore import Qt, QUrl
 from PySide6.QtWidgets import QApplication, QFrame, QHBoxLayout, QVBoxLayout, QWidget, QFileDialog, QTableWidgetItem
 from qfluentwidgets import (NavigationItemPosition, MessageBox, setTheme, Theme, SplitFluentWindow,
                             NavigationAvatarWidget, qrouter, SubtitleLabel, setFont, LargeTitleLabel, DisplayLabel,
-                            HyperlinkLabel, CaptionLabel, LineEdit, ToolButton, TogglePushButton, TableWidget)
+                            HyperlinkLabel, CaptionLabel, LineEdit, ToolButton, TogglePushButton, TableWidget,
+                            ToolTipFilter)
 from qfluentwidgets import FluentIcon as Fi
 
 
@@ -59,7 +60,7 @@ class MainScreen(QFrame):
         self.layout.addWidget(self.setup_title, 0, Qt.AlignmentFlag.AlignLeft)
 
         self.chooser_layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        self.folder_input.setPlaceholderText('Fallout 4 mod directory ➜')
+        self.folder_input.setPlaceholderText('Fallout 4 mod directory')
         # Open a folder chooser when clicking
         self.folder_button.clicked.connect(self.open_folder)
         self.chooser_layout.addWidget(self.folder_input)
@@ -68,6 +69,15 @@ class MainScreen(QFrame):
 
         self.threshold_layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
         self.threshold_input.setPlaceholderText('File size threshold')
+
+        # Perform auto threshold calculation and disable user input box
+        self.threshold_button.clicked.connect(self.auto_toggled)
+        self.threshold_button.setToolTip('Automatically attempts to determine a threshold\n'
+                                         'so that just enough BA2 are extracted to get under\n'
+                                         'the BA2 limit')
+        self.threshold_button.setToolTipDuration(5000)
+        self.threshold_button.installEventFilter(ToolTipFilter(self.threshold_button))
+
         self.threshold_layout.addWidget(self.threshold_input)
         self.threshold_layout.addWidget(self.threshold_button)
         self.layout.addLayout(self.threshold_layout)
@@ -94,3 +104,7 @@ class MainScreen(QFrame):
         self.folder_input.setText(QFileDialog.getExistingDirectory(self, 'Open your Fallout 4 mod directory', options=
                                   QFileDialog.Option.ShowDirsOnly |
                                   QFileDialog.Option.DontResolveSymlinks))
+
+    def auto_toggled(self):
+        # Disable threshold input if "Auto" is enabled
+        self.threshold_input.setDisabled(self.threshold_input.isEnabled())
