@@ -1,11 +1,11 @@
 import os
 import subprocess
 
+from PySide6.QtCore import QThread
 
-def readable_size(size):
-    units = ('KB', 'MB', 'GB', 'TB')
-    size_list = [f'{int(size):,} B'] + [f'{int(size) / 1024 ** (i + 1):,.1f*} {u}' for i, u in enumerate(units)]
-    return [size for size in size_list if not size.startswith('0.')][-1]
+from humanize import naturalsize
+
+from PreviewTableModel import PreviewTableModel
 
 
 # Return all ba2 in the folder that contain one of the given postfixes
@@ -38,7 +38,29 @@ def num_files_in_ba2(bsab_path, file):
     proc = subprocess.run(args, capture_output=True)
     if proc.returncode == 0:
         results = proc.stdout
-        return results.count('\n')
+        return str(results).count('\\n') - 1
     else:
         print(f'{file} fails to open!')
         return -1
+
+
+# A function-turned-thread to prevent main UI lockup
+class BsaProcessor(QThread):
+    def __init__(self, mod_folder, bsab_path, view):
+        super().__init__()
+
+        self._path = mod_folder
+        self._bsab_path = bsab_path
+        self._view = view
+
+    def run(self):
+        ba2_paths = scan_for_ba2(self._path, ['main.ba2', 'scripts.ba2'])  ## TODO supply the real postfixes
+
+        # Populate ba2 files and their properties
+        ba2_dirs = [os.path.dirname(f) for f in ba2_paths]
+        ba2_filenames = [os.path.basename(f) for f in ba2_paths]
+        ba2_sizes = [naturalsize(os.stat(f).st_size) for f in ba2_paths]
+        ba2_num_files = [num_files_in_ba2('./bin/bsab.exe', f) for f in ba2_paths]
+        ba2_ignored = [False for f in ba2_paths]
+
+        self._view.setModel(PreviewTableModel(ba2_dirs, ba2_filenames, ba2_sizes, ba2_num_files, ba2_ignored))

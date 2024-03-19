@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt, QUrl
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog
-from qfluentwidgets import FluentIcon as Fi
+from qfluentwidgets import FluentIcon as Fi, IndeterminateProgressBar, TableView
 from qfluentwidgets import (SubtitleLabel, setFont, LargeTitleLabel, HyperlinkLabel, CaptionLabel, LineEdit, ToolButton,
                             TogglePushButton, TableWidget,
                             ToolTipFilter)
@@ -42,8 +42,10 @@ class MainScreen(QFrame):
         # Subsection Preview
         self.preview_title = SubtitleLabel('Preview', self)
 
+        self.preview_progress = IndeterminateProgressBar()
+
         # File table
-        self.preview_table = TableWidget(self)
+        self.preview_table = TableView(self)
 
         self.setup_interface()
 
@@ -91,12 +93,16 @@ class MainScreen(QFrame):
         self.preview_table.setBorderRadius(8)
 
         self.preview_table.setWordWrap(False)
-        self.preview_table.setColumnCount(4)
-        self.preview_table.setRowCount(20)
+        # self.preview_table.setColumnCount(5)
+        # self.preview_table.setRowCount(20)
 
-        self.preview_table.setHorizontalHeaderLabels(['File Name', 'File Size', '# Files', 'Path'])
-        self.preview_table.resizeColumnsToContents()
+        # self.preview_table.setHorizontalHeaderLabels(['File Name', 'File Size', '# Files', 'Path', 'Ignored'])
+        # self.preview_table.resizeColumnsToContents()
 
+        # Hide the progress bar in the beginning
+        self.preview_progress.setHidden(True)
+
+        self.layout.addWidget(self.preview_progress)
         self.layout.addWidget(self.preview_table)
 
         # Leave some space for the title bar
@@ -106,18 +112,22 @@ class MainScreen(QFrame):
         self.folder_input.setText(QFileDialog.getExistingDirectory(self, 'Open your Fallout 4 mod directory', options=
         QFileDialog.Option.ShowDirsOnly |
         QFileDialog.Option.DontResolveSymlinks))
+
+        # Animate the progress bar
+        self.preview_progress.setHidden(False)
+        self.preview_progress.start()
+
         selected_folder = self.folder_input.text()
-        ba2_paths = self.scan_ba2(selected_folder, ['main.ba2', 'scripts.ba2'])  ## TODO supply the real postfixes
-
-        # Populate ba2 files and their properties
-        ba2_dirs = [os.path.dirname(f) for f in ba2_paths]
-        ba2_filenames = [os.path.basename(f) for f in ba2_paths]
-        ba2_sizes = [readable_size(os.stat(f).st_size) for f in ba2_paths]
-        ba2_num_files = [num_files_in_ba2('./bin/bsab.exe', f) for f in ba2_paths]
-        ba2_ignored = [False for f in ba2_paths]
-
-        self.preview_table.setModel(PreviewTableModel(ba2_dirs, ba2_filenames, ba2_sizes, ba2_num_files, ba2_ignored))
+        self.processor = BsaProcessor(selected_folder, './bin/bsab.exe', self.preview_table)
+        self.processor.finished.connect(self.done_loading_ba2)
+        self.processor.start()
 
     def auto_toggled(self):
         # Disable threshold input if "Auto" is enabled
         self.threshold_input.setDisabled(self.threshold_input.isEnabled())
+
+    def done_loading_ba2(self):
+        # Hide the progress bar again
+        self.preview_progress.stop()
+        self.preview_progress.setHidden(True)
+        del self.processor
