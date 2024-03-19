@@ -1,7 +1,6 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication, QFrame, QHBoxLayout
-from qfluentwidgets import (NavigationItemPosition, MessageBox, setTheme, Theme, SplitFluentWindow,
-                            NavigationAvatarWidget, qrouter, SubtitleLabel, setFont)
+from PySide6.QtWidgets import QFrame, QHBoxLayout
+from qfluentwidgets import (SubtitleLabel, setFont)
 
 
 class SettingsScreen(QFrame):

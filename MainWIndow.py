@@ -1,12 +1,9 @@
 import sys
 
-from PySide6.QtCore import QModelIndex, Qt
-from PySide6.QtGui import QPalette, QIcon
-from PySide6.QtWidgets import QApplication, QStyleOptionViewItem, QTableWidget, QTableWidgetItem, QWidget, QHBoxLayout
-
-from qfluentwidgets import (NavigationItemPosition, MessageBox, setTheme, Theme, SplitFluentWindow,
-                            NavigationAvatarWidget, qrouter, SubtitleLabel, setFont)
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QApplication
 from qfluentwidgets import FluentIcon as Fi
+from qfluentwidgets import (setTheme, Theme, SplitFluentWindow)
 
 from MainScreen import MainScreen
 from SettingsScreen import SettingsScreen

@@ -1,12 +1,12 @@
-import pathlib
-
 from PySide6.QtCore import Qt, QUrl
-from PySide6.QtWidgets import QApplication, QFrame, QHBoxLayout, QVBoxLayout, QWidget, QFileDialog, QTableWidgetItem
-from qfluentwidgets import (NavigationItemPosition, MessageBox, setTheme, Theme, SplitFluentWindow,
-                            NavigationAvatarWidget, qrouter, SubtitleLabel, setFont, LargeTitleLabel, DisplayLabel,
-                            HyperlinkLabel, CaptionLabel, LineEdit, ToolButton, TogglePushButton, TableWidget,
-                            ToolTipFilter)
+from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog
 from qfluentwidgets import FluentIcon as Fi
+from qfluentwidgets import (SubtitleLabel, setFont, LargeTitleLabel, HyperlinkLabel, CaptionLabel, LineEdit, ToolButton,
+                            TogglePushButton, TableWidget,
+                            ToolTipFilter)
+
+from PreviewTableModel import PreviewTableModel
+from Utilities import *
 
 
 class MainScreen(QFrame):
@@ -104,14 +104,20 @@ class MainScreen(QFrame):
 
     def open_folder(self):
         self.folder_input.setText(QFileDialog.getExistingDirectory(self, 'Open your Fallout 4 mod directory', options=
-                                  QFileDialog.Option.ShowDirsOnly |
-                                  QFileDialog.Option.DontResolveSymlinks))
+        QFileDialog.Option.ShowDirsOnly |
+        QFileDialog.Option.DontResolveSymlinks))
+        selected_folder = self.folder_input.text()
+        ba2_paths = self.scan_ba2(selected_folder, ['main.ba2', 'scripts.ba2'])  ## TODO supply the real postfixes
+
+        # Populate ba2 files and their properties
+        ba2_dirs = [os.path.dirname(f) for f in ba2_paths]
+        ba2_filenames = [os.path.basename(f) for f in ba2_paths]
+        ba2_sizes = [readable_size(os.stat(f).st_size) for f in ba2_paths]
+        ba2_num_files = [num_files_in_ba2('./bin/bsab.exe', f) for f in ba2_paths]
+        ba2_ignored = [False for f in ba2_paths]
+
+        self.preview_table.setModel(PreviewTableModel(ba2_dirs, ba2_filenames, ba2_sizes, ba2_num_files, ba2_ignored))
 
     def auto_toggled(self):
         # Disable threshold input if "Auto" is enabled
         self.threshold_input.setDisabled(self.threshold_input.isEnabled())
-
-    def scan_ba2(self, path, postfixes):
-        mod_folder = pathlib.Path(path)
-
-        # Get a list of all ba2 files that ends with the specified postfixes in the folder
