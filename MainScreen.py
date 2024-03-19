@@ -1,3 +1,5 @@
+import pathlib
+
 from PySide6.QtCore import Qt, QUrl
 from PySide6.QtWidgets import QApplication, QFrame, QHBoxLayout, QVBoxLayout, QWidget, QFileDialog, QTableWidgetItem
 from qfluentwidgets import (NavigationItemPosition, MessageBox, setTheme, Theme, SplitFluentWindow,
@@ -72,9 +74,9 @@ class MainScreen(QFrame):
 
         # Perform auto threshold calculation and disable user input box
         self.threshold_button.clicked.connect(self.auto_toggled)
-        self.threshold_button.setToolTip('Automatically attempts to determine a threshold\n'
-                                         'so that just enough BA2 are extracted to get under\n'
-                                         'the BA2 limit')
+        self.threshold_button.setToolTip('Automatically attempts to determine a\n'
+                                         'threshold so that just enough BA2 are\n'
+                                         'extracted to get under the BA2 limit')
         self.threshold_button.setToolTipDuration(5000)
         self.threshold_button.installEventFilter(ToolTipFilter(self.threshold_button))
 
@@ -108,3 +110,8 @@ class MainScreen(QFrame):
     def auto_toggled(self):
         # Disable threshold input if "Auto" is enabled
         self.threshold_input.setDisabled(self.threshold_input.isEnabled())
+
+    def scan_ba2(self, path, postfixes):
+        mod_folder = pathlib.Path(path)
+
+        # Get a list of all ba2 files that ends with the specified postfixes in the folder
