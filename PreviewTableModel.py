@@ -35,7 +35,7 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
                 else:
                     return Qt.CheckState.Unchecked
 
-        return ''
+        return None
 
     def setData(self, index, value, role=Qt.EditRole):
         if not index.isValid():
