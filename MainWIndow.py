@@ -1,18 +1,20 @@
 import sys
 
+from PySide6.QtCore import QTranslator
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
-from qfluentwidgets import FluentIcon as Fi
+from qfluentwidgets import FluentIcon as Fi, NavigationItemPosition, FluentTranslator
 from qfluentwidgets import (setTheme, Theme, SplitFluentWindow)
 
 from MainScreen import MainScreen
 from SettingsScreen import SettingsScreen
 
+from Config import cfg, Language
+
 
 class MainWindow(SplitFluentWindow):
     def __init__(self):
         super().__init__()
-        setTheme(Theme.AUTO)
 
         # Create split tabs
         self.mainScreen = MainScreen(self)
@@ -20,12 +22,13 @@ class MainWindow(SplitFluentWindow):
 
         self.init_navigation()
 
+        self.resize(900, 700)
+
     def init_navigation(self):
         self.addSubInterface(self.mainScreen, Fi.HOME, 'Main')
-        self.addSubInterface(self.settingsScreen, Fi.SETTING, 'Settings')
+        self.addSubInterface(self.settingsScreen, Fi.SETTING, 'Settings', NavigationItemPosition.BOTTOM)
 
     def initWindow(self):
-        self.resize(900, 700)
         self.setWindowIcon(QIcon(':/qfluentwidgets/images/logo.png'))
         self.setWindowTitle('PyQt-Fluent-Widgets')
 
@@ -35,9 +38,19 @@ class MainWindow(SplitFluentWindow):
 
 
 if __name__ == '__main__':
-    setTheme(Theme.AUTO)
+    # setTheme(Theme.AUTO)
 
     app = QApplication(sys.argv)
+
+    # internationalization
+    locale = cfg.get(cfg.language).value
+    fluentTranslator = FluentTranslator(locale)
+    settingTranslator = QTranslator()
+    settingTranslator.load(locale, "settings", ".", "resource/i18n")
+
+    app.installTranslator(fluentTranslator)
+    app.installTranslator(settingTranslator)
+
     w = MainWindow()
     w.show()
     app.exec()

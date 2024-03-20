@@ -1,7 +1,8 @@
 ### User Config
 # Examples
 examples/
-
+config/
+bin/
 
 ### Qt template
 # C++ objects and libs
