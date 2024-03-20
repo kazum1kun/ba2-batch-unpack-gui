@@ -37,14 +37,15 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
 
         return None
 
-    def setData(self, index, value, role=Qt.EditRole):
+    def setData(self, index, value, role=Qt.ItemDataRole.EditRole):
         if not index.isValid():
             return False
-        if role == Qt.CheckStateRole and index.column() == 4:
-            if value == Qt.Checked:
+        if role == Qt.ItemDataRole.CheckStateRole and index.column() == 4:
+            if Qt.CheckState(value) == Qt.CheckState.Checked:
                 self._ba2_ignored[index.row()] = True
             else:
                 self._ba2_ignored[index.row()] = False
+        return True
 
     def flags(self, index):
         if not index.isValid():
