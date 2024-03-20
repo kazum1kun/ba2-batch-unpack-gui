@@ -1,5 +1,5 @@
 from PySide6.QtCore import Qt, QUrl
-from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog
+from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog, QHeaderView
 from qfluentwidgets import FluentIcon as Fi, IndeterminateProgressBar, TableView
 from qfluentwidgets import (SubtitleLabel, setFont, LargeTitleLabel, HyperlinkLabel, CaptionLabel, LineEdit, ToolButton,
                             TogglePushButton, TableWidget,
@@ -93,17 +93,20 @@ class MainScreen(QFrame):
         self.preview_table.setBorderRadius(8)
 
         self.preview_table.setWordWrap(False)
-        # self.preview_table.setColumnCount(5)
-        # self.preview_table.setRowCount(20)
+        vh = QHeaderView(Qt.Orientation.Vertical)
+        vh.hide()
+        self.preview_table.setVerticalHeader(vh)
 
-        # self.preview_table.setHorizontalHeaderLabels(['File Name', 'File Size', '# Files', 'Path', 'Ignored'])
         # self.preview_table.resizeColumnsToContents()
 
         # Hide the progress bar in the beginning
+        sp = self.preview_progress.sizePolicy()
+        sp.setRetainSizeWhenHidden(True)
+        self.preview_progress.setSizePolicy(sp)
         self.preview_progress.setHidden(True)
 
-        self.layout.addWidget(self.preview_progress)
         self.layout.addWidget(self.preview_table)
+        self.layout.addWidget(self.preview_progress)
 
         # Leave some space for the title bar
         self.layout.setContentsMargins(10, 32, 10, 10)

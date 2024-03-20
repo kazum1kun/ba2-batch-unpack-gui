@@ -10,6 +10,7 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
         self._ba2_sizes = ba2_sizes
         self._ba2_num_files = ba2_num_files
         self._ba2_ignored = ba2_ignored
+        self.horizontalHeader = ['File Name', 'File Size', '# Files', 'Mod', 'Ignored']
 
     def data(self, index, role=Qt.ItemDataRole.DisplayRole):
         if not index.isValid():
@@ -62,3 +63,8 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
 
     def columnCount(self, _parent=None):
         return 5
+
+    def headerData(self, section, orientation, role=...):
+        if role == Qt.ItemDataRole.DisplayRole and orientation == QtCore.Qt.Orientation.Horizontal:
+            return self.horizontalHeader[section]
+        return None

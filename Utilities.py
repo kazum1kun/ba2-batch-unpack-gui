@@ -57,10 +57,12 @@ class BsaProcessor(QThread):
         ba2_paths = scan_for_ba2(self._path, ['main.ba2', 'scripts.ba2'])  ## TODO supply the real postfixes
 
         # Populate ba2 files and their properties
-        ba2_dirs = [os.path.dirname(f) for f in ba2_paths]
+        ba2_dirs = [os.path.basename(os.path.dirname(f)) for f in ba2_paths]
         ba2_filenames = [os.path.basename(f) for f in ba2_paths]
         ba2_sizes = [naturalsize(os.stat(f).st_size) for f in ba2_paths]
         ba2_num_files = [num_files_in_ba2('./bin/bsab.exe', f) for f in ba2_paths]
         ba2_ignored = [False for f in ba2_paths]
 
-        self._view.setModel(PreviewTableModel(ba2_dirs, ba2_filenames, ba2_sizes, ba2_num_files, ba2_ignored))
+        model = PreviewTableModel(ba2_dirs, ba2_filenames, ba2_sizes, ba2_num_files, ba2_ignored)
+
+        self._view.setModel(model)
