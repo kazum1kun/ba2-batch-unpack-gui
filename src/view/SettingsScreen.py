@@ -1,13 +1,15 @@
-from Config import cfg, HELP_URL, FEEDBACK_URL, AUTHOR, VERSION, YEAR
+from misc.Config import cfg, HELP_URL, FEEDBACK_URL, AUTHOR, VERSION, YEAR
 from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, FolderListSettingCard,
                             OptionsSettingCard, RangeSettingCard, PushSettingCard,
                             ColorSettingCard, HyperlinkCard, PrimaryPushSettingCard, ScrollArea,
                             ComboBoxSettingCard, ExpandLayout, Theme, InfoBar, CustomColorSettingCard,
-                            setTheme, setThemeColor, isDarkTheme, SubtitleLabel, setFont)
+                            setTheme, setThemeColor, isDarkTheme, SubtitleLabel, setFont, ExpandSettingCard)
 from qfluentwidgets import FluentIcon as Fi
 from PySide6.QtCore import Qt, Signal, QUrl, QStandardPaths
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QWidget, QLabel, QFontDialog, QFileDialog, QFrame, QHBoxLayout
+from view.PostfixSettingsCard import PostfixSettingCard
+from view.IgnoredSettingCard import IgnoredSettingCard
 
 
 class SettingsScreen(ScrollArea):
@@ -36,9 +38,25 @@ class SettingsScreen(ScrollArea):
         # setting label
         self.settingLabel = QLabel(self.tr("Settings"), self)
 
-        # music folders
-        self.musicInThisPCGroup = SettingCardGroup(
-            self.tr("Music on this PC"), self.scrollWidget)
+        # extraction
+        self.extraction_group = SettingCardGroup(
+            self.tr('Extraction'), self.scrollWidget
+        )
+        self.postfixes_card = PostfixSettingCard(
+            cfg.postfixes,
+            Fi.TAG,
+            self.tr('Postfixes'),
+            self.tr('File postfixes to extract from. Example: \"main.ba2\" matches files like \"xyzmod - Main.ba2\" and'
+                    ' \"abcmod - main.BA2\". Must end in \".ba2\".'),
+            parent=self.extraction_group
+        )
+        self.ignored_card = IgnoredSettingCard(
+            cfg.ignored,
+            Fi.REMOVE_FROM,
+            self.tr('Ignored Files'),
+            self.tr('Any file with filename containing them will not be extracted.'),
+            parent=self.extraction_group
+        )
 
         # personalization
         self.personalGroup = SettingCardGroup(self.tr('Personalization'), self.scrollWidget)
@@ -142,6 +160,9 @@ class SettingsScreen(ScrollArea):
     def __initLayout(self):
         self.settingLabel.move(60, 63)
 
+        self.extraction_group.addSettingCard(self.postfixes_card)
+        self.extraction_group.addSettingCard(self.ignored_card)
+
         # add cards to group
         self.personalGroup.addSettingCard(self.enableAcrylicCard)
         self.personalGroup.addSettingCard(self.themeCard)
@@ -158,7 +179,7 @@ class SettingsScreen(ScrollArea):
         # add setting card group to layout
         self.expandLayout.setSpacing(28)
         self.expandLayout.setContentsMargins(60, 10, 60, 0)
-        self.expandLayout.addWidget(self.musicInThisPCGroup)
+        self.expandLayout.addWidget(self.extraction_group)
         self.expandLayout.addWidget(self.personalGroup)
         self.expandLayout.addWidget(self.updateSoftwareGroup)
         self.expandLayout.addWidget(self.aboutGroup)

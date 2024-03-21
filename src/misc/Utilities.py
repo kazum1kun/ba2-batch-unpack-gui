@@ -5,7 +5,7 @@ from PySide6.QtCore import QThread
 
 from humanize import naturalsize
 
-from PreviewTableModel import PreviewTableModel
+from model.PreviewTableModel import PreviewTableModel
 
 
 # Return all ba2 in the folder that contain one of the given postfixes

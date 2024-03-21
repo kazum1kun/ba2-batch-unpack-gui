@@ -5,8 +5,7 @@ from qfluentwidgets import (SubtitleLabel, setFont, LargeTitleLabel, HyperlinkLa
                             TogglePushButton, TableWidget,
                             ToolTipFilter)
 
-from PreviewTableModel import PreviewTableModel
-from Utilities import *
+from misc.Utilities import *
 
 
 class MainScreen(QFrame):

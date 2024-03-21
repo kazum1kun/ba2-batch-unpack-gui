@@ -6,10 +6,10 @@ from PySide6.QtWidgets import QApplication
 from qfluentwidgets import FluentIcon as Fi, NavigationItemPosition, FluentTranslator
 from qfluentwidgets import (setTheme, Theme, SplitFluentWindow)
 
-from MainScreen import MainScreen
-from SettingsScreen import SettingsScreen
+from view.MainScreen import MainScreen
+from view.SettingsScreen import SettingsScreen
 
-from Config import cfg, Language
+from misc.Config import cfg, Language
 
 
 class MainWindow(SplitFluentWindow):
