@@ -12,12 +12,12 @@ from qfluentwidgets import (qconfig, QConfig, ConfigItem, OptionsConfigItem, Boo
 
 class Ba2ListValidator(ConfigValidator):
     def validate(self, value):
-        return all((len(postfix) > 4 and postfix[-4:] == '.ba2') for postfix in value)
+        return all((len(postfix) >= 4 and postfix[-4:] == '.ba2') for postfix in value)
 
     def correct(self, value):
         postfixes = []
         for postfix in value:
-            if len(postfix) > 4 and postfix[-4:] == '.ba2':
+            if len(postfix) >= 4 and postfix[-4:] == '.ba2':
                 postfixes.append(postfix)
 
         return postfixes

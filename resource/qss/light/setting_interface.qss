@@ -8,9 +8,8 @@ QScrollArea {
 }
 
 
-/* 标签 */
+/* Label */
 QLabel#settingLabel {
     font: 33px 'Microsoft YaHei Light';
     background-color: transparent;
 }
-

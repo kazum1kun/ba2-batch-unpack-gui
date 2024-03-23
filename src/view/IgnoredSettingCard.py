@@ -17,7 +17,7 @@ class IgnoredItem(QWidget):
         super().__init__(parent=parent)
         self.ignored = ignored
         self.item_layout = QHBoxLayout(self)
-        self.postfix_label = QLabel(ignored, self)
+        self.ignored_label = QLabel(ignored, self)
         self.remove_button = ToolButton(Fi.CLOSE, self)
 
         self.remove_button.setFixedSize(39, 29)
@@ -26,7 +26,8 @@ class IgnoredItem(QWidget):
         self.setFixedHeight(53)
         self.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Fixed)
         self.item_layout.setContentsMargins(48, 0, 60, 0)
-        self.item_layout.addWidget(self.postfix_label, 0, Qt.AlignLeft)
+
+        self.item_layout.addWidget(self.ignored_label, 0, Qt.AlignLeft)
         self.item_layout.addSpacing(16)
         self.item_layout.addStretch(1)
         self.item_layout.addWidget(self.remove_button, 0, Qt.AlignRight)
@@ -64,27 +65,31 @@ class IgnoredSettingCard(ExpandSettingCard):
 
         super().__init__(icon, title, content, parent)
         self.config_item = config_item
-        self.ignored_bottom_layout = QHBoxLayout(self)
-        self.clear_ignored_button = ToolButton(Fi.DELETE, self)
+        self.clear_ignored_button = ToolButton(Fi.BROOM, self)
         self.new_ignored_input = LineEdit(self)
-        self.add_ignored_button = PushButton(self.tr('Add to ignored'), self, Fi.ADD)
+        self.add_ignored_button = PushButton(self.tr('Add'), self, Fi.ADD)
 
         self.ignored = qconfig.get(config_item).copy()   # type:List[str]
+        self.ignored_cards = []
         self.__initWidget()
 
     def __initWidget(self):
+        self.setExpand(True)
 
         # initialize layout
+        self.addWidget(self.clear_ignored_button)
+        self.addWidget(self.new_ignored_input)
+        self.addWidget(self.add_ignored_button)
+
         self.viewLayout.setSpacing(0)
         self.viewLayout.setAlignment(Qt.AlignTop)
         self.viewLayout.setContentsMargins(0, 0, 0, 0)
-        for folder in self.ignored:
-            self.__add_ignored_item(folder)
+        for i in self.ignored:
+            self.__add_ignored_item(i)
 
-        self.clear_ignored_button.setToolTip('Clear all')
-        self.new_ignored_input.setPlaceholderText(self.tr('Ignored filename'))
-        self.ignored_bottom_layout.addWidget(self.new_ignored_input)
-        self.ignored_bottom_layout.addWidget(self.add_ignored_button)
+        self.clear_ignored_button.setToolTip(self.tr('Clear all'))
+        self.clear_ignored_button.clicked.connect(self.__clear_ignored)
+        self.new_ignored_input.setPlaceholderText(self.tr('Ignored file'))
         self.add_ignored_button.clicked.connect(self.__add_ignored)
 
     def __add_ignored(self):
@@ -99,8 +104,47 @@ class IgnoredSettingCard(ExpandSettingCard):
 
         self.__add_ignored_item(new_ignored.lower())
         self.ignored.append(new_ignored.lower())
+        self.new_ignored_input.clear()
         qconfig.set(self.config_item, self.ignored)
         self.ignored_changed.emit(self.ignored)
+
+    def __add_ignored_item(self, ignored: str):
+        """ add folder item """
+        item = IgnoredItem(ignored, self.view)
+        item.removed.connect(lambda: self.__remove_ignored(item))
+        self.viewLayout.addWidget(item)
+        self.ignored_cards.append(item)
+        item.show()
+        self._adjustViewSize()
+
+    # def __show_confirm_dialog(self, item: PostfixItem):
+    #     """ show confirm dialog """
+    #     name = Path(item.folder).name
+    #     title = self.tr('Are you sure you want to delete the folder?')
+    #     content = self.tr("If you delete the ") + f'"{name}"' + \
+    #         self.tr(" folder and remove it from the list, the folder will no "
+    #                 "longer appear in the list, but will not be deleted.")
+    #     w = Dialog(title, content, self.window())
+    #     w.yesSignal.connect(lambda: self.__removeFolder(item))
+    #     w.exec_()
+
+    def __remove_ignored(self, item: IgnoredItem):
+        """ remove ignored """
+        if item.ignored not in self.ignored:
+            return
+
+        self.ignored.remove(item.ignored)
+        self.ignored_cards.remove(item)
+        self.viewLayout.removeWidget(item)
+        item.deleteLater()
+        self._adjustViewSize()
+
+        self.ignored_changed.emit(self.ignored)
+        qconfig.set(self.config_item, self.ignored)
+
+    def __clear_ignored(self):
+        for card in self.ignored_cards[:]:
+            self.__remove_ignored(card)
 
     def __show_ignore_failed_tip(self):
         TeachingTip.create(
@@ -125,36 +169,3 @@ class IgnoredSettingCard(ExpandSettingCard):
             duration=2000,
             parent=self
         )
-
-    def __add_ignored_item(self, ignored: str):
-        """ add folder item """
-        item = IgnoredItem(ignored, self.view)
-        item.removed.connect(self.__remove_ignored(item))
-        self.viewLayout.addWidget(item)
-        item.show()
-        self._adjustViewSize()
-
-    # def __show_confirm_dialog(self, item: PostfixItem):
-    #     """ show confirm dialog """
-    #     name = Path(item.folder).name
-    #     title = self.tr('Are you sure you want to delete the folder?')
-    #     content = self.tr("If you delete the ") + f'"{name}"' + \
-    #         self.tr(" folder and remove it from the list, the folder will no "
-    #                 "longer appear in the list, but will not be deleted.")
-    #     w = Dialog(title, content, self.window())
-    #     w.yesSignal.connect(lambda: self.__removeFolder(item))
-    #     w.exec_()
-
-    def __remove_ignored(self, item: IgnoredItem):
-        """ remove ignored """
-        if item.ignored not in self.ignored:
-            return
-
-        self.ignored.remove(item.ignored)
-        self.viewLayout.removeWidget(item)
-        item.deleteLater()
-        self._adjustViewSize()
-
-        self.ignored_changed.emit(self.ignored)
-        qconfig.set(self.config_item, self.ignored)
-

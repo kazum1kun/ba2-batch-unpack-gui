@@ -22,15 +22,7 @@ class SettingsScreen(ScrollArea):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
 
-        # self.label = SubtitleLabel('Settings', self)
-        # self.layout = QHBoxLayout(self)
         self.setObjectName('SettingsScreen')
-
-        # setFont(self.label, 24)
-        # self.label.setAlignment(Qt.AlignCenter)
-        # self.layout.addWidget(self.label, 1, Qt.AlignCenter)
-
-        # self.layout.setContentsMargins(0, 32, 0, 0)
 
         self.scrollWidget = QWidget()
         self.expandLayout = ExpandLayout(self.scrollWidget)
@@ -46,15 +38,15 @@ class SettingsScreen(ScrollArea):
             cfg.postfixes,
             Fi.TAG,
             self.tr('Postfixes'),
-            self.tr('File postfixes to extract from. Example: \"main.ba2\" matches files like \"xyzmod - Main.ba2\" and'
-                    ' \"abcmod - main.BA2\". Must end in \".ba2\".'),
+            self.tr('File postfixes to extract from. Example: \"main.ba2\" matches files like\n'
+                    '\"xyzmod - Main.ba2\" and \"abcmod - main.BA2\". Must end in \".ba2\"'),
             parent=self.extraction_group
         )
         self.ignored_card = IgnoredSettingCard(
             cfg.ignored,
             Fi.REMOVE_FROM,
             self.tr('Ignored Files'),
-            self.tr('Any file with filename containing them will not be extracted.'),
+            self.tr('Any file with filename containing them will not be extracted'),
             parent=self.extraction_group
         )
 
@@ -67,7 +59,7 @@ class SettingsScreen(ScrollArea):
             configItem=cfg.enable_acrylic_background,
             parent=self.personalGroup
         )
-        self.themeCard = OptionsSettingCard(
+        self.themeCard = ComboBoxSettingCard(
             cfg.themeMode,
             Fi.BRUSH,
             self.tr('Application theme'),
@@ -85,7 +77,7 @@ class SettingsScreen(ScrollArea):
             self.tr('Change the theme color of you application'),
             self.personalGroup
         )
-        self.zoomCard = OptionsSettingCard(
+        self.zoomCard = ComboBoxSettingCard(
             cfg.dpi_scale,
             Fi.ZOOM,
             self.tr("Interface zoom"),
@@ -146,6 +138,7 @@ class SettingsScreen(ScrollArea):
     def __initWidget(self):
         self.resize(1000, 800)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.setViewportMargins(0, 120, 0, 20)
         self.setWidget(self.scrollWidget)
         self.setWidgetResizable(True)
@@ -164,11 +157,11 @@ class SettingsScreen(ScrollArea):
         self.extraction_group.addSettingCard(self.ignored_card)
 
         # add cards to group
-        self.personalGroup.addSettingCard(self.enableAcrylicCard)
         self.personalGroup.addSettingCard(self.themeCard)
         self.personalGroup.addSettingCard(self.themeColorCard)
-        self.personalGroup.addSettingCard(self.zoomCard)
         self.personalGroup.addSettingCard(self.languageCard)
+        self.personalGroup.addSettingCard(self.enableAcrylicCard)
+        self.personalGroup.addSettingCard(self.zoomCard)
 
         self.updateSoftwareGroup.addSettingCard(self.updateOnStartUpCard)
 
@@ -179,6 +172,7 @@ class SettingsScreen(ScrollArea):
         # add setting card group to layout
         self.expandLayout.setSpacing(28)
         self.expandLayout.setContentsMargins(60, 10, 60, 0)
+
         self.expandLayout.addWidget(self.extraction_group)
         self.expandLayout.addWidget(self.personalGroup)
         self.expandLayout.addWidget(self.updateSoftwareGroup)
@@ -200,23 +194,6 @@ class SettingsScreen(ScrollArea):
             self.tr('Configuration takes effect after restart'),
             parent=self.window()
         )
-
-    def __onDeskLyricFontCardClicked(self):
-        """ desktop lyric font button clicked slot """
-        isOk, font = QFontDialog.getFont(
-            cfg.desktopLyricFont, self.window(), self.tr("Choose font"))
-        if isOk:
-            cfg.desktopLyricFont = font
-
-    def __onDownloadFolderCardClicked(self):
-        """ download folder card clicked slot """
-        folder = QFileDialog.getExistingDirectory(
-            self, self.tr("Choose folder"), "./")
-        if not folder or cfg.get(cfg.downloadFolder) == folder:
-            return
-
-        cfg.set(cfg.downloadFolder, folder)
-        self.downloadFolderCard.setContent(folder)
 
     def __onThemeChanged(self, theme: Theme):
         """ theme changed slot """
