@@ -2,7 +2,7 @@ from PySide6.QtCore import Qt, QUrl
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog, QHeaderView
 from qfluentwidgets import FluentIcon as Fi, IndeterminateProgressBar, TableView, PushButton, PrimaryPushButton, \
-    BodyLabel, StrongBodyLabel
+    BodyLabel, StrongBodyLabel, RoundMenu, Action
 from qfluentwidgets import (SubtitleLabel, setFont, LargeTitleLabel, HyperlinkLabel, CaptionLabel, LineEdit, ToolButton,
                             TogglePushButton, TableWidget,
                             ToolTipFilter)
@@ -137,14 +137,13 @@ class MainScreen(QFrame):
         self.preview_table.setBorderVisible(True)
         self.preview_table.setBorderRadius(8)
 
-        # self.preview_table.horizontalHeader().setSortIndicator(0, Qt.SortOrder.AscendingOrder)
-
         self.preview_table.setWordWrap(False)
         vh = QHeaderView(Qt.Orientation.Vertical)
         vh.hide()
         self.preview_table.setVerticalHeader(vh)
 
-        # self.preview_table.resizeColumnsToContents()
+        self.preview_table.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.preview_table.customContextMenuRequested.connect(self.table_custom_menu)
 
         self.layout.addWidget(self.preview_table)
 
@@ -172,4 +171,23 @@ class MainScreen(QFrame):
         # Hide the progress bar again
         self.preview_progress.stop()
         self.preview_progress.setHidden(True)
+
+        # Adjust the table columns
+        self.preview_table.resizeColumnsToContents()
+        self.preview_table.horizontalHeader().setSortIndicator(0, Qt.SortOrder.AscendingOrder)
+        self.preview_table.setSortingEnabled(True)
+
         del self.processor
+
+    def table_custom_menu(self, pos):
+        item_idx = self.preview_table.indexAt(pos)
+        if not item_idx.isValid():
+            return
+
+        menu = RoundMenu()
+
+        # Add actions one by one, Action inherits from QAction and accepts icons of type FluentIconBase
+        menu.addAction(Action(Fi.REMOVE_FROM, 'Ignore', triggered=lambda: print(f'{item_idx.data()}')))
+        menu.addAction(Action(Fi.LINK, 'Open', triggered=lambda: print("Cut successful")))
+
+        menu.exec_(self.preview_table.viewport().mapToGlobal(pos))

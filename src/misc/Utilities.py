@@ -69,5 +69,3 @@ class BsaProcessor(QThread):
         proxy_model.setSourceModel(model)
 
         self._view.setModel(proxy_model)
-        self._view.horizontalHeader().setSortIndicator(0, Qt.SortOrder.AscendingOrder)
-        self._view.setSortingEnabled(True)

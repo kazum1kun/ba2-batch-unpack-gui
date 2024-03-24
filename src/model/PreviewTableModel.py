@@ -3,6 +3,7 @@ from PySide6.QtCore import Qt
 
 from humanize import naturalsize
 
+
 class PreviewTableModel(QtCore.QAbstractTableModel):
     def __init__(self, ba2_dirs, ba2_filenames, ba2_sizes, ba2_num_files, ba2_ignored):
         super(PreviewTableModel, self).__init__()
