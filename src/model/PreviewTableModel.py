@@ -1,16 +1,16 @@
 from PySide6 import QtCore
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QModelIndex
 
 from humanize import naturalsize
 
 
 class PreviewTableModel(QtCore.QAbstractTableModel):
-    def __init__(self, ba2_dirs, ba2_filenames, ba2_sizes, ba2_num_files, ba2_ignored):
+    def __init__(self):
         super(PreviewTableModel, self).__init__()
-        self._ba2_dirs = ba2_dirs
-        self._ba2_filenames = ba2_filenames
-        self._ba2_sizes = ba2_sizes
-        self._ba2_num_files = ba2_num_files
+        self._ba2_dirs = []
+        self._ba2_filenames = []
+        self._ba2_sizes = []
+        self._ba2_num_files = []
         # self._ba2_ignored = ba2_ignored
         self.horizontalHeader = ['File Name', 'File Size', '# Files', 'Mod', 'Ignored']
 
@@ -54,6 +54,23 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
     #         else:
     #             self._ba2_ignored[index.row()] = False
     #     return True
+
+    # data=[ba2_dir, ba2_filename, ba2_size, ba2_num_file]
+    def append_row(self, data):
+        self.beginInsertRows(QModelIndex(), len(self._ba2_dirs), len(self._ba2_dirs))
+        self._ba2_dirs.append(data[0])
+        self._ba2_filenames.append(data[1])
+        self._ba2_sizes.append(data[2])
+        self._ba2_num_files.append(data[3])
+        self.endInsertRows()
+
+    def delete_row(self, index: QModelIndex):
+        self.beginRemoveRows(index.parent(), index.row(), index.row())
+        del self._ba2_dirs[index.row()]
+        del self._ba2_filenames[index.row()]
+        del self._ba2_sizes[index.row()]
+        del self._ba2_num_files[index.row()]
+        self.endRemoveRows()
 
     def flags(self, index):
         if not index.isValid():

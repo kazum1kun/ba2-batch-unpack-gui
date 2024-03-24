@@ -55,17 +55,23 @@ class BsaProcessor(QThread):
     def run(self):
         ba2_paths = scan_for_ba2(self._path, ['main.ba2', 'scripts.ba2'])  ## TODO supply the real postfixes
 
-        # Populate ba2 files and their properties
-        ba2_dirs = [os.path.basename(os.path.dirname(f)) for f in ba2_paths]
-        ba2_filenames = [os.path.basename(f) for f in ba2_paths]
-        ba2_sizes = [os.stat(f).st_size for f in ba2_paths]
-        ba2_num_files = [num_files_in_ba2('./bin/bsab.exe', f) for f in ba2_paths]
-        ba2_ignored = [False for f in ba2_paths]
-
-        model = PreviewTableModel(ba2_dirs, ba2_filenames, ba2_sizes, ba2_num_files, ba2_ignored)
+        model = PreviewTableModel()
 
         proxy_model = QSortFilterProxyModel(model)
         proxy_model.setSortRole(Qt.ItemDataRole.UserRole)
         proxy_model.setSourceModel(model)
 
         self._view.setModel(proxy_model)
+
+        # Populate ba2 files and their properties
+        for f in ba2_paths:
+            _dir = os.path.basename(os.path.dirname(f))
+            name = os.path.basename(f)
+            size = os.stat(f).st_size
+            num_files = num_files_in_ba2('./bin/bsab.exe', f)
+            model.append_row([_dir, name, size, num_files])
+        # ba2_dirs = [os.path.basename(os.path.dirname(f)) for f in ba2_paths]
+        # ba2_filenames = [os.path.basename(f) for f in ba2_paths]
+        # ba2_sizes = [os.stat(f).st_size for f in ba2_paths]
+        # ba2_num_files = [num_files_in_ba2('./bin/bsab.exe', f) for f in ba2_paths]
+        # ba2_ignored = [False for f in ba2_paths]
