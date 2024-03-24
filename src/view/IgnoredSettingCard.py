@@ -5,7 +5,7 @@ from PySide6.QtGui import QPainter, QIcon
 from PySide6.QtWidgets import (QPushButton, QFileDialog, QWidget, QLabel,
                                QHBoxLayout, QToolButton, QSizePolicy)
 from qfluentwidgets import ExpandSettingCard, ConfigItem, FluentIconBase, PushButton, qconfig, LineEdit, TeachingTip, \
-    InfoBarIcon, TeachingTipTailPosition, ToolButton
+    InfoBarIcon, TeachingTipTailPosition, ToolButton, ToolTipFilter
 from qfluentwidgets import FluentIcon as Fi
 
 
@@ -88,6 +88,7 @@ class IgnoredSettingCard(ExpandSettingCard):
             self.__add_ignored_item(i)
 
         self.clear_ignored_button.setToolTip(self.tr('Clear all'))
+        self.clear_ignored_button.installEventFilter(ToolTipFilter(self.clear_ignored_button))
         self.clear_ignored_button.clicked.connect(self.__clear_ignored)
         self.new_ignored_input.setPlaceholderText(self.tr('Ignored file'))
         self.add_ignored_button.clicked.connect(self.__add_ignored)

@@ -5,7 +5,7 @@ from PySide6.QtGui import QPainter, QIcon
 from PySide6.QtWidgets import (QPushButton, QFileDialog, QWidget, QLabel,
                                QHBoxLayout, QToolButton, QSizePolicy)
 from qfluentwidgets import ExpandSettingCard, ConfigItem, FluentIconBase, PushButton, qconfig, LineEdit, TeachingTip, \
-    InfoBarIcon, TeachingTipTailPosition, ToolButton
+    InfoBarIcon, TeachingTipTailPosition, ToolButton, ToolTipFilter
 from qfluentwidgets import FluentIcon as Fi
 
 
@@ -88,6 +88,7 @@ class PostfixSettingCard(ExpandSettingCard):
 
         self.postfix_input.setPlaceholderText(self.tr('New postfix'))
         self.postfix_reset_button.setToolTip('Reset to default')
+        self.postfix_reset_button.installEventFilter(ToolTipFilter(self.postfix_reset_button))
         self.add_postfix_button.clicked.connect(self.__add_postfix)
         self.postfix_reset_button.clicked.connect(self.__reset_postfix)
 

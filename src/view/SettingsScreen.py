@@ -192,6 +192,7 @@ class SettingsScreen(ScrollArea):
         InfoBar.warning(
             '',
             self.tr('Configuration takes effect after restart'),
+            duration=3000,
             parent=self.window()
         )
 
