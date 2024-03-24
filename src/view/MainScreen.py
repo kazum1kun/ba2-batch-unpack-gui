@@ -120,9 +120,24 @@ class MainScreen(QFrame):
 
         self.layout.addWidget(self.preview_title, 0, Qt.AlignmentFlag.AlignLeft)
 
+        self.setup_table()
+
+        # Hide the progress bar in the beginning
+        sp = self.preview_progress.sizePolicy()
+        sp.setRetainSizeWhenHidden(True)
+        self.preview_progress.setSizePolicy(sp)
+        self.preview_progress.setHidden(True)
+        self.layout.addWidget(self.preview_progress)
+
+        # Leave some space for the title bar
+        self.layout.setContentsMargins(60, 42, 60, 10)
+
+    def setup_table(self):
         # Tableview configs
         self.preview_table.setBorderVisible(True)
         self.preview_table.setBorderRadius(8)
+
+        # self.preview_table.horizontalHeader().setSortIndicator(0, Qt.SortOrder.AscendingOrder)
 
         self.preview_table.setWordWrap(False)
         vh = QHeaderView(Qt.Orientation.Vertical)
@@ -131,17 +146,7 @@ class MainScreen(QFrame):
 
         # self.preview_table.resizeColumnsToContents()
 
-        # Hide the progress bar in the beginning
-        sp = self.preview_progress.sizePolicy()
-        sp.setRetainSizeWhenHidden(True)
-        self.preview_progress.setSizePolicy(sp)
-        self.preview_progress.setHidden(True)
-
         self.layout.addWidget(self.preview_table)
-        self.layout.addWidget(self.preview_progress)
-
-        # Leave some space for the title bar
-        self.layout.setContentsMargins(60, 42, 60, 10)
 
     def open_folder(self):
         self.folder_input.setText(QFileDialog.getExistingDirectory(self, 'Open your Fallout 4 mod directory',

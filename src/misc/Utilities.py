@@ -1,9 +1,8 @@
 import os
 import subprocess
 
-from PySide6.QtCore import QThread
-
-from humanize import naturalsize
+from PySide6.QtCore import QThread, QSortFilterProxyModel, Qt
+from qfluentwidgets import TableView
 
 from model.PreviewTableModel import PreviewTableModel
 
@@ -46,7 +45,7 @@ def num_files_in_ba2(bsab_path, file):
 
 # A function-turned-thread to prevent main UI lockup
 class BsaProcessor(QThread):
-    def __init__(self, mod_folder, bsab_path, view):
+    def __init__(self, mod_folder, bsab_path, view: TableView):
         super().__init__()
 
         self._path = mod_folder
@@ -59,10 +58,16 @@ class BsaProcessor(QThread):
         # Populate ba2 files and their properties
         ba2_dirs = [os.path.basename(os.path.dirname(f)) for f in ba2_paths]
         ba2_filenames = [os.path.basename(f) for f in ba2_paths]
-        ba2_sizes = [naturalsize(os.stat(f).st_size) for f in ba2_paths]
+        ba2_sizes = [os.stat(f).st_size for f in ba2_paths]
         ba2_num_files = [num_files_in_ba2('./bin/bsab.exe', f) for f in ba2_paths]
         ba2_ignored = [False for f in ba2_paths]
 
         model = PreviewTableModel(ba2_dirs, ba2_filenames, ba2_sizes, ba2_num_files, ba2_ignored)
 
-        self._view.setModel(model)
+        proxy_model = QSortFilterProxyModel(model)
+        proxy_model.setSortRole(Qt.ItemDataRole.UserRole)
+        proxy_model.setSourceModel(model)
+
+        self._view.setModel(proxy_model)
+        self._view.horizontalHeader().setSortIndicator(0, Qt.SortOrder.AscendingOrder)
+        self._view.setSortingEnabled(True)

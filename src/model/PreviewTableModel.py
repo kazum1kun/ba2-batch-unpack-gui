@@ -1,6 +1,7 @@
 from PySide6 import QtCore
 from PySide6.QtCore import Qt
 
+from humanize import naturalsize
 
 class PreviewTableModel(QtCore.QAbstractTableModel):
     def __init__(self, ba2_dirs, ba2_filenames, ba2_sizes, ba2_num_files, ba2_ignored):
@@ -9,44 +10,49 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
         self._ba2_filenames = ba2_filenames
         self._ba2_sizes = ba2_sizes
         self._ba2_num_files = ba2_num_files
-        self._ba2_ignored = ba2_ignored
+        # self._ba2_ignored = ba2_ignored
         self.horizontalHeader = ['File Name', 'File Size', '# Files', 'Mod', 'Ignored']
 
     def data(self, index, role=Qt.ItemDataRole.DisplayRole):
         if not index.isValid():
             return None
 
-        if role == Qt.ItemDataRole.DisplayRole or role == Qt.ItemDataRole.EditRole:
+        if role == Qt.ItemDataRole.DisplayRole or role == Qt.ItemDataRole.EditRole or role == Qt.ItemDataRole.UserRole:
             # Assumes the following layout
             # File Name, File Size, # Files, Path, Ignored
             if index.column() == 0:
                 return self._ba2_filenames[index.row()]
             elif index.column() == 1:
-                return self._ba2_sizes[index.row()]
+                if role == Qt.ItemDataRole.UserRole:
+                    return self._ba2_sizes[index.row()]
+                return naturalsize(self._ba2_sizes[index.row()])
             elif index.column() == 2:
                 return self._ba2_num_files[index.row()]
             elif index.column() == 3:
                 return self._ba2_dirs[index.row()]
             elif index.column() == 4:
                 return ''
-        elif role == Qt.ItemDataRole.CheckStateRole:
-            if index.column() == 4:
-                if self._ba2_ignored[index.row()]:
-                    return Qt.CheckState.Checked
-                else:
-                    return Qt.CheckState.Unchecked
+        # elif role == Qt.ItemDataRole.CheckStateRole:
+        #     if index.column() == 4:
+        #         if self._ba2_ignored[index.row()]:
+        #             return Qt.CheckState.Checked
+        #         else:
+        #             return Qt.CheckState.Unchecked
+        # elif role == Qt.ItemDataRole.TextAlignmentRole:
+        #     if index.column() == 4:
+        #         return Qt.AlignmentFlag.AlignCenter
 
         return None
 
-    def setData(self, index, value, role=Qt.ItemDataRole.EditRole):
-        if not index.isValid():
-            return False
-        if role == Qt.ItemDataRole.CheckStateRole and index.column() == 4:
-            if Qt.CheckState(value) == Qt.CheckState.Checked:
-                self._ba2_ignored[index.row()] = True
-            else:
-                self._ba2_ignored[index.row()] = False
-        return True
+    # def setData(self, index, value, role=Qt.ItemDataRole.EditRole):
+    #     if not index.isValid():
+    #         return False
+    #     if role == Qt.ItemDataRole.CheckStateRole and index.column() == 4:
+    #         if Qt.CheckState(value) == Qt.CheckState.Checked:
+    #             self._ba2_ignored[index.row()] = True
+    #         else:
+    #             self._ba2_ignored[index.row()] = False
+    #     return True
 
     def flags(self, index):
         if not index.isValid():
@@ -62,7 +68,7 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
         return len(self._ba2_filenames)
 
     def columnCount(self, _parent=None):
-        return 5
+        return 4
 
     def headerData(self, section, orientation, role=...):
         if role == Qt.ItemDataRole.DisplayRole and orientation == QtCore.Qt.Orientation.Horizontal:
