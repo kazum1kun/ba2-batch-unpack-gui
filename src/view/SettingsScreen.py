@@ -7,7 +7,7 @@ from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, FolderListSetti
 from qfluentwidgets import FluentIcon as Fi
 from PySide6.QtCore import Qt, Signal, QUrl, QStandardPaths
 from PySide6.QtGui import QDesktopServices
-from PySide6.QtWidgets import QWidget, QLabel, QFontDialog, QFileDialog, QFrame, QHBoxLayout
+from PySide6.QtWidgets import QWidget, QLabel, QFontDialog, QFileDialog, QFrame, QHBoxLayout, QApplication
 from view.PostfixSettingsCard import PostfixSettingCard
 from view.IgnoredSettingCard import IgnoredSettingCard
 
@@ -45,8 +45,15 @@ class SettingsScreen(ScrollArea):
         self.ignored_card = IgnoredSettingCard(
             cfg.ignored,
             Fi.REMOVE_FROM,
-            self.tr('Ignored Files'),
+            self.tr('Ignored files'),
             self.tr('Any file with filename containing them will not be extracted'),
+            parent=self.extraction_group
+        )
+        self.ignore_bad_card = SwitchSettingCard(
+            Fi.DICTIONARY_ADD,
+            self.tr('Ignore bad files'),
+            self.tr('Automatically ignore ba2 files that cannot be opened'),
+            cfg.ignore_bad_files,
             parent=self.extraction_group
         )
 
@@ -133,6 +140,8 @@ class SettingsScreen(ScrollArea):
             self.aboutGroup
         )
 
+        self.pending_update = False
+
         self.__initWidget()
 
     def __initWidget(self):
@@ -155,6 +164,7 @@ class SettingsScreen(ScrollArea):
 
         self.extraction_group.addSettingCard(self.postfixes_card)
         self.extraction_group.addSettingCard(self.ignored_card)
+        self.extraction_group.addSettingCard(self.ignore_bad_card)
 
         # add cards to group
         self.personalGroup.addSettingCard(self.themeCard)
@@ -177,6 +187,16 @@ class SettingsScreen(ScrollArea):
         self.expandLayout.addWidget(self.personalGroup)
         self.expandLayout.addWidget(self.updateSoftwareGroup)
         self.expandLayout.addWidget(self.aboutGroup)
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        if self.pending_update:
+            self.ignored_card.ignored_updated()
+            self.pending_update = False
+
+    def notify_ignore(self):
+        self.pending_update = True
+
 
     def __setQss(self):
         """ set style sheet """
@@ -218,3 +238,5 @@ class SettingsScreen(ScrollArea):
         self.aboutCard.clicked.connect(self.checkUpdateSig)
         self.feedbackCard.clicked.connect(
             lambda: QDesktopServices.openUrl(QUrl(FEEDBACK_URL)))
+
+        QApplication.instance().ignore_changed.connect(self.notify_ignore)

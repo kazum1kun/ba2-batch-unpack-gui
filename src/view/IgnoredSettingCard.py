@@ -3,7 +3,7 @@ from typing import List, Union
 from PySide6.QtCore import Qt, Signal, QSize
 from PySide6.QtGui import QPainter, QIcon
 from PySide6.QtWidgets import (QPushButton, QFileDialog, QWidget, QLabel,
-                               QHBoxLayout, QToolButton, QSizePolicy)
+                               QHBoxLayout, QToolButton, QSizePolicy, QApplication)
 from qfluentwidgets import ExpandSettingCard, ConfigItem, FluentIconBase, PushButton, qconfig, LineEdit, TeachingTip, \
     InfoBarIcon, TeachingTipTailPosition, ToolButton, ToolTipFilter
 from qfluentwidgets import FluentIcon as Fi
@@ -71,6 +71,7 @@ class IgnoredSettingCard(ExpandSettingCard):
 
         self.ignored = qconfig.get(config_item).copy()   # type:List[str]
         self.ignored_cards = []
+
         self.__initWidget()
 
     def __initWidget(self):
@@ -93,18 +94,20 @@ class IgnoredSettingCard(ExpandSettingCard):
         self.new_ignored_input.setPlaceholderText(self.tr('Ignored file'))
         self.add_ignored_button.clicked.connect(self.__add_ignored)
 
-    def __add_ignored(self):
-        # Validate input
-        new_ignored = self.new_ignored_input.text()
-        if len(new_ignored) <= 0:
-            self.__show_ignore_failed_tip()
-            return
-        if new_ignored in self.ignored:
-            self.__show_ignore_duplicate_tip()
-            return
+    def __add_ignored(self, name=None):
+        if not name:
+            # Validate input
+            new_ignored = self.new_ignored_input.text()
+            if len(new_ignored) <= 0:
+                self.__show_ignore_failed_tip()
+                return
+            if new_ignored in self.ignored:
+                self.__show_ignore_duplicate_tip()
+                return
+            name = new_ignored
 
-        self.__add_ignored_item(new_ignored.lower())
-        self.ignored.append(new_ignored.lower())
+        self.__add_ignored_item(name.lower())
+        self.ignored.append(name.lower())
         self.new_ignored_input.clear()
         qconfig.set(self.config_item, self.ignored)
         self.ignored_changed.emit(self.ignored)
@@ -117,6 +120,17 @@ class IgnoredSettingCard(ExpandSettingCard):
         self.ignored_cards.append(item)
         item.show()
         self._adjustViewSize()
+
+    def ignored_updated(self):
+        ignore_backup = qconfig.get(self.config_item).copy()
+
+        self.__clear_ignored()
+
+        self.ignored = ignore_backup.copy()
+        for i in self.ignored:
+            self.__add_ignored_item(i)
+        qconfig.set(self.config_item, ignore_backup)
+
 
     # def __show_confirm_dialog(self, item: PostfixItem):
     #     """ show confirm dialog """

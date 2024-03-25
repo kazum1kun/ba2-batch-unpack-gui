@@ -45,12 +45,13 @@ class Config(QConfig):
         ['main.ba2', 'materials.ba2', 'misc.ba2', 'scripts.ba2'], Ba2ListValidator()
     )
     ignored = ConfigItem('Extraction', 'IgnoredFiles', [])
+    ignore_bad_files = ConfigItem('Extraction', 'IgnoreBadFiles', True, BoolValidator())
 
     # Appearance
     enable_acrylic_background = ConfigItem(
         "Appearance", "EnableAcrylicBackground", True, BoolValidator())
     dpi_scale = OptionsConfigItem(
-        "Appearance", "DpiScale", "Auto", OptionsValidator([1, 1.25, 1.5, 1.75, 2, "Auto"]), restart=True)
+        "Appearance", "DpiScale", "Auto", OptionsValidator(["Auto", 1, 1.25, 1.5, 1.75, 2]), restart=True)
     language = OptionsConfigItem(
         "Appearance", "Language", Language.AUTO, OptionsValidator(Language), LanguageSerializer(), restart=True)
 

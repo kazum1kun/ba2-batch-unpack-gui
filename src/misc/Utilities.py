@@ -1,8 +1,12 @@
 import os
 import subprocess
 
-from PySide6.QtCore import QThread, QSortFilterProxyModel, Qt
-from qfluentwidgets import TableView
+from PySide6.QtWidgets import QApplication
+
+from misc.Config import cfg
+
+from PySide6.QtCore import QThread, QSortFilterProxyModel, Qt, Signal
+from qfluentwidgets import TableView, qconfig
 
 from model.PreviewTableModel import PreviewTableModel
 
@@ -45,6 +49,7 @@ def num_files_in_ba2(bsab_path, file):
 
 # A function-turned-thread to prevent main UI lockup
 class BsaProcessor(QThread):
+
     def __init__(self, mod_folder, bsab_path, view: TableView):
         super().__init__()
 
@@ -53,7 +58,7 @@ class BsaProcessor(QThread):
         self._view = view
 
     def run(self):
-        ba2_paths = scan_for_ba2(self._path, ['main.ba2', 'scripts.ba2'])  ## TODO supply the real postfixes
+        ba2_paths = scan_for_ba2(self._path, cfg.postfixes.value)
 
         model = PreviewTableModel()
 
@@ -69,6 +74,14 @@ class BsaProcessor(QThread):
             name = os.path.basename(f)
             size = os.stat(f).st_size
             num_files = num_files_in_ba2('./bin/bsab.exe', f)
+            # Auto ignore the broken file if set so
+            if num_files == -1 and name.lower() not in cfg.ignored.value:
+                temp = cfg.ignored.value
+                temp.append(name.lower())
+                qconfig.set(cfg.ignored, temp)
+                # Update the ignored items accordingly
+                QApplication.instance().ignore_changed.emit()
+
             model.append_row([_dir, name, size, num_files])
         # ba2_dirs = [os.path.basename(os.path.dirname(f)) for f in ba2_paths]
         # ba2_filenames = [os.path.basename(f) for f in ba2_paths]

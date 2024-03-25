@@ -1,5 +1,6 @@
 from PySide6 import QtCore
 from PySide6.QtCore import Qt, QModelIndex
+from PySide6.QtGui import QBrush, QColor
 
 from humanize import naturalsize
 
@@ -11,6 +12,7 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
         self._ba2_filenames = []
         self._ba2_sizes = []
         self._ba2_num_files = []
+        self.bad_ba2_idx = []
         # self._ba2_ignored = ba2_ignored
         self.horizontalHeader = ['File Name', 'File Size', '# Files', 'Mod', 'Ignored']
 
@@ -33,6 +35,10 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
                 return self._ba2_dirs[index.row()]
             elif index.column() == 4:
                 return ''
+        elif role == Qt.ItemDataRole.BackgroundRole:
+            if index.row() in self.bad_ba2_idx:
+                # Dark red
+                return QBrush(QColor(139, 0, 0))
         # elif role == Qt.ItemDataRole.CheckStateRole:
         #     if index.column() == 4:
         #         if self._ba2_ignored[index.row()]:
@@ -57,11 +63,14 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
 
     # data=[ba2_dir, ba2_filename, ba2_size, ba2_num_file]
     def append_row(self, data):
-        self.beginInsertRows(QModelIndex(), len(self._ba2_dirs), len(self._ba2_dirs))
+        target_row = len(self._ba2_dirs)
+        self.beginInsertRows(QModelIndex(), target_row, target_row)
         self._ba2_dirs.append(data[0])
         self._ba2_filenames.append(data[1])
         self._ba2_sizes.append(data[2])
         self._ba2_num_files.append(data[3])
+        if data[3] == -1:
+            self.bad_ba2_idx.append(target_row)
         self.endInsertRows()
 
     def delete_row(self, index: QModelIndex):

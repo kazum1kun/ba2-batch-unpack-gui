@@ -1,6 +1,6 @@
 import sys
 
-from PySide6.QtCore import QTranslator
+from PySide6.QtCore import QTranslator, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 from qfluentwidgets import FluentIcon as Fi, NavigationItemPosition, FluentTranslator
@@ -37,10 +37,15 @@ class MainWindow(SplitFluentWindow):
         self.move(w // 2 - self.width() // 2, h // 2 - self.height() // 2)
 
 
+# Hack to install a "global" signal/slot
+class Unpackrr(QApplication):
+    ignore_changed = Signal()
+
+
 if __name__ == '__main__':
     # setTheme(Theme.AUTO)
 
-    app = QApplication(sys.argv)
+    app = Unpackrr(sys.argv)
 
     # internationalization
     locale = cfg.get(cfg.language).value
