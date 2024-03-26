@@ -1,8 +1,10 @@
+import os.path
+
 from PySide6.QtCore import Qt, QUrl
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog, QHeaderView
 from qfluentwidgets import FluentIcon as Fi, IndeterminateProgressBar, TableView, PushButton, PrimaryPushButton, \
-    BodyLabel, StrongBodyLabel, RoundMenu, Action
+    BodyLabel, StrongBodyLabel, RoundMenu, Action, ProgressBar
 from qfluentwidgets import (SubtitleLabel, setFont, LargeTitleLabel, HyperlinkLabel, CaptionLabel, LineEdit, ToolButton,
                             TogglePushButton, TableWidget,
                             ToolTipFilter)
@@ -53,7 +55,7 @@ class MainScreen(QFrame):
         # Subsection Preview
         self.preview_title = SubtitleLabel('Preview', self)
 
-        self.preview_progress = IndeterminateProgressBar()
+        self.preview_progress = ProgressBar()
 
         # File table
         self.preview_table = TableView(self)
@@ -106,14 +108,14 @@ class MainScreen(QFrame):
 
         # Main setup layout
         self.setup_layout.addLayout(self.folder_layout, stretch=1)
-        self.setup_layout.addSpacing(20)
+        self.setup_layout.addSpacing(15)
         self.setup_layout.addLayout(self.threshold_layout)
         self.layout.addLayout(self.setup_layout)
 
         self.layout.addSpacing(10)
 
         # Start button
-        self.start_button.setMaximumWidth(200)
+        self.start_button.setMaximumWidth(300)
         self.start_button.setEnabled(False)
         self.start_layout.addWidget(self.start_button)
         self.layout.addLayout(self.start_layout)
@@ -152,14 +154,13 @@ class MainScreen(QFrame):
                                                                    options=QFileDialog.Option.ShowDirsOnly |
                                                                    QFileDialog.Option.DontResolveSymlinks))
 
-        # Animate the progress bar
-        self.preview_progress.setHidden(False)
-        self.preview_progress.start()
-
         selected_folder = self.folder_input.text()
+
         # Only process if the folder selected is not empty
         if selected_folder:
-            self.processor = BsaProcessor(selected_folder, './bin/bsab.exe', self.preview_table)
+            # Animate the progress bar
+            self.processor = BsaProcessor(selected_folder, './bin/bsab.exe',
+                                          self.preview_table, self.preview_progress)
             self.processor.finished.connect(self.done_loading_ba2)
             self.processor.start()
 
@@ -169,13 +170,14 @@ class MainScreen(QFrame):
 
     def done_loading_ba2(self):
         # Hide the progress bar again
-        self.preview_progress.stop()
-        self.preview_progress.setHidden(True)
+        # self.preview_progress.stop()
+        # self.preview_progress.setHidden(True)
 
         # Adjust the table columns
         self.preview_table.resizeColumnsToContents()
         self.preview_table.horizontalHeader().setSortIndicator(0, Qt.SortOrder.AscendingOrder)
         self.preview_table.setSortingEnabled(True)
+
 
         del self.processor
 
