@@ -2,7 +2,7 @@ import os.path
 
 from PySide6.QtCore import Qt, QUrl
 from PySide6.QtGui import QColor
-from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog, QHeaderView
+from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog, QHeaderView, QBoxLayout
 from qfluentwidgets import FluentIcon as Fi, IndeterminateProgressBar, TableView, PushButton, PrimaryPushButton, \
     BodyLabel, StrongBodyLabel, RoundMenu, Action, ProgressBar
 from qfluentwidgets import (SubtitleLabel, setFont, LargeTitleLabel, HyperlinkLabel, CaptionLabel, LineEdit, ToolButton,
@@ -59,6 +59,10 @@ class MainScreen(QFrame):
 
         # File table
         self.preview_table = TableView(self)
+
+        # Hint on top of the preview table
+        self.preview_hint_layout = QBoxLayout(QBoxLayout.Direction.LeftToRight, self.preview_table)
+        self.preview_hint = SubtitleLabel('Select a folder to get started', self)
 
         self.setup_interface()
 
@@ -147,7 +151,14 @@ class MainScreen(QFrame):
         self.preview_table.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.preview_table.customContextMenuRequested.connect(self.table_custom_menu)
 
+        sp = self.preview_table.sizePolicy()
+        sp.setRetainSizeWhenHidden(True)
+        self.preview_table.setSizePolicy(sp)
+
         self.layout.addWidget(self.preview_table)
+
+        # Add the hint to the center of the table
+        self.preview_hint_layout.addWidget(self.preview_hint, 0, Qt.AlignmentFlag.AlignCenter)
 
     def open_folder(self):
         self.folder_input.setText(QFileDialog.getExistingDirectory(self, 'Open your Fallout 4 mod directory',
@@ -159,8 +170,9 @@ class MainScreen(QFrame):
         # Only process if the folder selected is not empty
         if selected_folder:
             # Animate the progress bar
-            self.processor = BsaProcessor(selected_folder, './bin/bsab.exe',
-                                          self.preview_table, self.preview_progress)
+            self.processor = BsaProcessor(selected_folder, './bin/bsab.exe', self)
+            self.preview_table.setHidden(True)
+            self.processor.done_processing.connect(self.show_toast)
             self.processor.finished.connect(self.done_loading_ba2)
             self.processor.start()
 
@@ -177,9 +189,37 @@ class MainScreen(QFrame):
         self.preview_table.resizeColumnsToContents()
         self.preview_table.horizontalHeader().setSortIndicator(0, Qt.SortOrder.AscendingOrder)
         self.preview_table.setSortingEnabled(True)
-
+        self.preview_table.setHidden(False)
 
         del self.processor
+
+    def show_toast(self, results):
+        num_success = results[0]
+        num_fail = results[1]
+        auto_ignore = cfg.ignore_bad_files.value
+        fail_message = f'Finished scanning ba2. {num_fail} files could not be opened'
+        if auto_ignore:
+            fail_message += ' and were automatically ignored.'
+        else:
+            fail_message += ' and will be processed anyways.'
+        fail_message += f' {num_success} files were processed and ready to be extracted.'
+
+        if num_fail > 0:
+            InfoBar.warning(
+                title='Some files could not be loaded',
+                content=fail_message,
+                duration=10000,
+                position=InfoBarPosition.TOP,
+                parent=self
+            )
+        else:
+            InfoBar.success(
+                title='Great success!',
+                content=f'Finished scanning ba2. {num_success} files were processed and ready to be extracted.',
+                duration=5000,
+                position=InfoBarPosition.TOP,
+                parent=self
+            )
 
     def table_custom_menu(self, pos):
         item_idx = self.preview_table.indexAt(pos)

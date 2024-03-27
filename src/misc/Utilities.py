@@ -6,7 +6,7 @@ from PySide6.QtWidgets import QApplication
 from misc.Config import cfg
 
 from PySide6.QtCore import QThread, QSortFilterProxyModel, Qt, Signal
-from qfluentwidgets import TableView, qconfig, ProgressBar
+from qfluentwidgets import TableView, qconfig, ProgressBar, InfoBar, InfoBarPosition
 
 from model.PreviewTableModel import PreviewTableModel
 
@@ -49,14 +49,16 @@ def num_files_in_ba2(bsab_path, file):
 
 # A function-turned-thread to prevent main UI lockup
 class BsaProcessor(QThread):
+    done_processing = Signal(list)
 
-    def __init__(self, mod_folder, bsab_path, view: TableView, prog_bar:ProgressBar=None):
+    def __init__(self, mod_folder, bsab_path, _parent):
         super().__init__()
 
         self._path = mod_folder
         self._bsab_path = bsab_path
-        self._view = view
-        self._prog_bar = prog_bar
+        self._view = _parent.preview_table
+        self._prog_bar = _parent.preview_progress
+        self._parent = _parent
 
     def run(self):
         ba2_paths = scan_for_ba2(self._path, cfg.postfixes.value)
@@ -71,6 +73,8 @@ class BsaProcessor(QThread):
 
         self._view.setModel(proxy_model)
 
+        num_fail = 0
+        num_success = 0
         # Populate ba2 files and their properties
         for f in ba2_paths:
             _dir = os.path.basename(os.path.dirname(f))
@@ -85,11 +89,15 @@ class BsaProcessor(QThread):
                 # Update the ignored items accordingly
                 QApplication.instance().ignore_changed.emit()
                 self._prog_bar.error()
-
+                num_fail += 1
+            else:
+                num_success += 1
             model.append_row([_dir, name, size, num_files])
 
             # Update the progress bar
             self._prog_bar.setValue(self._prog_bar.value()+1)
+
+        self.done_processing.emit([num_success, num_fail])
         # ba2_dirs = [os.path.basename(os.path.dirname(f)) for f in ba2_paths]
         # ba2_filenames = [os.path.basename(f) for f in ba2_paths]
         # ba2_sizes = [os.stat(f).st_size for f in ba2_paths]
