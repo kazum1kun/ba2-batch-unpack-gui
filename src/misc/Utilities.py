@@ -73,6 +73,9 @@ class BsaProcessor(QThread):
 
         self._view.setModel(proxy_model)
 
+        # Clear the cached "bad files" in main screen
+        self._parent.failed_files.clear()
+
         num_fail = 0
         num_success = 0
         # Populate ba2 files and their properties
@@ -86,10 +89,14 @@ class BsaProcessor(QThread):
                 temp = cfg.ignored.value
                 temp.append(name.lower())
                 qconfig.set(cfg.ignored, temp)
+
                 # Update the ignored items accordingly
                 QApplication.instance().ignore_changed.emit()
                 self._prog_bar.error()
                 num_fail += 1
+
+                # Add the failed item for display
+                self._parent.failed_files.append(name)
             else:
                 num_success += 1
             model.append_row([_dir, name, size, num_files])

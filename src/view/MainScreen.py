@@ -4,7 +4,7 @@ from PySide6.QtCore import Qt, QUrl
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog, QHeaderView, QBoxLayout
 from qfluentwidgets import FluentIcon as Fi, IndeterminateProgressBar, TableView, PushButton, PrimaryPushButton, \
-    BodyLabel, StrongBodyLabel, RoundMenu, Action, ProgressBar
+    BodyLabel, StrongBodyLabel, RoundMenu, Action, ProgressBar, InfoBarIcon, MessageBox
 from qfluentwidgets import (SubtitleLabel, setFont, LargeTitleLabel, HyperlinkLabel, CaptionLabel, LineEdit, ToolButton,
                             TogglePushButton, TableWidget,
                             ToolTipFilter)
@@ -63,6 +63,10 @@ class MainScreen(QFrame):
         # Hint on top of the preview table
         self.preview_hint_layout = QBoxLayout(QBoxLayout.Direction.LeftToRight, self.preview_table)
         self.preview_hint = SubtitleLabel('Select a folder to get started', self)
+
+        # Corrupted files
+        self.failed_files = []
+        self.processor = None
 
         self.setup_interface()
 
@@ -191,6 +195,8 @@ class MainScreen(QFrame):
         self.preview_table.setSortingEnabled(True)
         self.preview_table.setHidden(False)
 
+        self.preview_hint.setDisabled(True)
+
         del self.processor
 
     def show_toast(self, results):
@@ -201,20 +207,25 @@ class MainScreen(QFrame):
         if auto_ignore:
             fail_message += ' and were automatically ignored.'
         else:
-            fail_message += ' and will be processed anyways.'
-        fail_message += f' {num_success} files were processed and ready to be extracted.'
+            fail_message += ' but will be processed anyways.'
+        fail_message += f'\n{num_success} files were processed and ready to be extracted.'
 
         if num_fail > 0:
-            InfoBar.warning(
+            warning_info = InfoBar(
+                icon=InfoBarIcon.WARNING,
                 title='Some files could not be loaded',
                 content=fail_message,
                 duration=10000,
                 position=InfoBarPosition.TOP,
                 parent=self
             )
+            more_info_button = PushButton('Details', warning_info)
+            more_info_button.clicked.connect(self.show_failed_files)
+            warning_info.addWidget(more_info_button)
+            warning_info.show()
         else:
             InfoBar.success(
-                title='Great success!',
+                title='Great success',
                 content=f'Finished scanning ba2. {num_success} files were processed and ready to be extracted.',
                 duration=5000,
                 position=InfoBarPosition.TOP,
@@ -233,3 +244,15 @@ class MainScreen(QFrame):
         menu.addAction(Action(Fi.LINK, 'Open', triggered=lambda: print("Cut successful")))
 
         menu.exec_(self.preview_table.viewport().mapToGlobal(pos))
+
+    def show_failed_files(self):
+        failed_files_text = '\n'.join(self.failed_files)
+        box = MessageBox('The following files cannot be loaded', failed_files_text, parent=self)
+        box.yesButton.setText('Ok')
+        box.cancelButton.setText('Copy to clipboard')
+        box.yesSignal.connect(box.deleteLater)
+        box.cancelSignal.connect(
+            lambda: QApplication.clipboard().setText(failed_files_text)
+        )
+        box.cancelSignal.connect(box.deleteLater)
+        box.exec()
