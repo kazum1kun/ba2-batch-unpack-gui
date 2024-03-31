@@ -10,6 +10,7 @@ from qfluentwidgets import (SubtitleLabel, setFont, LargeTitleLabel, HyperlinkLa
                             TogglePushButton, TableWidget,
                             ToolTipFilter)
 from qfluentwidgets.components.widgets.acrylic_label import AcrylicLabel
+from humanize import naturalsize
 
 from misc.Utilities import *
 
@@ -198,6 +199,7 @@ class MainScreen(QFrame):
     def auto_toggled(self):
         # Disable threshold input if "Auto" is enabled
         self.threshold_input.setDisabled(self.threshold_input.isEnabled())
+        self.determine_threshold()
 
     def done_loading_ba2(self):
         # Hide the progress bar again
@@ -218,6 +220,9 @@ class MainScreen(QFrame):
         self.preview_table.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.preview_table.horizontalHeader().setDisabled(False)
         self.persistent_tooltip.deleteLater()
+
+        if self.threshold_button.isPressed:
+            self.determine_threshold()
 
         del self.processor
 
@@ -261,18 +266,7 @@ class MainScreen(QFrame):
         if not text:
             return
         threshold_byte = parse_size(text)
-        if threshold_byte != -1:
-            # Persist the size info
-            qconfig.set(cfg.saved_threshold, threshold_byte)
-            model = self.preview_table.model().sourceModel()
-            # Filter the view
-            for i in range(model.rowCount()):
-                item = model.data(model.createIndex(i, 1), Qt.ItemDataRole.UserRole)
-                self.preview_table.setRowHidden(i, item > threshold_byte)
-                if item > threshold_byte:
-                    self.hidden_count += 1
-            self.size_ready = True
-        self.check_start_ready()
+        self.filter_table_threshold(threshold_byte)
 
     def table_custom_menu(self, pos):
         item_idx = self.preview_table.indexAt(pos)
@@ -314,3 +308,38 @@ class MainScreen(QFrame):
             parent=self
         )
         self.persistent_tooltip.show()
+
+    def determine_threshold(self):
+        threshold = self.preview_table.model().sourceModel().size_at(235)
+        if threshold == -1:
+            if self.folder_ready:
+                self.auto_not_available()
+        else:
+            self.threshold_input.setText(naturalsize(threshold))
+            self.filter_table_threshold(threshold)
+
+    def filter_table_threshold(self, threshold_byte):
+        if threshold_byte != -1:
+            # Persist the size info
+            qconfig.set(cfg.saved_threshold, threshold_byte)
+            model = self.preview_table.model().sourceModel()
+            # Filter the view
+            for i in range(model.rowCount()):
+                item = model.data(model.createIndex(i, 1), Qt.ItemDataRole.UserRole)
+                self.preview_table.setRowHidden(i, item > threshold_byte)
+                if item > threshold_byte:
+                    self.hidden_count += 1
+            self.size_ready = True
+        self.check_start_ready()
+
+    def auto_not_available(self):
+        w = MessageBox('No unpacking necessary',
+                       'It appears that you are not over the ba2 limit (yet). No ba2 unpacking is necessary.'
+                       'To proceed please manually set a threshold.',
+                       self)
+        w.yesSignal.connect(self.threshold_button.click)
+        w.yesButton.setText('Ok')
+        w.cancelSignal.connect(QApplication.quit())
+        w.cancelButton.setText('Exit Unpackrr')
+
+        w.exec()

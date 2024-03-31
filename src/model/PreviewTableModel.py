@@ -82,6 +82,12 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
         del self._ba2_num_files[index.row()]
         self.endRemoveRows()
 
+    def size_at(self, index):
+        if len(self._ba2_sizes) > index:
+            return self._ba2_sizes[index]
+        else:
+            return -1
+
     def flags(self, index):
         if not index.isValid():
             return None
