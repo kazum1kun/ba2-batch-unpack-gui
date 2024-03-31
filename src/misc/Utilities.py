@@ -118,6 +118,7 @@ class BsaProcessor(QThread):
                 num_success += 1
             model.append_row([_dir, name, size, num_files])
 
+
             # Update the progress bar
             self._prog_bar.setValue(self._prog_bar.value()+1)
 

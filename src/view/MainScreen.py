@@ -2,7 +2,8 @@ import os.path
 
 from PySide6.QtCore import Qt, QUrl, QModelIndex, QAbstractItemModel
 from PySide6.QtGui import QColor
-from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog, QHeaderView, QBoxLayout
+from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog, QHeaderView, QBoxLayout, \
+    QAbstractScrollArea
 from qfluentwidgets import FluentIcon as Fi, IndeterminateProgressBar, TableView, PushButton, PrimaryPushButton, \
     BodyLabel, StrongBodyLabel, RoundMenu, Action, ProgressBar, InfoBarIcon, MessageBox
 from qfluentwidgets import (SubtitleLabel, setFont, LargeTitleLabel, HyperlinkLabel, CaptionLabel, LineEdit, ToolButton,
@@ -71,6 +72,7 @@ class MainScreen(QFrame):
         self.folder_ready = False
         self.size_ready = False
         self.hidden_count = 0
+        self.persistent_tooltip = None
 
         self.setup_interface()
 
@@ -183,7 +185,12 @@ class MainScreen(QFrame):
             self.folder_button.setDisabled(True)
             # Animate the progress bar
             self.processor = BsaProcessor(selected_folder, './bin/bsab.exe', self)
-            self.preview_table.setHidden(True)
+
+            self.preview_table.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+            self.preview_table.horizontalHeader().setDisabled(True)
+            self.preview_hint.setHidden(True)
+            self.show_progress_persistent()
+
             self.processor.done_processing.connect(self.show_toast)
             self.processor.finished.connect(self.done_loading_ba2)
             self.processor.start()
@@ -203,11 +210,14 @@ class MainScreen(QFrame):
         self.preview_table.setSortingEnabled(True)
         self.preview_table.setHidden(False)
 
-        self.preview_hint.setHidden(True)
         self.folder_button.setDisabled(False)
 
         self.folder_ready = True
         self.check_start_ready()
+
+        self.preview_table.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self.preview_table.horizontalHeader().setDisabled(False)
+        self.persistent_tooltip.deleteLater()
 
         del self.processor
 
@@ -292,3 +302,15 @@ class MainScreen(QFrame):
     def check_start_ready(self):
         table_nonempty = self.hidden_count < self.preview_table.model().rowCount()
         self.start_button.setEnabled(self.size_ready and self.folder_ready and table_nonempty)
+
+    def show_progress_persistent(self):
+        self.persistent_tooltip = InfoBar(
+            icon=InfoBarIcon.INFORMATION,
+            title='Loading ba2 files',
+            content='Please do not interact with the table while the loading is in progress.',
+            duration=-1,
+            isClosable=False,
+            position=InfoBarPosition.BOTTOM,
+            parent=self
+        )
+        self.persistent_tooltip.show()
