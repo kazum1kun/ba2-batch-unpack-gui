@@ -23,6 +23,14 @@ class Ba2ListValidator(ConfigValidator):
         return postfixes
 
 
+class IntValidator(ConfigValidator):
+    def validate(self, value):
+        return value > 0
+
+    def correct(self, value):
+        return 0
+
+
 class Language(Enum):
     CHINESE_SIMP = QLocale(QLocale.Language.Chinese, QLocale.Country.China)
     CHINESE_TRAD = QLocale(QLocale.Language.Chinese, QLocale.Country.Taiwan)
@@ -46,6 +54,10 @@ class Config(QConfig):
     )
     ignored = ConfigItem('Extraction', 'IgnoredFiles', [])
     ignore_bad_files = ConfigItem('Extraction', 'IgnoreBadFiles', True, BoolValidator())
+
+    # Saved settings
+    saved_dir = ConfigItem('Saved', 'Directory', '')
+    saved_threshold = ConfigItem('Saved', 'Threshold', 0, IntValidator())
 
     # Appearance
     enable_acrylic_background = ConfigItem(

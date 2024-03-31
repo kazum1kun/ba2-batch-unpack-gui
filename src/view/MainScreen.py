@@ -1,6 +1,6 @@
 import os.path
 
-from PySide6.QtCore import Qt, QUrl
+from PySide6.QtCore import Qt, QUrl, QModelIndex, QAbstractItemModel
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog, QHeaderView, QBoxLayout
 from qfluentwidgets import FluentIcon as Fi, IndeterminateProgressBar, TableView, PushButton, PrimaryPushButton, \
@@ -68,6 +68,10 @@ class MainScreen(QFrame):
         self.failed_files = []
         self.processor = None
 
+        self.folder_ready = False
+        self.size_ready = False
+        self.hidden_count = 0
+
         self.setup_interface()
 
     def setup_interface(self):
@@ -100,6 +104,7 @@ class MainScreen(QFrame):
         # Threshold
         self.threshold_layout_inner.setAlignment(Qt.AlignmentFlag.AlignLeft)
         self.threshold_input.setPlaceholderText('Threshold')
+        self.threshold_input.textEdited.connect(self.threshold_changed)
 
         # Perform auto threshold calculation and disable user input box
         self.threshold_button.clicked.connect(self.auto_toggled)
@@ -167,12 +172,15 @@ class MainScreen(QFrame):
     def open_folder(self):
         self.folder_input.setText(QFileDialog.getExistingDirectory(self, 'Open your Fallout 4 mod directory',
                                                                    options=QFileDialog.Option.ShowDirsOnly |
-                                                                   QFileDialog.Option.DontResolveSymlinks))
+                                                                           QFileDialog.Option.DontResolveSymlinks))
 
         selected_folder = self.folder_input.text()
+        self.start_button.setDisabled(True)
 
         # Only process if the folder selected is not empty
         if selected_folder:
+            qconfig.set(cfg.saved_dir, selected_folder)
+            self.folder_button.setDisabled(True)
             # Animate the progress bar
             self.processor = BsaProcessor(selected_folder, './bin/bsab.exe', self)
             self.preview_table.setHidden(True)
@@ -195,7 +203,11 @@ class MainScreen(QFrame):
         self.preview_table.setSortingEnabled(True)
         self.preview_table.setHidden(False)
 
-        self.preview_hint.setDisabled(True)
+        self.preview_hint.setHidden(True)
+        self.folder_button.setDisabled(False)
+
+        self.folder_ready = True
+        self.check_start_ready()
 
         del self.processor
 
@@ -232,6 +244,26 @@ class MainScreen(QFrame):
                 parent=self
             )
 
+    def threshold_changed(self):
+        text = self.threshold_input.text()
+        self.size_ready = False
+        self.hidden_count = 0
+        if not text:
+            return
+        threshold_byte = parse_size(text)
+        if threshold_byte != -1:
+            # Persist the size info
+            qconfig.set(cfg.saved_threshold, threshold_byte)
+            model = self.preview_table.model().sourceModel()
+            # Filter the view
+            for i in range(model.rowCount()):
+                item = model.data(model.createIndex(i, 1), Qt.ItemDataRole.UserRole)
+                self.preview_table.setRowHidden(i, item > threshold_byte)
+                if item > threshold_byte:
+                    self.hidden_count += 1
+            self.size_ready = True
+        self.check_start_ready()
+
     def table_custom_menu(self, pos):
         item_idx = self.preview_table.indexAt(pos)
         if not item_idx.isValid():
@@ -256,3 +288,7 @@ class MainScreen(QFrame):
         )
         box.cancelSignal.connect(box.deleteLater)
         box.exec()
+
+    def check_start_ready(self):
+        table_nonempty = self.hidden_count < self.preview_table.model().rowCount()
+        self.start_button.setEnabled(self.size_ready and self.folder_ready and table_nonempty)

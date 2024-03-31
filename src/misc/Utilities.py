@@ -1,4 +1,5 @@
 import os
+import re
 import subprocess
 
 from PySide6.QtWidgets import QApplication
@@ -9,6 +10,22 @@ from PySide6.QtCore import QThread, QSortFilterProxyModel, Qt, Signal
 from qfluentwidgets import TableView, qconfig, ProgressBar, InfoBar, InfoBarPosition
 
 from model.PreviewTableModel import PreviewTableModel
+
+
+units = {'B': 1, 'KB': 2 ** 10, 'MB': 2 ** 20, 'GB': 2 ** 30, 'TB': 2 ** 40}
+
+
+def parse_size(size):
+    if not (size[-1] == 'b' or size[-1] == 'B'):
+        size = size + 'B'
+    size = size.upper()
+    if not re.match(r' ', size):
+        size = re.sub(r'([KMGT]?B)', r' \1', size)
+    try:
+        number, unit = [string.strip() for string in size.split()]
+        return int(float(number) * units[unit])
+    except ValueError:
+        return -1
 
 
 # Return all ba2 in the folder that contain one of the given postfixes

@@ -14,7 +14,8 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
         self._ba2_num_files = []
         self.bad_ba2_idx = []
         # self._ba2_ignored = ba2_ignored
-        self.horizontalHeader = ['File Name', 'File Size', '# Files', 'Mod', 'Ignored']
+        # self.horizontalHeader = ['File Name', 'File Size', '# Files', 'Mod', 'Ignored']
+        self.horizontalHeader = ['File Name', 'File Size', '# Files', 'Mod']
 
     def data(self, index, role=Qt.ItemDataRole.DisplayRole):
         if not index.isValid():
