@@ -108,21 +108,21 @@ class BsaProcessor(QThread):
             size = os.stat(f).st_size
             num_files = num_files_in_ba2('./bin/bsab.exe', f)
             # Auto ignore the broken file if set so
-            if num_files == -1 and name.lower() not in cfg.ignored.value:
-                temp = cfg.ignored.value
-                temp.append(name.lower())
-                qconfig.set(cfg.ignored, temp)
+            if name.lower() in cfg.ignored.value:
+                # temp = cfg.ignored.value
+                # temp.append(name.lower())
+                # qconfig.set(cfg.ignored, temp)
 
                 # Update the ignored items accordingly
-                QApplication.instance().ignore_changed.emit()
-                self._prog_bar.error()
+                # QApplication.instance().ignore_changed.emit()
+                # self._prog_bar.error()
                 num_fail += 1
 
                 # Add the failed item for display
                 self._parent.failed_files.append(name)
             else:
                 num_success += 1
-            temp.append(FileEntry(name, size, num_files, _dir))
+                temp.append(FileEntry(name, size, num_files, _dir))
 
             # Update the progress bar
             # self._prog_bar.setValue(self._prog_bar.value()+1)
@@ -132,6 +132,7 @@ class BsaProcessor(QThread):
         proxy_model = QSortFilterProxyModel(model)
         proxy_model.setSortRole(Qt.ItemDataRole.UserRole)
         proxy_model.setSourceModel(model)
+        proxy_model.setSortCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
 
         self._view.setModel(proxy_model)
 

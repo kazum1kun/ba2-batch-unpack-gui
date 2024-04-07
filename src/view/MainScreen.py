@@ -207,7 +207,7 @@ class MainScreen(QFrame):
         # self.preview_progress.setHidden(True)
 
         # Adjust the table columns
-        self.preview_table.resizeColumnsToContents()
+        # self.preview_table.resizeColumnsToContents()
         self.preview_table.horizontalHeader().setSortIndicator(0, Qt.SortOrder.AscendingOrder)
         self.preview_table.setSortingEnabled(True)
         self.preview_table.setHidden(False)
@@ -219,12 +219,27 @@ class MainScreen(QFrame):
 
         self.preview_table.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.preview_table.horizontalHeader().setDisabled(False)
+        self.preview_table.horizontalHeader().setStretchLastSection(True)
+        self.adjust_column_size()
         # self.persistent_tooltip.deleteLater()
 
         if self.threshold_button.isPressed:
             self.determine_threshold()
 
         del self.processor
+
+    def adjust_column_size(self):
+        total_width = self.preview_table.width()
+        fs_col_width = 92
+        num_col_width = 81
+
+        self.preview_table.setColumnWidth(0, int((total_width - fs_col_width - num_col_width) * 0.45))
+        self.preview_table.setColumnWidth(1, fs_col_width)
+        self.preview_table.setColumnWidth(2, num_col_width)
+
+    # Resize the columns of the table automatically on resize
+    def resizeEvent(self, event):
+        self.adjust_column_size()
 
     def show_toast(self, results):
         num_success = results[0]

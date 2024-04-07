@@ -23,7 +23,8 @@ class MainWindow(SplitFluentWindow):
 
         self.init_navigation()
 
-        self.resize(900, 700)
+        self.setMinimumSize(800, 500)
+        self.resize(1000, 700)
 
     def init_navigation(self):
         self.addSubInterface(self.mainScreen, Fi.HOME, 'Main')
