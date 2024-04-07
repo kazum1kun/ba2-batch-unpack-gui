@@ -1,3 +1,4 @@
+import faulthandler
 import sys
 
 from PySide6.QtCore import QTranslator, Signal
@@ -43,9 +44,8 @@ class Unpackrr(QApplication):
 
 
 if __name__ == '__main__':
-    # setTheme(Theme.AUTO)
-
     app = Unpackrr(sys.argv)
+    faulthandler.enable()
 
     # internationalization
     locale = cfg.get(cfg.language).value

@@ -190,7 +190,7 @@ class MainScreen(QFrame):
             self.preview_table.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
             self.preview_table.horizontalHeader().setDisabled(True)
             self.preview_hint.setHidden(True)
-            self.show_progress_persistent()
+            # self.show_progress_persistent()
 
             self.processor.done_processing.connect(self.show_toast)
             self.processor.finished.connect(self.done_loading_ba2)
@@ -219,7 +219,7 @@ class MainScreen(QFrame):
 
         self.preview_table.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.preview_table.horizontalHeader().setDisabled(False)
-        self.persistent_tooltip.deleteLater()
+        # self.persistent_tooltip.deleteLater()
 
         if self.threshold_button.isPressed:
             self.determine_threshold()
@@ -310,7 +310,8 @@ class MainScreen(QFrame):
         self.persistent_tooltip.show()
 
     def determine_threshold(self):
-        threshold = self.preview_table.model().sourceModel().size_at(235)
+        num_row = self.preview_table.model().rowCount()
+        threshold = self.preview_table.model().sourceModel().size_at(num_row - 235)
         if threshold == -1:
             if self.folder_ready:
                 self.auto_not_available()
@@ -325,7 +326,7 @@ class MainScreen(QFrame):
             model = self.preview_table.model().sourceModel()
             # Filter the view
             for i in range(model.rowCount()):
-                item = model.data(model.createIndex(i, 1), Qt.ItemDataRole.UserRole)
+                item = model.index(i, 0)
                 self.preview_table.setRowHidden(i, item > threshold_byte)
                 if item > threshold_byte:
                     self.hidden_count += 1

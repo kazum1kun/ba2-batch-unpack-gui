@@ -3,16 +3,26 @@ import re
 import subprocess
 
 from PySide6.QtWidgets import QApplication
+from construct import Struct, Bytes, Int32ul, Int64ul, PaddedString
 
 from misc.Config import cfg
 
 from PySide6.QtCore import QThread, QSortFilterProxyModel, Qt, Signal
 from qfluentwidgets import TableView, qconfig, ProgressBar, InfoBar, InfoBarPosition
 
-from model.PreviewTableModel import PreviewTableModel
+from model.PreviewTableModel import PreviewTableModel, FileEntry
 
 
 units = {'B': 1, 'KB': 2 ** 10, 'MB': 2 ** 20, 'GB': 2 ** 30, 'TB': 2 ** 40}
+
+
+header_struct = Struct(
+    "magic" / Bytes(4),
+    "version" / Int32ul,
+    "type" / PaddedString(4, "utf8"),
+    "file_count" / Int32ul,
+    "names_offset" / Int64ul,
+)
 
 
 def parse_size(size):
@@ -50,18 +60,21 @@ def scan_for_ba2(path, postfixes):
 
 # A convenience function to return the number of files in a ba2 archive
 def num_files_in_ba2(bsab_path, file):
-    args = [
-        bsab_path,
-        '-l:N',
-        file
-    ]
-    proc = subprocess.run(args, capture_output=True)
-    if proc.returncode == 0:
-        results = proc.stdout
-        return str(results).count('\\n') - 1
-    else:
-        print(f'{file} fails to open!')
-        return -1
+    with open(file, 'rb') as fs:
+        result = header_struct.parse_stream(fs)
+        return result.file_count
+    # args = [
+    #     bsab_path,
+    #     '-l:N',
+    #     file
+    # ]
+    # proc = subprocess.run(args, capture_output=True)
+    # if proc.returncode == 0:
+    #     results = proc.stdout
+    #     return str(results).count('\\n') - 1
+    # else:
+    #     print(f'{file} fails to open!')
+    #     return -1
 
 
 # A function-turned-thread to prevent main UI lockup
@@ -82,19 +95,12 @@ class BsaProcessor(QThread):
         self._prog_bar.setHidden(False)
         self._prog_bar.setRange(0, len(ba2_paths))
 
-        model = PreviewTableModel()
-
-        proxy_model = QSortFilterProxyModel(model)
-        proxy_model.setSortRole(Qt.ItemDataRole.UserRole)
-        proxy_model.setSourceModel(model)
-
-        self._view.setModel(proxy_model)
-
         # Clear the cached "bad files" in main screen
         self._parent.failed_files.clear()
 
         num_fail = 0
         num_success = 0
+        temp = []
         # Populate ba2 files and their properties
         for f in ba2_paths:
             _dir = os.path.basename(os.path.dirname(f))
@@ -116,15 +122,17 @@ class BsaProcessor(QThread):
                 self._parent.failed_files.append(name)
             else:
                 num_success += 1
-            model.append_row([_dir, name, size, num_files])
-
+            temp.append(FileEntry(name, size, num_files, _dir))
 
             # Update the progress bar
-            self._prog_bar.setValue(self._prog_bar.value()+1)
+            # self._prog_bar.setValue(self._prog_bar.value()+1)
+
+        model = PreviewTableModel(temp)
+
+        proxy_model = QSortFilterProxyModel(model)
+        proxy_model.setSortRole(Qt.ItemDataRole.UserRole)
+        proxy_model.setSourceModel(model)
+
+        self._view.setModel(proxy_model)
 
         self.done_processing.emit([num_success, num_fail])
-        # ba2_dirs = [os.path.basename(os.path.dirname(f)) for f in ba2_paths]
-        # ba2_filenames = [os.path.basename(f) for f in ba2_paths]
-        # ba2_sizes = [os.stat(f).st_size for f in ba2_paths]
-        # ba2_num_files = [num_files_in_ba2('./bin/bsab.exe', f) for f in ba2_paths]
-        # ba2_ignored = [False for f in ba2_paths]
