@@ -95,9 +95,6 @@ class BsaProcessor(QThread):
         self._prog_bar.setHidden(False)
         self._prog_bar.setRange(0, len(ba2_paths))
 
-        # Clear the cached "bad files" in main screen
-        self._parent.failed_files.clear()
-
         num_fail = 0
         num_success = 0
         temp = []
@@ -127,13 +124,6 @@ class BsaProcessor(QThread):
             # Update the progress bar
             # self._prog_bar.setValue(self._prog_bar.value()+1)
 
-        model = PreviewTableModel(temp)
-
-        proxy_model = QSortFilterProxyModel(model)
-        proxy_model.setSortRole(Qt.ItemDataRole.UserRole)
-        proxy_model.setSourceModel(model)
-        proxy_model.setSortCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
-
-        self._view.setModel(proxy_model)
-
+        temp = sorted(temp, key=lambda entry: entry.file_size)
+        self._parent.file_data = temp
         self.done_processing.emit([num_success, num_fail])

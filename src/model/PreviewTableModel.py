@@ -15,6 +15,7 @@ class FileEntry(NamedTuple):
 
 
 class PreviewTableModel(QtCore.QAbstractTableModel):
+    # Data is assumed to be sorted according to their file size
     def __init__(self, data: list[FileEntry]):
         super(PreviewTableModel, self).__init__()
         self.files: list[FileEntry] = data
@@ -44,17 +45,10 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
             if index.row() in self.bad_ba2_idx:
                 # Dark red
                 return QBrush(QColor(139, 0, 0))
-        # elif role == Qt.ItemDataRole.CheckStateRole:
-        #     if index.column() == 4:
-        #         if self._ba2_ignored[index.row()]:
-        #             return Qt.CheckState.Checked
-        #         else:
-        #             return Qt.CheckState.Unchecked
-        # elif role == Qt.ItemDataRole.TextAlignmentRole:
-        #     if index.column() == 4:
-        #         return Qt.AlignmentFlag.AlignCenter
-
         return None
+
+    def raw_data(self):
+        return self.files
 
     # def setData(self, index, value, role=Qt.ItemDataRole.EditRole):
     #     if not index.isValid():
@@ -66,7 +60,6 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
     #             self._ba2_ignored[index.row()] = False
     #     return True
 
-
     # def delete_row(self, index: QModelIndex):
     #     self.beginRemoveRows(index.parent(), index.row(), index.row())
     #     del self._ba2_dirs[index.row()]
@@ -75,11 +68,11 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
     #     del self._ba2_num_files[index.row()]
     #     self.endRemoveRows()
 
-    # def size_at(self, index):
-    #     if len(self._ba2_sizes) > index:
-    #         return self._ba2_sizes[index]
-    #     else:
-    #         return -1
+    def size_at(self, index):
+        if len(self.files) > index:
+            return self.files[index].file_size
+        else:
+            return -1
 
     def flags(self, index):
         if not index.isValid():

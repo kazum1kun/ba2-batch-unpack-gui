@@ -11,6 +11,7 @@ from qfluentwidgets import (SubtitleLabel, setFont, LargeTitleLabel, HyperlinkLa
                             ToolTipFilter)
 from qfluentwidgets.components.widgets.acrylic_label import AcrylicLabel
 from humanize import naturalsize
+from model.PreviewTableModel import *
 
 from misc.Utilities import *
 
@@ -66,9 +67,9 @@ class MainScreen(QFrame):
         self.preview_hint_layout = QBoxLayout(QBoxLayout.Direction.LeftToRight, self.preview_table)
         self.preview_hint = SubtitleLabel('Select a folder to get started', self)
 
-        # Corrupted files
-        self.failed_files = []
+        # File related
         self.processor = None
+        self.file_data: list[FileEntry] = []
 
         self.folder_ready = False
         self.size_ready = False
@@ -80,15 +81,6 @@ class MainScreen(QFrame):
     def setup_interface(self):
         self.layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.layout.addWidget(self.title_label, 0, Qt.AlignmentFlag.AlignLeft)
-        # self.subtitle_layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
-
-        # setFont(self.subtitle_label_1, 14)
-        # self.subtitle_layout.addWidget(self.subtitle_label_1)
-        # self.subtitle_layout.addWidget(self.subtitle_label_2)
-        # self.subtitle_layout.addWidget(self.subtitle_label_3)
-        # self.subtitle_layout.addWidget(self.subtitle_label_4)
-
-        # self.layout.addLayout(self.subtitle_layout, 0)
 
         # Setup section
         self.layout.addWidget(self.setup_title, 0, Qt.AlignmentFlag.AlignLeft)
@@ -169,6 +161,13 @@ class MainScreen(QFrame):
 
         self.layout.addWidget(self.preview_table)
 
+        # Proxy model used by the table
+        proxy_model = QSortFilterProxyModel()
+        proxy_model.setSortRole(Qt.ItemDataRole.UserRole)
+        proxy_model.setSortCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        self.preview_table.setModel(proxy_model)
+        self.preview_table.horizontalHeader().setStretchLastSection(True)
+
         # Add the hint to the center of the table
         self.preview_hint_layout.addWidget(self.preview_hint, 0, Qt.AlignmentFlag.AlignCenter)
 
@@ -187,8 +186,6 @@ class MainScreen(QFrame):
             # Animate the progress bar
             self.processor = BsaProcessor(selected_folder, './bin/bsab.exe', self)
 
-            self.preview_table.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-            self.preview_table.horizontalHeader().setDisabled(True)
             self.preview_hint.setHidden(True)
             # self.show_progress_persistent()
 
@@ -199,32 +196,30 @@ class MainScreen(QFrame):
     def auto_toggled(self):
         # Disable threshold input if "Auto" is enabled
         self.threshold_input.setDisabled(self.threshold_input.isEnabled())
-        self.determine_threshold()
+        if self.threshold_button.isChecked():
+            self.determine_threshold()
+
+    def refresh_table(self, data):
+        model = PreviewTableModel(data)
+        self.preview_table.model().setSourceModel(model)
+        self.preview_table.horizontalHeader().setSortIndicator(0, Qt.SortOrder.AscendingOrder)
+        self.preview_table.setSortingEnabled(True)
+
+        self.folder_button.setDisabled(False)
+        self.folder_ready = True
+        self.check_start_ready()
+
+        if self.threshold_button.isPressed:
+            self.determine_threshold()
 
     def done_loading_ba2(self):
         # Hide the progress bar again
         # self.preview_progress.stop()
         # self.preview_progress.setHidden(True)
 
-        # Adjust the table columns
-        # self.preview_table.resizeColumnsToContents()
-        self.preview_table.horizontalHeader().setSortIndicator(0, Qt.SortOrder.AscendingOrder)
-        self.preview_table.setSortingEnabled(True)
-        self.preview_table.setHidden(False)
-
-        self.folder_button.setDisabled(False)
-
-        self.folder_ready = True
-        self.check_start_ready()
-
-        self.preview_table.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
-        self.preview_table.horizontalHeader().setDisabled(False)
-        self.preview_table.horizontalHeader().setStretchLastSection(True)
+        self.refresh_table(self.file_data)
         self.adjust_column_size()
         # self.persistent_tooltip.deleteLater()
-
-        if self.threshold_button.isPressed:
-            self.determine_threshold()
 
         del self.processor
 
@@ -279,6 +274,7 @@ class MainScreen(QFrame):
         self.size_ready = False
         self.hidden_count = 0
         if not text:
+            self.refresh_table(self.file_data)
             return
         threshold_byte = parse_size(text)
         self.filter_table_threshold(threshold_byte)
@@ -312,39 +308,21 @@ class MainScreen(QFrame):
         table_nonempty = self.hidden_count < self.preview_table.model().rowCount()
         self.start_button.setEnabled(self.size_ready and self.folder_ready and table_nonempty)
 
-    def show_progress_persistent(self):
-        self.persistent_tooltip = InfoBar(
-            icon=InfoBarIcon.INFORMATION,
-            title='Loading ba2 files',
-            content='Please do not interact with the table while the loading is in progress.',
-            duration=-1,
-            isClosable=False,
-            position=InfoBarPosition.BOTTOM,
-            parent=self
-        )
-        self.persistent_tooltip.show()
-
     def determine_threshold(self):
-        num_row = self.preview_table.model().rowCount()
-        threshold = self.preview_table.model().sourceModel().size_at(num_row - 235)
-        if threshold == -1:
+        if len(self.file_data) <= 235:
             if self.folder_ready:
                 self.auto_not_available()
-        else:
-            self.threshold_input.setText(naturalsize(threshold))
-            self.filter_table_threshold(threshold)
+                return
+        threshold = self.file_data[-235].file_size
+        self.threshold_input.setText(naturalsize(threshold))
+        self.filter_table_threshold(threshold)
 
     def filter_table_threshold(self, threshold_byte):
         if threshold_byte != -1:
             # Persist the size info
             qconfig.set(cfg.saved_threshold, threshold_byte)
-            model = self.preview_table.model().sourceModel()
-            # Filter the view
-            for i in range(model.rowCount()):
-                item = model.index(i, 0)
-                self.preview_table.setRowHidden(i, item > threshold_byte)
-                if item > threshold_byte:
-                    self.hidden_count += 1
+            filtered = [entry for entry in self.file_data if entry.file_size <= threshold_byte]
+            self.refresh_table(filtered)
             self.size_ready = True
         self.check_start_ready()
 
@@ -355,7 +333,7 @@ class MainScreen(QFrame):
                        self)
         w.yesSignal.connect(self.threshold_button.click)
         w.yesButton.setText('Ok')
-        w.cancelSignal.connect(QApplication.quit())
+        w.cancelSignal.connect(QApplication.quit)
         w.cancelButton.setText('Exit Unpackrr')
 
         w.exec()
