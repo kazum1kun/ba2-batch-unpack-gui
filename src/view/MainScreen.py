@@ -253,7 +253,7 @@ class MainScreen(QFrame):
                 title='Some files could not be loaded',
                 content=fail_message,
                 duration=10000,
-                position=InfoBarPosition.TOP,
+                position=InfoBarPosition.BOTTOM,
                 parent=self
             )
             more_info_button = PushButton('Details', warning_info)
@@ -265,7 +265,7 @@ class MainScreen(QFrame):
                 title='Great success',
                 content=f'Finished scanning ba2. {num_success} files were processed and ready to be extracted.',
                 duration=5000,
-                position=InfoBarPosition.TOP,
+                position=InfoBarPosition.BOTTOM,
                 parent=self
             )
 
@@ -312,7 +312,7 @@ class MainScreen(QFrame):
         if len(self.file_data) <= 235:
             if self.folder_ready:
                 self.auto_not_available()
-                return
+            return
         threshold = self.file_data[-235].file_size
         self.threshold_input.setText(naturalsize(threshold))
         self.filter_table_threshold(threshold)
@@ -328,7 +328,7 @@ class MainScreen(QFrame):
 
     def auto_not_available(self):
         w = MessageBox('No unpacking necessary',
-                       'It appears that you are not over the ba2 limit (yet). No ba2 unpacking is necessary.'
+                       'It appears that you are not over the ba2 limit (yet). No ba2 unpacking is necessary. '
                        'To proceed please manually set a threshold.',
                        self)
         w.yesSignal.connect(self.threshold_button.click)

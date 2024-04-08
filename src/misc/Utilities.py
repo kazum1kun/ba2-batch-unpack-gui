@@ -13,7 +13,7 @@ from qfluentwidgets import TableView, qconfig, ProgressBar, InfoBar, InfoBarPosi
 from model.PreviewTableModel import PreviewTableModel, FileEntry
 
 
-units = {'B': 1, 'KB': 2 ** 10, 'MB': 2 ** 20, 'GB': 2 ** 30, 'TB': 2 ** 40}
+units = {'B': 1, 'KB': 1000, 'MB': 1000 ** 2, 'GB': 1000 ** 3, 'TB': 1000 ** 4}
 
 
 header_struct = Struct(
