@@ -71,9 +71,7 @@ class MainScreen(QFrame):
         self.processor = None
         self.file_data: list[FileEntry] = []
 
-        self.folder_ready = False
-        self.size_ready = False
-        self.hidden_count = 0
+        self.table_ready = False
         self.persistent_tooltip = None
 
         self.setup_interface()
@@ -210,7 +208,7 @@ class MainScreen(QFrame):
         self.preview_table.model().setSourceModel(model)
 
         self.folder_button.setDisabled(False)
-        self.folder_ready = True
+        self.table_ready = True
         self.check_start_ready()
 
     def done_loading_ba2(self):
@@ -275,8 +273,6 @@ class MainScreen(QFrame):
 
     def threshold_changed(self):
         text = self.threshold_input.text()
-        self.size_ready = False
-        self.hidden_count = 0
         if not text:
             self.refresh_table(self.file_data)
             return
@@ -310,12 +306,12 @@ class MainScreen(QFrame):
         box.exec()
 
     def check_start_ready(self):
-        table_nonempty = self.hidden_count < self.preview_table.model().rowCount()
-        self.start_button.setEnabled(self.size_ready and self.folder_ready and table_nonempty)
+        table_nonempty = self.preview_table.model().rowCount() > 0
+        self.start_button.setEnabled(self.table_ready and table_nonempty)
 
     def determine_threshold(self):
         if len(self.file_data) <= 235:
-            if self.folder_ready:
+            if self.table_ready:
                 self.auto_not_available()
             return
 
