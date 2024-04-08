@@ -167,6 +167,9 @@ class MainScreen(QFrame):
         proxy_model.setSortCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         self.preview_table.setModel(proxy_model)
         self.preview_table.horizontalHeader().setStretchLastSection(True)
+        # Sorting
+        self.preview_table.horizontalHeader().setSortIndicator(1, Qt.SortOrder.AscendingOrder)
+        self.preview_table.setSortingEnabled(True)
 
         # Add the hint to the center of the table
         self.preview_hint_layout.addWidget(self.preview_hint, 0, Qt.AlignmentFlag.AlignCenter)
@@ -198,26 +201,27 @@ class MainScreen(QFrame):
         self.threshold_input.setDisabled(self.threshold_input.isEnabled())
         if self.threshold_button.isChecked():
             self.determine_threshold()
+        else:
+            self.threshold_input.clear()
+            self.refresh_table(self.file_data)
 
     def refresh_table(self, data):
         model = PreviewTableModel(data)
         self.preview_table.model().setSourceModel(model)
-        self.preview_table.horizontalHeader().setSortIndicator(0, Qt.SortOrder.AscendingOrder)
-        self.preview_table.setSortingEnabled(True)
 
         self.folder_button.setDisabled(False)
         self.folder_ready = True
         self.check_start_ready()
-
-        if self.threshold_button.isPressed:
-            self.determine_threshold()
 
     def done_loading_ba2(self):
         # Hide the progress bar again
         # self.preview_progress.stop()
         # self.preview_progress.setHidden(True)
 
-        self.refresh_table(self.file_data)
+        if self.threshold_button.isChecked():
+            self.determine_threshold()
+        else:
+            self.refresh_table(self.file_data)
         self.adjust_column_size()
         # self.persistent_tooltip.deleteLater()
 
@@ -277,7 +281,8 @@ class MainScreen(QFrame):
             self.refresh_table(self.file_data)
             return
         threshold_byte = parse_size(text)
-        self.filter_table_threshold(threshold_byte)
+        filtered = self.get_filtered_files(threshold_byte)
+        self.refresh_table(filtered)
 
     def table_custom_menu(self, pos):
         item_idx = self.preview_table.indexAt(pos)
@@ -313,18 +318,18 @@ class MainScreen(QFrame):
             if self.folder_ready:
                 self.auto_not_available()
             return
+
         threshold = self.file_data[-235].file_size
         self.threshold_input.setText(naturalsize(threshold))
-        self.filter_table_threshold(threshold)
 
-    def filter_table_threshold(self, threshold_byte):
+        filtered = self.get_filtered_files(threshold)
+        self.refresh_table(filtered)
+
+    def get_filtered_files(self, threshold_byte):
         if threshold_byte != -1:
             # Persist the size info
             qconfig.set(cfg.saved_threshold, threshold_byte)
-            filtered = [entry for entry in self.file_data if entry.file_size <= threshold_byte]
-            self.refresh_table(filtered)
-            self.size_ready = True
-        self.check_start_ready()
+            return [entry for entry in self.file_data if entry.file_size <= threshold_byte]
 
     def auto_not_available(self):
         w = MessageBox('No unpacking necessary',
