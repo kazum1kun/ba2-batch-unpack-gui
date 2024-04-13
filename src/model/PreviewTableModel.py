@@ -12,6 +12,7 @@ class FileEntry(NamedTuple):
     file_size: int
     num_files: int
     dir_name: str
+    full_path: str
 
 
 class PreviewTableModel(QtCore.QAbstractTableModel):
@@ -40,7 +41,7 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
             elif index.column() == 3:
                 return self.files[index.row()].dir_name
             elif index.column() == 4:
-                return ''
+                return self.files[index.row()].full_path
         elif role == Qt.ItemDataRole.BackgroundRole:
             if index.row() in self.bad_ba2_idx:
                 # Dark red

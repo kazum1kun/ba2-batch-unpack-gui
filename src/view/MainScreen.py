@@ -12,6 +12,8 @@ from qfluentwidgets import (SubtitleLabel, setFont, LargeTitleLabel, HyperlinkLa
 from qfluentwidgets.components.widgets.acrylic_label import AcrylicLabel
 from humanize import naturalsize
 from model.PreviewTableModel import *
+from prefab.MessageBox import *
+from prefab.InfoBar import *
 
 from misc.Utilities import *
 
@@ -69,7 +71,9 @@ class MainScreen(QFrame):
 
         # File related
         self.processor = None
+        self.extractor = None
         self.file_data: list[FileEntry] = []
+        self.failed = []
 
         self.table_ready = False
         self.persistent_tooltip = None
@@ -123,6 +127,7 @@ class MainScreen(QFrame):
         # Start button
         self.start_button.setMaximumWidth(300)
         self.start_button.setEnabled(False)
+        self.start_button.clicked.connect(self.extract_files)
         self.start_layout.addWidget(self.start_button)
         self.layout.addLayout(self.start_layout)
 
@@ -175,7 +180,7 @@ class MainScreen(QFrame):
     def open_folder(self):
         self.folder_input.setText(QFileDialog.getExistingDirectory(self, 'Open your Fallout 4 mod directory',
                                                                    options=QFileDialog.Option.ShowDirsOnly |
-                                                                           QFileDialog.Option.DontResolveSymlinks))
+                                                                   QFileDialog.Option.DontResolveSymlinks))
 
         selected_folder = self.folder_input.text()
         self.start_button.setDisabled(True)
@@ -190,9 +195,15 @@ class MainScreen(QFrame):
             self.preview_hint.setHidden(True)
             # self.show_progress_persistent()
 
-            self.processor.done_processing.connect(self.show_toast)
+            self.processor.done_processing.connect(show_result_toast)
             self.processor.finished.connect(self.done_loading_ba2)
             self.processor.start()
+
+    def extract_files(self):
+        self.extractor = BsaExtractor(self)
+        self.extractor.finished.connect(self.done_extracting)
+
+        self.extractor.start()
 
     def auto_toggled(self):
         # Disable threshold input if "Auto" is enabled
@@ -225,6 +236,9 @@ class MainScreen(QFrame):
 
         del self.processor
 
+    def done_extracting(self, results):
+        show_result_toast(self, results, 'extract')
+
     def adjust_column_size(self):
         total_width = self.preview_table.width()
         fs_col_width = 92
@@ -237,39 +251,6 @@ class MainScreen(QFrame):
     # Resize the columns of the table automatically on resize
     def resizeEvent(self, event):
         self.adjust_column_size()
-
-    def show_toast(self, results):
-        num_success = results[0]
-        num_fail = results[1]
-        auto_ignore = cfg.ignore_bad_files.value
-        fail_message = f'Finished scanning ba2. {num_fail} files could not be opened'
-        if auto_ignore:
-            fail_message += ' and were automatically ignored.'
-        else:
-            fail_message += ' but will be processed anyways.'
-        fail_message += f'\n{num_success} files were processed and ready to be extracted.'
-
-        if num_fail > 0:
-            warning_info = InfoBar(
-                icon=InfoBarIcon.WARNING,
-                title='Some files could not be loaded',
-                content=fail_message,
-                duration=10000,
-                position=InfoBarPosition.BOTTOM,
-                parent=self
-            )
-            more_info_button = PushButton('Details', warning_info)
-            more_info_button.clicked.connect(self.show_failed_files)
-            warning_info.addWidget(more_info_button)
-            warning_info.show()
-        else:
-            InfoBar.success(
-                title='Great success',
-                content=f'Finished scanning ba2. {num_success} files were processed and ready to be extracted.',
-                duration=5000,
-                position=InfoBarPosition.BOTTOM,
-                parent=self
-            )
 
     def threshold_changed(self):
         text = self.threshold_input.text()
@@ -293,18 +274,6 @@ class MainScreen(QFrame):
 
         menu.exec_(self.preview_table.viewport().mapToGlobal(pos))
 
-    def show_failed_files(self):
-        failed_files_text = '\n'.join(self.failed_files)
-        box = MessageBox('The following files cannot be loaded', failed_files_text, parent=self)
-        box.yesButton.setText('Ok')
-        box.cancelButton.setText('Copy to clipboard')
-        box.yesSignal.connect(box.deleteLater)
-        box.cancelSignal.connect(
-            lambda: QApplication.clipboard().setText(failed_files_text)
-        )
-        box.cancelSignal.connect(box.deleteLater)
-        box.exec()
-
     def check_start_ready(self):
         table_nonempty = self.preview_table.model().rowCount() > 0
         self.start_button.setEnabled(self.table_ready and table_nonempty)
@@ -312,7 +281,7 @@ class MainScreen(QFrame):
     def determine_threshold(self):
         if len(self.file_data) <= 235:
             if self.table_ready:
-                self.auto_not_available()
+                auto_not_available(self)
             return
 
         threshold = self.file_data[-235].file_size
@@ -326,15 +295,3 @@ class MainScreen(QFrame):
             # Persist the size info
             qconfig.set(cfg.saved_threshold, threshold_byte)
             return [entry for entry in self.file_data if entry.file_size <= threshold_byte]
-
-    def auto_not_available(self):
-        w = MessageBox('No unpacking necessary',
-                       'It appears that you are not over the ba2 limit (yet). No ba2 unpacking is necessary. '
-                       'To proceed please manually set a threshold.',
-                       self)
-        w.yesSignal.connect(self.threshold_button.click)
-        w.yesButton.setText('Ok')
-        w.cancelSignal.connect(QApplication.quit)
-        w.cancelButton.setText('Exit Unpackrr')
-
-        w.exec()

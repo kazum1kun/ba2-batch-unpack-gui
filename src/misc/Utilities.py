@@ -2,7 +2,8 @@ import os
 import re
 import subprocess
 
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication, QTableView
+from PySide6.QtGui import QBrush, QColor
 from construct import Struct, Bytes, Int32ul, Int64ul, PaddedString
 
 from misc.Config import cfg
@@ -59,7 +60,7 @@ def scan_for_ba2(path, postfixes):
 
 
 # A convenience function to return the number of files in a ba2 archive
-def num_files_in_ba2(bsab_path, file):
+def num_files_in_ba2(file):
     with open(file, 'rb') as fs:
         result = header_struct.parse_stream(fs)
         return result.file_count
@@ -75,6 +76,22 @@ def num_files_in_ba2(bsab_path, file):
     # else:
     #     print(f'{file} fails to open!')
     #     return -1
+
+
+def extract_ba2(file, bsab_exe_path):
+    base_path = os.path.dirname(file)
+    args = [
+        bsab_exe_path,
+        '-e',
+        file,
+        base_path
+    ]
+    proc = subprocess.run(args)
+    if proc.returncode != 0:
+        print(f'{file} fails to open!')
+        return -1
+    else:
+        return 0
 
 
 # A function-turned-thread to prevent main UI lockup
@@ -103,7 +120,7 @@ class BsaProcessor(QThread):
             _dir = os.path.basename(os.path.dirname(f))
             name = os.path.basename(f)
             size = os.stat(f).st_size
-            num_files = num_files_in_ba2('./bin/bsab.exe', f)
+            num_files = num_files_in_ba2(f)
             # Auto ignore the broken file if set so
             if name.lower() in cfg.ignored.value:
                 # temp = cfg.ignored.value
@@ -119,7 +136,7 @@ class BsaProcessor(QThread):
                 self._parent.failed_files.append(name)
             else:
                 num_success += 1
-                temp.append(FileEntry(name, size, num_files, _dir))
+                temp.append(FileEntry(name, size, num_files, _dir, f))
 
             # Update the progress bar
             # self._prog_bar.setValue(self._prog_bar.value()+1)
@@ -127,3 +144,30 @@ class BsaProcessor(QThread):
         temp = sorted(temp, key=lambda entry: entry.file_size)
         self._parent.file_data = temp
         self.done_processing.emit([num_success, num_fail])
+
+
+class BsaExtractor(QThread):
+    def __init__(self, parent):
+        super().__init__()
+        self._parent = parent
+
+    def run(self):
+        table: QTableView = self._parent.preview_table
+        progress: ProgressBar = self._parent.preview_progress
+        failed: list = self._parent.failed
+
+        progress.setMaximum(table.model().rowCount())
+
+        relative_idx = 0
+        absolute_idx = 0
+        for i in range(table.model().rowCount()):
+            path = table.model().index(absolute_idx, 4).data()
+            if extract_ba2(path, './bin/bsab.exe') == -1:
+                failed.append(os.path.abspath(path))
+                for j in range(table.model().columnCount()):
+                    table.model().setData(table.model().index(absolute_idx, j), QColor(Qt.GlobalColor.darkRed),
+                                          Qt.ItemDataRole.BackgroundRole)
+                table.hideRow(relative_idx)
+                relative_idx += 1
+            absolute_idx += 1
+            progress.setValue(progress.value()+1)
