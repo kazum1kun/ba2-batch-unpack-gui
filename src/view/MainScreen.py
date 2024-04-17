@@ -181,13 +181,14 @@ class MainScreen(QFrame):
     def process_folder(self):
         selected_folder = self.folder_input.text()
         self.start_button.setDisabled(True)
+        self.failed.clear()
 
         # Only process if the folder selected is not empty
         if selected_folder and os.path.isdir(selected_folder):
             qconfig.set(cfg.saved_dir, selected_folder)
             self.folder_button.setDisabled(True)
             # Animate the progress bar
-            self.processor = BsaProcessor(selected_folder, './bin/bsab.exe', self)
+            self.processor = BsaProcessor(selected_folder, self)
 
             self.preview_hint.setHidden(True)
             # self.show_progress_persistent()
@@ -204,6 +205,7 @@ class MainScreen(QFrame):
 
     def extract_files(self):
         self.preview_table.setDisabled(True)
+        self.start_button.setDisabled(True)
 
         self.extractor = BsaExtractor(self)
         self.extractor.done_processing.connect(self.done_extracting)
@@ -227,6 +229,14 @@ class MainScreen(QFrame):
         self.table_ready = True
         self.check_start_ready()
 
+    def update_ignored(self):
+        if len(self.failed) > 0:
+            temp = set(cfg.ignored.value)
+            temp.update(self.failed)
+            qconfig.set(cfg.ignored, list(temp))
+            # Update the ignored items accordingly
+            QApplication.instance().ignore_changed.emit()
+
     def done_loading_ba2(self):
         if self.threshold_button.isChecked():
             self.determine_threshold()
@@ -234,6 +244,7 @@ class MainScreen(QFrame):
             self.refresh_table(self.file_data)
         self.adjust_column_size()
 
+        self.update_ignored()
         del self.processor
 
     def done_extracting(self, results):
@@ -244,12 +255,7 @@ class MainScreen(QFrame):
         self.preview_table.setDisabled(False)
         self.preview_table.repaint()
 
-        temp = cfg.ignored.value
-        temp.update(self.failed)
-        self.failed.clear()
-        qconfig.set(cfg.ignored, temp)
-        # Update the ignored items accordingly
-        QApplication.instance().ignore_changed.emit()
+        self.update_ignored()
 
     def adjust_column_size(self):
         total_width = self.preview_table.width()

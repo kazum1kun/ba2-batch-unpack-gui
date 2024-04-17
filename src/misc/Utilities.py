@@ -1,10 +1,11 @@
 import os
 import re
 import subprocess
+import shutil
 
 from PySide6.QtWidgets import QApplication, QTableView
 from PySide6.QtGui import QBrush, QColor
-from construct import Struct, Bytes, Int32ul, Int64ul, PaddedString
+from construct import Struct, Bytes, Int32ul, Int64ul, PaddedString, StreamError
 
 from misc.Config import cfg
 
@@ -62,20 +63,12 @@ def scan_for_ba2(path, postfixes):
 # A convenience function to return the number of files in a ba2 archive
 def num_files_in_ba2(file):
     with open(file, 'rb') as fs:
-        result = header_struct.parse_stream(fs)
-        return result.file_count
-    # args = [
-    #     bsab_path,
-    #     '-l:N',
-    #     file
-    # ]
-    # proc = subprocess.run(args, capture_output=True)
-    # if proc.returncode == 0:
-    #     results = proc.stdout
-    #     return str(results).count('\\n') - 1
-    # else:
-    #     print(f'{file} fails to open!')
-    #     return -1
+        try:
+            result = header_struct.parse_stream(fs)
+            return result.file_count
+        except StreamError as e:
+            print(e)
+            return -1
 
 
 def extract_ba2(file, bsab_exe_path):
@@ -98,19 +91,17 @@ def extract_ba2(file, bsab_exe_path):
 class BsaProcessor(QThread):
     done_processing = Signal(list)
 
-    def __init__(self, mod_folder, bsab_path, _parent):
+    def __init__(self, mod_folder, _parent):
         super().__init__()
 
         self._path = mod_folder
-        self._bsab_path = bsab_path
-        self._view = _parent.preview_table
-        self._prog_bar = _parent.preview_progress
         self._parent = _parent
 
     def run(self):
         ba2_paths = scan_for_ba2(self._path, cfg.postfixes.value)
 
-        num_ignore = 0
+        num_failed = 0
+        num_ignored = 0
         num_success = 0
         temp = []
         # Populate ba2 files and their properties
@@ -121,14 +112,18 @@ class BsaProcessor(QThread):
             num_files = num_files_in_ba2(f)
             # Auto ignore the blacklisted file if set so
             if os.path.abspath(f) in cfg.ignored.value or name in cfg.ignored.value:
-                num_ignore += 1
+                num_ignored += 1
+            elif num_files == -1:
+                num_failed += 1
+                if cfg.ignore_bad_files:
+                    self._parent.failed.add(os.path.abspath(f))
             else:
                 num_success += 1
                 temp.append(FileEntry(name, size, num_files, _dir, f))
 
         temp = sorted(temp, key=lambda entry: entry.file_size)
         self._parent.file_data = temp
-        self.done_processing.emit([self._parent, num_success, num_ignore])
+        self.done_processing.emit([self._parent, num_success, num_failed, num_ignored])
 
 
 class BsaExtractor(QThread):
@@ -141,8 +136,9 @@ class BsaExtractor(QThread):
     def run(self):
         table: QTableView = self._parent.preview_table
         progress: ProgressBar = self._parent.preview_progress
-        failed: list = self._parent.failed
+        failed: set = self._parent.failed
 
+        progress.show()
         progress.setMaximum(table.model().rowCount())
 
         table_idx = 0
@@ -153,12 +149,20 @@ class BsaExtractor(QThread):
             path = table.model().sourceModel().raw_data()[table_idx].full_path
             if extract_ba2(path, './bin/bsab.exe') == -1:
                 if cfg.ignore_bad_files.value:
-                    failed.append(os.path.abspath(path))
+                    failed.add(os.path.abspath(path))
                 source_idx = table.model().mapToSource(table.model().index(table_idx, 0))
                 table.model().sourceModel().add_bad_file(source_idx.row())
                 progress.error()
                 failed_count += 1
             else:
+                # Back up the file if user requests so
+                if cfg.auto_backup.value:
+                    backup_path = os.path.join(os.path.dirname(path), 'backup')
+                    if not os.path.isdir(backup_path):
+                        os.mkdir(backup_path)
+                    shutil.move(path, os.path.join(backup_path, os.path.basename(path)))
+                else:
+                    os.remove(path)
                 table.hideRow(table_idx)
                 ok_count += 1
             table_idx += 1

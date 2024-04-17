@@ -106,8 +106,8 @@ class IgnoredSettingCard(ExpandSettingCard):
                 return
             name = new_ignored
 
-        self.__add_ignored_item(name.lower())
-        self.ignored.append(name.lower())
+        self.__add_ignored_item(name)
+        self.ignored.append(name)
         self.new_ignored_input.clear()
         qconfig.set(self.config_item, self.ignored)
         self.ignored_changed.emit(self.ignored)

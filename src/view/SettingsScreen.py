@@ -56,6 +56,13 @@ class SettingsScreen(ScrollArea):
             cfg.ignore_bad_files,
             parent=self.extraction_group
         )
+        self.auto_backup_card = SwitchSettingCard(
+            Fi.COPY,
+            self.tr('Automatic backup'),
+            self.tr('Automatically back up ba2 files extracted'),
+            cfg.auto_backup,
+            parent=self.extraction_group
+        )
 
         # personalization
         self.personalGroup = SettingCardGroup(self.tr('Personalization'), self.scrollWidget)
@@ -165,6 +172,7 @@ class SettingsScreen(ScrollArea):
         self.extraction_group.addSettingCard(self.postfixes_card)
         self.extraction_group.addSettingCard(self.ignored_card)
         self.extraction_group.addSettingCard(self.ignore_bad_card)
+        self.extraction_group.addSettingCard(self.auto_backup_card)
 
         # add cards to group
         self.personalGroup.addSettingCard(self.themeCard)

@@ -52,8 +52,9 @@ class Config(QConfig):
         'Extraction', 'Postfixes',
         ['main.ba2', 'materials.ba2', 'misc.ba2', 'scripts.ba2'], Ba2ListValidator()
     )
-    ignored = ConfigItem('Extraction', 'IgnoredFiles', set())
+    ignored = ConfigItem('Extraction', 'IgnoredFiles', [])
     ignore_bad_files = ConfigItem('Extraction', 'IgnoreBadFiles', True, BoolValidator())
+    auto_backup = ConfigItem('Extraction', 'AutoBackup', True, BoolValidator())
 
     # Saved settings
     saved_dir = ConfigItem('Saved', 'Directory', '')
