@@ -44,6 +44,7 @@ class MainScreen(QFrame):
         self.folder_layout_inner = QHBoxLayout(self)
         self.folder_label = StrongBodyLabel('Fallout 4 mod folder', self)
         self.folder_input = LineEdit(self)
+        self.folder_input.returnPressed.connect(self.process_folder)
         self.folder_button = ToolButton(Fi.FOLDER, self)
 
         # Threshold
@@ -73,7 +74,7 @@ class MainScreen(QFrame):
         self.processor = None
         self.extractor = None
         self.file_data: list[FileEntry] = []
-        self.failed = []
+        self.failed = set()
 
         self.table_ready = False
         self.persistent_tooltip = None
@@ -177,16 +178,12 @@ class MainScreen(QFrame):
         # Add the hint to the center of the table
         self.preview_hint_layout.addWidget(self.preview_hint, 0, Qt.AlignmentFlag.AlignCenter)
 
-    def open_folder(self):
-        self.folder_input.setText(QFileDialog.getExistingDirectory(self, 'Open your Fallout 4 mod directory',
-                                                                   options=QFileDialog.Option.ShowDirsOnly |
-                                                                   QFileDialog.Option.DontResolveSymlinks))
-
+    def process_folder(self):
         selected_folder = self.folder_input.text()
         self.start_button.setDisabled(True)
 
         # Only process if the folder selected is not empty
-        if selected_folder:
+        if selected_folder and os.path.isdir(selected_folder):
             qconfig.set(cfg.saved_dir, selected_folder)
             self.folder_button.setDisabled(True)
             # Animate the progress bar
@@ -199,9 +196,17 @@ class MainScreen(QFrame):
             self.processor.finished.connect(self.done_loading_ba2)
             self.processor.start()
 
+    def open_folder(self):
+        self.folder_input.setText(QFileDialog.getExistingDirectory(self, 'Open your Fallout 4 mod directory',
+                                                                   options=QFileDialog.Option.ShowDirsOnly |
+                                                                   QFileDialog.Option.DontResolveSymlinks))
+        self.process_folder()
+
     def extract_files(self):
+        self.preview_table.setDisabled(True)
+
         self.extractor = BsaExtractor(self)
-        self.extractor.finished.connect(self.done_extracting)
+        self.extractor.done_processing.connect(self.done_extracting)
 
         self.extractor.start()
 
@@ -223,25 +228,32 @@ class MainScreen(QFrame):
         self.check_start_ready()
 
     def done_loading_ba2(self):
-        # Hide the progress bar again
-        # self.preview_progress.stop()
-        # self.preview_progress.setHidden(True)
-
         if self.threshold_button.isChecked():
             self.determine_threshold()
         else:
             self.refresh_table(self.file_data)
         self.adjust_column_size()
-        # self.persistent_tooltip.deleteLater()
 
         del self.processor
 
     def done_extracting(self, results):
-        show_result_toast(self, results, 'extract')
+        tmp = [self]
+        tmp.extend(results)
+        show_result_toast(tmp, 'extract')
+
+        self.preview_table.setDisabled(False)
+        self.preview_table.repaint()
+
+        temp = cfg.ignored.value
+        temp.update(self.failed)
+        self.failed.clear()
+        qconfig.set(cfg.ignored, temp)
+        # Update the ignored items accordingly
+        QApplication.instance().ignore_changed.emit()
 
     def adjust_column_size(self):
         total_width = self.preview_table.width()
-        fs_col_width = 92
+        fs_col_width = 95
         num_col_width = 81
 
         self.preview_table.setColumnWidth(0, int((total_width - fs_col_width - num_col_width) * 0.45))

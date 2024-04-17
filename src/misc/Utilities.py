@@ -109,10 +109,8 @@ class BsaProcessor(QThread):
 
     def run(self):
         ba2_paths = scan_for_ba2(self._path, cfg.postfixes.value)
-        self._prog_bar.setHidden(False)
-        self._prog_bar.setRange(0, len(ba2_paths))
 
-        num_fail = 0
+        num_ignore = 0
         num_success = 0
         temp = []
         # Populate ba2 files and their properties
@@ -121,32 +119,21 @@ class BsaProcessor(QThread):
             name = os.path.basename(f)
             size = os.stat(f).st_size
             num_files = num_files_in_ba2(f)
-            # Auto ignore the broken file if set so
-            if name.lower() in cfg.ignored.value:
-                # temp = cfg.ignored.value
-                # temp.append(name.lower())
-                # qconfig.set(cfg.ignored, temp)
-
-                # Update the ignored items accordingly
-                # QApplication.instance().ignore_changed.emit()
-                # self._prog_bar.error()
-                num_fail += 1
-
-                # Add the failed item for display
-                self._parent.failed_files.append(name)
+            # Auto ignore the blacklisted file if set so
+            if os.path.abspath(f) in cfg.ignored.value or name in cfg.ignored.value:
+                num_ignore += 1
             else:
                 num_success += 1
                 temp.append(FileEntry(name, size, num_files, _dir, f))
 
-            # Update the progress bar
-            # self._prog_bar.setValue(self._prog_bar.value()+1)
-
         temp = sorted(temp, key=lambda entry: entry.file_size)
         self._parent.file_data = temp
-        self.done_processing.emit([num_success, num_fail])
+        self.done_processing.emit([self._parent, num_success, num_ignore])
 
 
 class BsaExtractor(QThread):
+    done_processing = Signal(list)
+
     def __init__(self, parent):
         super().__init__()
         self._parent = parent
@@ -158,16 +145,23 @@ class BsaExtractor(QThread):
 
         progress.setMaximum(table.model().rowCount())
 
-        relative_idx = 0
-        absolute_idx = 0
+        table_idx = 0
+        ok_count = 0
+        failed_count = 0
+
         for i in range(table.model().rowCount()):
-            path = table.model().index(absolute_idx, 4).data()
+            path = table.model().sourceModel().raw_data()[table_idx].full_path
             if extract_ba2(path, './bin/bsab.exe') == -1:
-                failed.append(os.path.abspath(path))
-                for j in range(table.model().columnCount()):
-                    table.model().setData(table.model().index(absolute_idx, j), QColor(Qt.GlobalColor.darkRed),
-                                          Qt.ItemDataRole.BackgroundRole)
-                table.hideRow(relative_idx)
-                relative_idx += 1
-            absolute_idx += 1
+                if cfg.ignore_bad_files.value:
+                    failed.append(os.path.abspath(path))
+                source_idx = table.model().mapToSource(table.model().index(table_idx, 0))
+                table.model().sourceModel().add_bad_file(source_idx.row())
+                progress.error()
+                failed_count += 1
+            else:
+                table.hideRow(table_idx)
+                ok_count += 1
+            table_idx += 1
             progress.setValue(progress.value()+1)
+
+        self.done_processing.emit([ok_count, failed_count])

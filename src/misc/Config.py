@@ -52,7 +52,7 @@ class Config(QConfig):
         'Extraction', 'Postfixes',
         ['main.ba2', 'materials.ba2', 'misc.ba2', 'scripts.ba2'], Ba2ListValidator()
     )
-    ignored = ConfigItem('Extraction', 'IgnoredFiles', [])
+    ignored = ConfigItem('Extraction', 'IgnoredFiles', set())
     ignore_bad_files = ConfigItem('Extraction', 'IgnoreBadFiles', True, BoolValidator())
 
     # Saved settings

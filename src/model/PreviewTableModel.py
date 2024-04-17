@@ -51,23 +51,8 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
     def raw_data(self):
         return self.files
 
-    # def setData(self, index, value, role=Qt.ItemDataRole.EditRole):
-    #     if not index.isValid():
-    #         return False
-    #     if role == Qt.ItemDataRole.CheckStateRole and index.column() == 4:
-    #         if Qt.CheckState(value) == Qt.CheckState.Checked:
-    #             self._ba2_ignored[index.row()] = True
-    #         else:
-    #             self._ba2_ignored[index.row()] = False
-    #     return True
-
-    # def delete_row(self, index: QModelIndex):
-    #     self.beginRemoveRows(index.parent(), index.row(), index.row())
-    #     del self._ba2_dirs[index.row()]
-    #     del self._ba2_filenames[index.row()]
-    #     del self._ba2_sizes[index.row()]
-    #     del self._ba2_num_files[index.row()]
-    #     self.endRemoveRows()
+    def add_bad_file(self, index):
+        self.bad_ba2_idx.append(index)
 
     def size_at(self, index):
         if len(self.files) > index:

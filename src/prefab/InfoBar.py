@@ -1,11 +1,13 @@
 from qfluentwidgets import InfoBar, InfoBarIcon, InfoBarPosition, PushButton
 
+
+from prefab.MessageBox import show_failed_files
 from misc.Config import cfg
 
 
-def show_result_toast(parent, results, _type='scan'):
-    num_success = results[0]
-    num_fail = results[1]
+def show_result_toast(results, _type='scan'):
+    num_success = results[1]
+    num_fail = results[2]
     auto_ignore = cfg.ignore_bad_files.value
     if _type == 'scan':
         verb = 'scanning'
@@ -36,10 +38,10 @@ def show_result_toast(parent, results, _type='scan'):
             content=fail_message,
             duration=-1,
             position=InfoBarPosition.BOTTOM,
-            parent=parent
+            parent=results[0]
         )
         more_info_button = PushButton('Details', warning_info)
-        more_info_button.clicked.connect(parent.show_failed_files)
+        more_info_button.clicked.connect(lambda x: show_failed_files(results[0]))
         warning_info.addWidget(more_info_button)
         warning_info.show()
     else:
@@ -54,6 +56,6 @@ def show_result_toast(parent, results, _type='scan'):
             content=success_message,
             duration=5000,
             position=InfoBarPosition.BOTTOM,
-            parent=parent
+            parent=results[0]
         )
 
