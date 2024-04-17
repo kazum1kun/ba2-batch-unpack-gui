@@ -146,6 +146,9 @@ class MainScreen(QFrame):
         # Leave some space for the title bar
         self.layout.setContentsMargins(60, 42, 60, 10)
 
+        # Drag and drop
+        self.setAcceptDrops(True)
+
     def setup_table(self):
         # Tableview configs
         self.preview_table.setBorderVisible(True)
@@ -313,3 +316,20 @@ class MainScreen(QFrame):
             # Persist the size info
             qconfig.set(cfg.saved_threshold, threshold_byte)
             return [entry for entry in self.file_data if entry.file_size <= threshold_byte]
+
+    # Drag and drop
+    def dragEnterEvent(self, event):
+        self.preview_hint.setText('Drop your Fallout 4 mod folder here')
+        if event.mimeData().hasUrls():
+            event.accept()
+        else:
+            event.ignore()
+
+    def dragLeaveEvent(self, event):
+        self.preview_hint.setText('Select a folder to get started')
+
+    def dropEvent(self, event):
+        files = [u.toLocalFile() for u in event.mimeData().urls()]
+        if len(files) == 1 and os.path.isdir(files[0]):
+            self.folder_input.setText(files[0])
+            self.process_folder()
