@@ -1,5 +1,7 @@
 import faulthandler
+import os.path
 import sys
+import ctypes
 
 from PySide6.QtCore import QTranslator, Signal
 from PySide6.QtGui import QIcon
@@ -22,7 +24,7 @@ class MainWindow(SplitFluentWindow):
         self.settingsScreen = SettingsScreen(self)
 
         self.init_navigation()
-
+        self.init_window()
         self.setMinimumSize(800, 500)
         self.resize(1000, 700)
 
@@ -30,13 +32,12 @@ class MainWindow(SplitFluentWindow):
         self.addSubInterface(self.mainScreen, Fi.HOME, 'Main')
         self.addSubInterface(self.settingsScreen, Fi.SETTING, 'Settings', NavigationItemPosition.BOTTOM)
 
-    def initWindow(self):
-        self.setWindowIcon(QIcon(':/qfluentwidgets/images/logo.png'))
-        self.setWindowTitle('PyQt-Fluent-Widgets')
-
+    def init_window(self):
+        self.setWindowTitle(u'Unpackrr')
+        self.setWindowIcon(QIcon('resource/image/unpackrr.png'))
         desktop = QApplication.screens()[0].availableGeometry()
         w, h = desktop.width(), desktop.height()
-        self.move(w // 2 - self.width() // 2, h // 2 - self.height() // 2)
+        self.move(w // 2 - self.width(), h // 2 - self.height() // 2)
 
 
 # Hack to install a "global" signal/slot
@@ -57,6 +58,11 @@ if __name__ == '__main__':
     app.installTranslator(fluentTranslator)
     app.installTranslator(settingTranslator)
 
+    # Required to display icons correctly
+    app_id = 'unpackrr'
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
+
     w = MainWindow()
     w.show()
+
     app.exec()
