@@ -1,9 +1,8 @@
 from typing import NamedTuple
 
 from PySide6 import QtCore
-from PySide6.QtCore import Qt, QModelIndex
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QBrush, QColor
-
 from humanize import naturalsize
 
 
@@ -21,7 +20,7 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
         super(PreviewTableModel, self).__init__()
         self.files: list[FileEntry] = data
         self.bad_ba2_idx: list[int] = []
-        self.horizontalHeader = ['File Name', 'File Size', '# Files', 'Mod']
+        self.horizontalHeader = [self.tr('File Name'), self.tr('File Size'), self.tr('# Files'), self.tr('Mod')]
 
     def data(self, index, role=Qt.ItemDataRole.DisplayRole):
         if not index.isValid():

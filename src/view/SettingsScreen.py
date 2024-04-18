@@ -1,23 +1,18 @@
-from misc.Config import cfg, HELP_URL, FEEDBACK_URL, AUTHOR, VERSION, YEAR
-from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, FolderListSettingCard,
-                            OptionsSettingCard, RangeSettingCard, PushSettingCard,
-                            ColorSettingCard, HyperlinkCard, PrimaryPushSettingCard, ScrollArea,
-                            ComboBoxSettingCard, ExpandLayout, Theme, InfoBar, CustomColorSettingCard,
-                            setTheme, setThemeColor, isDarkTheme, SubtitleLabel, setFont, ExpandSettingCard)
-from qfluentwidgets import FluentIcon as Fi
-from PySide6.QtCore import Qt, Signal, QUrl, QStandardPaths
+from PySide6.QtCore import Qt, Signal, QUrl
 from PySide6.QtGui import QDesktopServices
-from PySide6.QtWidgets import QWidget, QLabel, QFontDialog, QFileDialog, QFrame, QHBoxLayout, QApplication
-from view.PostfixSettingsCard import PostfixSettingCard
+from PySide6.QtWidgets import QWidget, QLabel, QApplication
+from qfluentwidgets import FluentIcon as Fi
+from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, HyperlinkCard, PrimaryPushSettingCard, ScrollArea,
+                            ComboBoxSettingCard, ExpandLayout, Theme, InfoBar, CustomColorSettingCard,
+                            setTheme, isDarkTheme)
+
+from misc.Config import cfg, HELP_URL, FEEDBACK_URL, AUTHOR, VERSION, YEAR
 from view.IgnoredSettingCard import IgnoredSettingCard
+from view.PostfixSettingsCard import PostfixSettingCard
 
 
 class SettingsScreen(ScrollArea):
     checkUpdateSig = Signal()
-    musicFoldersChanged = Signal(list)
-    acrylicEnableChanged = Signal(bool)
-    downloadFolderChanged = Signal(str)
-    minimizeToTrayChanged = Signal(bool)
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -66,18 +61,11 @@ class SettingsScreen(ScrollArea):
 
         # personalization
         self.personalGroup = SettingCardGroup(self.tr('Personalization'), self.scrollWidget)
-        self.enableAcrylicCard = SwitchSettingCard(
-            Fi.TRANSPARENT,
-            self.tr("Use Acrylic effect"),
-            self.tr("Acrylic effect has better visual experience, but it may cause the window to become stuck"),
-            configItem=cfg.enable_acrylic_background,
-            parent=self.personalGroup
-        )
         self.themeCard = ComboBoxSettingCard(
             cfg.themeMode,
             Fi.BRUSH,
-            self.tr('Application theme'),
-            self.tr("Change the appearance of your application"),
+            self.tr('Theme'),
+            self.tr("Change the theme of the app"),
             texts=[
                 self.tr('Light'), self.tr('Dark'),
                 self.tr('Use system setting')
@@ -87,60 +75,52 @@ class SettingsScreen(ScrollArea):
         self.themeColorCard = CustomColorSettingCard(
             cfg.themeColor,
             Fi.PALETTE,
-            self.tr('Theme color'),
-            self.tr('Change the theme color of you application'),
+            self.tr('Color'),
+            self.tr('Change the theme color of the app'),
             self.personalGroup
-        )
-        self.zoomCard = ComboBoxSettingCard(
-            cfg.dpi_scale,
-            Fi.ZOOM,
-            self.tr("Interface zoom"),
-            self.tr("Change the size of widgets and fonts"),
-            texts=[
-                "100%", "125%", "150%", "175%", "200%",
-                self.tr("Use system setting")
-            ],
-            parent=self.personalGroup
         )
         self.languageCard = ComboBoxSettingCard(
             cfg.language,
             Fi.LANGUAGE,
             self.tr('Language'),
-            self.tr('Set your preferred language for UI'),
-            texts=['简体中文', '繁體中文', 'English', self.tr('Use system setting')],
+            self.tr('Select your preferred language'),
+            texts=[self.tr('Use system setting'), 'English', '简体中文', '繁體中文', 'English'],
             parent=self.personalGroup
         )
 
         # update software
-        self.updateSoftwareGroup = SettingCardGroup(self.tr("Software update"), self.scrollWidget)
+        self.updateSoftwareGroup = SettingCardGroup(self.tr("Update"), self.scrollWidget)
         self.updateOnStartUpCard = SwitchSettingCard(
             Fi.UPDATE,
-            self.tr('Check for updates when the application starts'),
-            self.tr('The new version will be more stable and have more features'),
+            self.tr('Check for updates'),
+            self.tr('Automatically check and notify you of updates'),
             configItem=cfg.check_update_at_start_up,
             parent=self.updateSoftwareGroup
         )
 
         # application
         self.aboutGroup = SettingCardGroup(self.tr('About'), self.scrollWidget)
-        self.helpCard = HyperlinkCard(
-            HELP_URL,
-            self.tr('Open help page'),
-            Fi.HELP,
-            self.tr('Help'),
-            self.tr('Discover new features and learn useful tips about PyQt-Fluent-Widgets'),
-            self.aboutGroup
-        )
+
         self.feedbackCard = PrimaryPushSettingCard(
             self.tr('Provide feedback'),
             Fi.FEEDBACK,
             self.tr('Provide feedback'),
-            self.tr('Help us improve PyQt-Fluent-Widgets by providing feedback'),
+            self.tr('Help us improve Unpackrr by providing feedback'),
             self.aboutGroup
         )
-        self.aboutCard = PrimaryPushSettingCard(
-            self.tr('Check update'),
+
+        self.helpCard = HyperlinkCard(
+            HELP_URL,
+            self.tr('Open Nexus'),
             Fi.INFO,
+            self.tr('Nexus'),
+            self.tr('Check out Unpackrr on Nexus'),
+            self.aboutGroup
+        )
+        self.aboutCard = HyperlinkCard(
+            '',
+            self.tr('Source code'),
+            Fi.GITHUB,
             self.tr('About'),
             '© ' + self.tr('Copyright') + f" {YEAR}, {AUTHOR}. " +
             self.tr('Version') + f" {VERSION}",
@@ -149,9 +129,9 @@ class SettingsScreen(ScrollArea):
 
         self.pending_update = False
 
-        self.__initWidget()
+        self.__init_widget()
 
-    def __initWidget(self):
+    def __init_widget(self):
         self.resize(1000, 800)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
@@ -160,13 +140,13 @@ class SettingsScreen(ScrollArea):
         self.setWidgetResizable(True)
 
         # initialize style sheet
-        self.__setQss()
+        self.__set_qss()
 
         # initialize layout
-        self.__initLayout()
-        self.__connectSignalToSlot()
+        self.__init_layout()
+        self.__connect_signal_to_slot()
 
-    def __initLayout(self):
+    def __init_layout(self):
         self.settingLabel.move(60, 63)
 
         self.extraction_group.addSettingCard(self.postfixes_card)
@@ -178,8 +158,6 @@ class SettingsScreen(ScrollArea):
         self.personalGroup.addSettingCard(self.themeCard)
         self.personalGroup.addSettingCard(self.themeColorCard)
         self.personalGroup.addSettingCard(self.languageCard)
-        self.personalGroup.addSettingCard(self.enableAcrylicCard)
-        self.personalGroup.addSettingCard(self.zoomCard)
 
         self.updateSoftwareGroup.addSettingCard(self.updateOnStartUpCard)
 
@@ -205,8 +183,7 @@ class SettingsScreen(ScrollArea):
     def notify_ignore(self):
         self.pending_update = True
 
-
-    def __setQss(self):
+    def __set_qss(self):
         """ set style sheet """
         self.scrollWidget.setObjectName('scrollWidget')
         self.settingLabel.setObjectName('settingLabel')
@@ -215,7 +192,7 @@ class SettingsScreen(ScrollArea):
         with open(f'resource/qss/{theme}/setting_interface.qss', encoding='utf-8') as f:
             self.setStyleSheet(f.read())
 
-    def __showRestartTooltip(self):
+    def __show_restart_tooltip(self):
         """ show restart tooltip """
         InfoBar.warning(
             '',
@@ -224,26 +201,21 @@ class SettingsScreen(ScrollArea):
             parent=self.window()
         )
 
-    def __onThemeChanged(self, theme: Theme):
+    def __on_theme_changed(self, theme: Theme):
         """ theme changed slot """
         # change the theme of qfluentwidgets
         setTheme(theme)
 
         # chang the theme of setting interface
-        self.__setQss()
+        self.__set_qss()
 
-    def __connectSignalToSlot(self):
+    def __connect_signal_to_slot(self):
         """ connect signal to slot """
-        cfg.appRestartSig.connect(self.__showRestartTooltip)
-        cfg.themeChanged.connect(self.__onThemeChanged)
-
-        # personalization
-        self.enableAcrylicCard.checkedChanged.connect(
-            self.acrylicEnableChanged)
-        self.themeColorCard.colorChanged.connect(setThemeColor)
+        cfg.appRestartSig.connect(self.__show_restart_tooltip)
+        cfg.themeChanged.connect(self.__on_theme_changed)
 
         # about
-        self.aboutCard.clicked.connect(self.checkUpdateSig)
+        # self.aboutCard.clicked.connect(self.checkUpdateSig)
         self.feedbackCard.clicked.connect(
             lambda: QDesktopServices.openUrl(QUrl(FEEDBACK_URL)))
 

@@ -1,29 +1,24 @@
 import os
 import re
-import subprocess
 import shutil
+import subprocess
 
-from PySide6.QtWidgets import QApplication, QTableView
-from PySide6.QtGui import QBrush, QColor
+from PySide6.QtCore import QThread, Signal
+from PySide6.QtWidgets import QTableView
 from construct import Struct, Bytes, Int32ul, Int64ul, PaddedString, StreamError
+from qfluentwidgets import ProgressBar
 
 from misc.Config import cfg
-
-from PySide6.QtCore import QThread, QSortFilterProxyModel, Qt, Signal
-from qfluentwidgets import TableView, qconfig, ProgressBar, InfoBar, InfoBarPosition
-
-from model.PreviewTableModel import PreviewTableModel, FileEntry
-
+from model.PreviewTableModel import FileEntry
 
 units = {'B': 1, 'KB': 1000, 'MB': 1000 ** 2, 'GB': 1000 ** 3, 'TB': 1000 ** 4}
 
-
 header_struct = Struct(
-    "magic" / Bytes(4),
-    "version" / Int32ul,
-    "type" / PaddedString(4, "utf8"),
-    "file_count" / Int32ul,
-    "names_offset" / Int64ul,
+    'magic' / Bytes(4),
+    'version' / Int32ul,
+    'type' / PaddedString(4, 'utf8'),
+    'file_count' / Int32ul,
+    'names_offset' / Int64ul,
 )
 
 
@@ -166,6 +161,6 @@ class BsaExtractor(QThread):
                 table.hideRow(table_idx)
                 ok_count += 1
             table_idx += 1
-            progress.setValue(progress.value()+1)
+            progress.setValue(progress.value() + 1)
 
         self.done_processing.emit([ok_count, failed_count])

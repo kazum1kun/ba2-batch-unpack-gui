@@ -1,13 +1,9 @@
 import datetime
 from enum import Enum
 
-from PySide6.QtCore import Qt, QLocale
-from PySide6.QtGui import QGuiApplication, QFont
-from PySide6.QtWidgets import QDialog
+from PySide6.QtCore import QLocale
 from qfluentwidgets import (qconfig, QConfig, ConfigItem, OptionsConfigItem, BoolValidator,
-                            ColorConfigItem, OptionsValidator, RangeConfigItem, RangeValidator,
-                            FolderListValidator, EnumSerializer, FolderValidator, ConfigSerializer, __version__,
-                            ConfigValidator)
+                            OptionsValidator, ConfigSerializer, ConfigValidator)
 
 
 class Ba2ListValidator(ConfigValidator):
@@ -32,10 +28,10 @@ class IntValidator(ConfigValidator):
 
 
 class Language(Enum):
+    AUTO = QLocale()
+    ENGLISH_US = QLocale(QLocale.Language.English, QLocale.Country.UnitedStates)
     CHINESE_SIMP = QLocale(QLocale.Language.Chinese, QLocale.Country.China)
     CHINESE_TRAD = QLocale(QLocale.Language.Chinese, QLocale.Country.Taiwan)
-    ENGLISH_US = QLocale(QLocale.Language.English, QLocale.Country.UnitedStates)
-    AUTO = QLocale()
 
 
 class LanguageSerializer(ConfigSerializer):
@@ -61,10 +57,6 @@ class Config(QConfig):
     saved_threshold = ConfigItem('Saved', 'Threshold', 0, IntValidator())
 
     # Appearance
-    enable_acrylic_background = ConfigItem(
-        "Appearance", "EnableAcrylicBackground", True, BoolValidator())
-    dpi_scale = OptionsConfigItem(
-        "Appearance", "DpiScale", "Auto", OptionsValidator(["Auto", 1, 1.25, 1.5, 1.75, 2]), restart=True)
     language = OptionsConfigItem(
         "Appearance", "Language", Language.AUTO, OptionsValidator(Language), LanguageSerializer(), restart=True)
 
@@ -74,7 +66,7 @@ class Config(QConfig):
 
 
 YEAR = datetime.date.today().year
-AUTHOR = "KazumaKuun"
+AUTHOR = "KazumaKuun / Southwest Codeworks"
 VERSION = 0.1
 HELP_URL = "https://pyqt-fluent-widgets.readthedocs.io"
 FEEDBACK_URL = "https://github.com/zhiyiYo/PyQt-Fluent-Widgets/issues"

@@ -1,18 +1,16 @@
-import faulthandler
-import os.path
-import sys
 import ctypes
+import faulthandler
+import sys
 
 from PySide6.QtCore import QTranslator, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 from qfluentwidgets import FluentIcon as Fi, NavigationItemPosition, FluentTranslator
-from qfluentwidgets import (setTheme, Theme, SplitFluentWindow)
+from qfluentwidgets import (SplitFluentWindow)
 
+from misc.Config import cfg
 from view.MainScreen import MainScreen
 from view.SettingsScreen import SettingsScreen
-
-from misc.Config import cfg, Language
 
 
 class MainWindow(SplitFluentWindow):

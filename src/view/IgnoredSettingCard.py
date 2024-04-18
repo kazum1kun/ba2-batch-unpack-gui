@@ -1,9 +1,9 @@
 from typing import List, Union
 
 from PySide6.QtCore import Qt, Signal, QSize
-from PySide6.QtGui import QPainter, QIcon
-from PySide6.QtWidgets import (QPushButton, QFileDialog, QWidget, QLabel,
-                               QHBoxLayout, QToolButton, QSizePolicy, QApplication)
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import (QWidget, QLabel,
+                               QHBoxLayout, QSizePolicy)
 from qfluentwidgets import ExpandSettingCard, ConfigItem, FluentIconBase, PushButton, qconfig, LineEdit, TeachingTip, \
     InfoBarIcon, TeachingTipTailPosition, ToolButton, ToolTipFilter
 from qfluentwidgets import FluentIcon as Fi
@@ -69,7 +69,7 @@ class IgnoredSettingCard(ExpandSettingCard):
         self.new_ignored_input = LineEdit(self)
         self.add_ignored_button = PushButton(self.tr('Add'), self, Fi.ADD)
 
-        self.ignored = qconfig.get(config_item).copy()   # type:List[str]
+        self.ignored = qconfig.get(config_item).copy()  # type:List[str]
         self.ignored_cards = []
 
         self.__initWidget()
@@ -121,7 +121,7 @@ class IgnoredSettingCard(ExpandSettingCard):
         item.show()
         self._adjustViewSize()
 
-    def ignored_updated(self):
+    def __ignored_updated(self):
         ignore_backup = qconfig.get(self.config_item).copy()
 
         self.__clear_ignored()
@@ -130,7 +130,6 @@ class IgnoredSettingCard(ExpandSettingCard):
         for i in self.ignored:
             self.__add_ignored_item(i)
         qconfig.set(self.config_item, ignore_backup)
-
 
     # def __show_confirm_dialog(self, item: PostfixItem):
     #     """ show confirm dialog """
