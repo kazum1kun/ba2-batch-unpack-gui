@@ -8,9 +8,9 @@ from PySide6.QtWidgets import QApplication
 from qfluentwidgets import FluentIcon as Fi, NavigationItemPosition, FluentTranslator
 from qfluentwidgets import (SplitFluentWindow)
 
-from misc.Config import cfg
+from misc.Config import cfg, NEXUS_URL
 from view.MainScreen import MainScreen
-from view.SettingsScreen import SettingsScreen
+from view.SettingScreen import SettingsScreen
 
 
 class MainWindow(SplitFluentWindow):
@@ -27,8 +27,8 @@ class MainWindow(SplitFluentWindow):
         self.resize(1000, 700)
 
     def init_navigation(self):
-        self.addSubInterface(self.mainScreen, Fi.HOME, 'Main')
-        self.addSubInterface(self.settingsScreen, Fi.SETTING, 'Settings', NavigationItemPosition.BOTTOM)
+        self.addSubInterface(self.mainScreen, Fi.HOME, self.tr('Extraction'))
+        self.addSubInterface(self.settingsScreen, Fi.SETTING, self.tr('Settings'), NavigationItemPosition.BOTTOM)
 
     def init_window(self):
         self.setWindowTitle(u'Unpackrr')
@@ -50,11 +50,12 @@ if __name__ == '__main__':
     # internationalization
     locale = cfg.get(cfg.language).value
     fluentTranslator = FluentTranslator(locale)
-    settingTranslator = QTranslator()
-    settingTranslator.load(locale, "settings", ".", "resource/i18n")
-
     app.installTranslator(fluentTranslator)
-    app.installTranslator(settingTranslator)
+
+    if locale.language().name != 'English':
+        unpackrrTranslator = QTranslator()
+        unpackrrTranslator.load(locale, 'unpackrr', '.', 'resource/i18n')
+        app.installTranslator(unpackrrTranslator)
 
     # Required to display icons correctly
     app_id = 'unpackrr'

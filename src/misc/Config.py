@@ -28,10 +28,10 @@ class IntValidator(ConfigValidator):
 
 
 class Language(Enum):
-    AUTO = QLocale()
+    AUTO = QLocale().system()
     ENGLISH_US = QLocale(QLocale.Language.English, QLocale.Country.UnitedStates)
     CHINESE_SIMP = QLocale(QLocale.Language.Chinese, QLocale.Country.China)
-    CHINESE_TRAD = QLocale(QLocale.Language.Chinese, QLocale.Country.Taiwan)
+    CHINESE_TRAD = QLocale(QLocale.Language.Chinese, QLocale.Country.HongKong)
 
 
 class LanguageSerializer(ConfigSerializer):
@@ -65,12 +65,15 @@ class Config(QConfig):
         "Update", "CheckUpdateAtStartUp", True, BoolValidator())
 
 
-YEAR = datetime.date.today().year
-AUTHOR = "KazumaKuun / Southwest Codeworks"
-VERSION = 0.1
+YEAR = 2024
+AUTHOR = 'KazumaKuun / Southwest Codeworks'
+VERSION = '0.1.0'
 HELP_URL = "https://pyqt-fluent-widgets.readthedocs.io"
 FEEDBACK_URL = "https://github.com/zhiyiYo/PyQt-Fluent-Widgets/issues"
 RELEASE_URL = "https://github.com/zhiyiYo/PyQt-Fluent-Widgets/releases/latest"
+NEXUS_URL = ''
+GITHUB_URL = ''
+SWC_URL = ''
 
 cfg = Config()
 qconfig.load('config/config.json', cfg)

@@ -1,14 +1,16 @@
 from PySide6.QtCore import Qt, Signal, QUrl
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QWidget, QLabel, QApplication
-from qfluentwidgets import FluentIcon as Fi
+from qfluentwidgets import FluentIcon as Fi, PushSettingCard
 from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, HyperlinkCard, PrimaryPushSettingCard, ScrollArea,
                             ComboBoxSettingCard, ExpandLayout, Theme, InfoBar, CustomColorSettingCard,
                             setTheme, isDarkTheme)
 
 from misc.Config import cfg, HELP_URL, FEEDBACK_URL, AUTHOR, VERSION, YEAR
 from view.IgnoredSettingCard import IgnoredSettingCard
-from view.PostfixSettingsCard import PostfixSettingCard
+from view.PostfixSettingCard import PostfixSettingCard
+from view.AboutSettingCard import AboutSettingCard
+from view.CreditsWindow import CreditsWindow
 
 
 class SettingsScreen(ScrollArea):
@@ -100,34 +102,43 @@ class SettingsScreen(ScrollArea):
 
         # application
         self.aboutGroup = SettingCardGroup(self.tr('About'), self.scrollWidget)
+        self.aboutSettingCard = AboutSettingCard(self.aboutGroup)
+        # self.credits_card = PushSettingCard(
+        #     self.tr('Credits'),
+        #     Fi.HEART,
+        #     self.tr('View'),
+        #     self.tr('Acknowledgements to those who helped make Unpackrr possible'),
+        #     self.aboutGroup
+        # )
 
-        self.feedbackCard = PrimaryPushSettingCard(
-            self.tr('Provide feedback'),
-            Fi.FEEDBACK,
-            self.tr('Provide feedback'),
-            self.tr('Help us improve Unpackrr by providing feedback'),
-            self.aboutGroup
-        )
-
-        self.helpCard = HyperlinkCard(
-            HELP_URL,
-            self.tr('Open Nexus'),
-            Fi.INFO,
-            self.tr('Nexus'),
-            self.tr('Check out Unpackrr on Nexus'),
-            self.aboutGroup
-        )
-        self.aboutCard = HyperlinkCard(
-            '',
-            self.tr('Source code'),
-            Fi.GITHUB,
-            self.tr('About'),
-            '© ' + self.tr('Copyright') + f" {YEAR}, {AUTHOR}. " +
-            self.tr('Version') + f" {VERSION}",
-            self.aboutGroup
-        )
+        # self.feedbackCard = PrimaryPushSettingCard(
+        #     self.tr('Provide feedback'),
+        #     Fi.FEEDBACK,
+        #     self.tr('Provide feedback'),
+        #     self.tr('Help us improve Unpackrr by providing feedback'),
+        #     self.aboutGroup
+        # )
+        #
+        # self.helpCard = HyperlinkCard(
+        #     HELP_URL,
+        #     self.tr('Open Nexus'),
+        #     Fi.INFO,
+        #     self.tr('Nexus'),
+        #     self.tr('Check out Unpackrr on Nexus'),
+        #     self.aboutGroup
+        # )
+        # self.aboutCard = HyperlinkCard(
+        #     '',
+        #     self.tr('Source code'),
+        #     Fi.GITHUB,
+        #     self.tr('About'),
+        #     '© ' + self.tr('Copyright') + f" {YEAR}, {AUTHOR}. " +
+        #     self.tr('Version') + f" {VERSION}",
+        #     self.aboutGroup
+        # )
 
         self.pending_update = False
+        self.credits_window = None
 
         self.__init_widget()
 
@@ -161,9 +172,11 @@ class SettingsScreen(ScrollArea):
 
         self.updateSoftwareGroup.addSettingCard(self.updateOnStartUpCard)
 
-        self.aboutGroup.addSettingCard(self.helpCard)
-        self.aboutGroup.addSettingCard(self.feedbackCard)
-        self.aboutGroup.addSettingCard(self.aboutCard)
+        self.aboutGroup.addSettingCard(self.aboutSettingCard)
+        # self.aboutGroup.addSettingCard(self.credits_card)
+        # self.aboutGroup.addSettingCard(self.helpCard)
+        # self.aboutGroup.addSettingCard(self.feedbackCard)
+        # self.aboutGroup.addSettingCard(self.aboutCard)
 
         # add setting card group to layout
         self.expandLayout.setSpacing(28)
@@ -209,6 +222,14 @@ class SettingsScreen(ScrollArea):
         # chang the theme of setting interface
         self.__set_qss()
 
+    def __show_credits_window(self):
+        if not self.credits_window:
+            self.credits_window = CreditsWindow()
+            self.credits_window.show()
+        else:
+            self.credits_window.close()
+            self.credits_window = None
+
     def __connect_signal_to_slot(self):
         """ connect signal to slot """
         cfg.appRestartSig.connect(self.__show_restart_tooltip)
@@ -216,7 +237,8 @@ class SettingsScreen(ScrollArea):
 
         # about
         # self.aboutCard.clicked.connect(self.checkUpdateSig)
-        self.feedbackCard.clicked.connect(
+        self.aboutSettingCard.feedback_button.clicked.connect(
             lambda: QDesktopServices.openUrl(QUrl(FEEDBACK_URL)))
+        self.credits_card.clicked.connect(self.__show_credits_window)
 
         QApplication.instance().ignore_changed.connect(self.notify_ignore)

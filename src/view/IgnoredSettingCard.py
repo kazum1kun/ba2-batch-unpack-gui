@@ -121,7 +121,7 @@ class IgnoredSettingCard(ExpandSettingCard):
         item.show()
         self._adjustViewSize()
 
-    def __ignored_updated(self):
+    def ignored_updated(self):
         ignore_backup = qconfig.get(self.config_item).copy()
 
         self.__clear_ignored()

@@ -1,8 +1,9 @@
 import os.path
 
+from PySide6.QtCore import QSortFilterProxyModel
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog, QHeaderView, QBoxLayout
 from qfluentwidgets import FluentIcon as Fi, TableView, PrimaryPushButton, \
-    StrongBodyLabel, RoundMenu, Action
+    StrongBodyLabel, RoundMenu, Action, qconfig
 from qfluentwidgets import (SubtitleLabel, LineEdit, ToolButton,
                             TogglePushButton, ToolTipFilter)
 
@@ -62,7 +63,7 @@ class MainScreen(QFrame):
 
         # Hint on top of the preview table
         self.preview_hint_layout = QBoxLayout(QBoxLayout.Direction.LeftToRight, self.preview_table)
-        self.preview_hint = SubtitleLabel('Select or drag \'n drop a folder here to get started', self)
+        self.preview_hint = SubtitleLabel(self.tr('Select or drag \'n drop a folder here to get started'), self)
         self.preview_hint.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # File related
@@ -85,7 +86,7 @@ class MainScreen(QFrame):
 
         # Folder chooser
         self.folder_layout_inner.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        self.folder_input.setPlaceholderText(self.tr('Fallout 4 mod directory'))
+        self.folder_input.setPlaceholderText(self.tr('Fallout 4 mod folder'))
         # Open a folder chooser when clicking
         self.folder_button.clicked.connect(self.__open_folder)
 
@@ -196,7 +197,7 @@ class MainScreen(QFrame):
             self.processor.start()
 
     def __open_folder(self):
-        self.folder_input.setText(QFileDialog.getExistingDirectory(self, self.tr('Open your Fallout 4 mod directory'),
+        self.folder_input.setText(QFileDialog.getExistingDirectory(self, self.tr('Open your Fallout 4 mod folder'),
                                                                    options=QFileDialog.Option.ShowDirsOnly |
                                                                            QFileDialog.Option.DontResolveSymlinks))
         self.__process_folder()
