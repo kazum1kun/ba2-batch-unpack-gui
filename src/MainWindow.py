@@ -27,6 +27,7 @@ class MainWindow(SplitFluentWindow):
         self.resize(1000, 700)
 
     def init_navigation(self):
+        self.navigationInterface.setReturnButtonVisible(False)
         self.addSubInterface(self.mainScreen, Fi.HOME, self.tr('Extraction'))
         self.addSubInterface(self.settingsScreen, Fi.SETTING, self.tr('Settings'), NavigationItemPosition.BOTTOM)
 

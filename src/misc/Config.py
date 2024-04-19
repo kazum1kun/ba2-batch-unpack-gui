@@ -69,10 +69,9 @@ YEAR = 2024
 AUTHOR = 'KazumaKuun / Southwest Codeworks'
 VERSION = '0.1.0'
 HELP_URL = "https://pyqt-fluent-widgets.readthedocs.io"
-FEEDBACK_URL = "https://github.com/zhiyiYo/PyQt-Fluent-Widgets/issues"
-RELEASE_URL = "https://github.com/zhiyiYo/PyQt-Fluent-Widgets/releases/latest"
 NEXUS_URL = ''
-GITHUB_URL = ''
+GITHUB_URL = 'https://github.com/kazum1kun/ba2-batch-unpack-gui'
+CREDITS_URL = 'https://github.com/kazum1kun/ba2-batch-unpack-gui/blob/master/CREDITS.md'
 SWC_URL = ''
 
 cfg = Config()

@@ -6,11 +6,10 @@ from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, HyperlinkCard, 
                             ComboBoxSettingCard, ExpandLayout, Theme, InfoBar, CustomColorSettingCard,
                             setTheme, isDarkTheme)
 
-from misc.Config import cfg, HELP_URL, FEEDBACK_URL, AUTHOR, VERSION, YEAR
+from misc.Config import cfg, HELP_URL, CREDITS_URL, AUTHOR, VERSION, YEAR
 from view.IgnoredSettingCard import IgnoredSettingCard
 from view.PostfixSettingCard import PostfixSettingCard
 from view.AboutSettingCard import AboutSettingCard
-from view.CreditsWindow import CreditsWindow
 
 
 class SettingsScreen(ScrollArea):
@@ -103,13 +102,15 @@ class SettingsScreen(ScrollArea):
         # application
         self.aboutGroup = SettingCardGroup(self.tr('About'), self.scrollWidget)
         self.aboutSettingCard = AboutSettingCard(self.aboutGroup)
-        # self.credits_card = PushSettingCard(
-        #     self.tr('Credits'),
-        #     Fi.HEART,
-        #     self.tr('View'),
-        #     self.tr('Acknowledgements to those who helped make Unpackrr possible'),
-        #     self.aboutGroup
-        # )
+
+        self.credits_card = HyperlinkCard(
+            CREDITS_URL,
+            self.tr('View'),
+            Fi.HEART,
+            self.tr('Credits'),
+            self.tr('Acknowledgements to those who helped make Unpackrr possible'),
+            self.aboutGroup
+        )
 
         # self.feedbackCard = PrimaryPushSettingCard(
         #     self.tr('Provide feedback'),
@@ -173,7 +174,7 @@ class SettingsScreen(ScrollArea):
         self.updateSoftwareGroup.addSettingCard(self.updateOnStartUpCard)
 
         self.aboutGroup.addSettingCard(self.aboutSettingCard)
-        # self.aboutGroup.addSettingCard(self.credits_card)
+        self.aboutGroup.addSettingCard(self.credits_card)
         # self.aboutGroup.addSettingCard(self.helpCard)
         # self.aboutGroup.addSettingCard(self.feedbackCard)
         # self.aboutGroup.addSettingCard(self.aboutCard)
@@ -239,6 +240,5 @@ class SettingsScreen(ScrollArea):
         # self.aboutCard.clicked.connect(self.checkUpdateSig)
         self.aboutSettingCard.feedback_button.clicked.connect(
             lambda: QDesktopServices.openUrl(QUrl(FEEDBACK_URL)))
-        self.credits_card.clicked.connect(self.__show_credits_window)
 
         QApplication.instance().ignore_changed.connect(self.notify_ignore)
