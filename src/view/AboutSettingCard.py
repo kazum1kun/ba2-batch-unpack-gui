@@ -17,7 +17,7 @@ class AboutSettingCard(ExpandGroupSettingCard):
 
         # Feedback
         self.feedback_label = BodyLabel(self.tr('Provide feedback'), self)
-        self.feedback_button = PrimaryPushButton(self.tr('Feedback'))
+        self.feedback_button = PrimaryPushButton(self.tr('Feedback'), self)
 
         # Nexus
         self.nexus_label = BodyLabel(self.tr('Unpackrr on Nexus'), self)

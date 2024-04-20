@@ -13,7 +13,6 @@ def show_result_toast(results, _type='scan'):
         verb = QApplication.translate('InfoBar', 'scanning')
     else:
         verb = QApplication.translate('InfoBar', 'extracting')
-    # fail_message = __tr(f'Finished {verb} ba2. Could not open {num_fail} files')
     fail_message = QApplication.translate(
         'InfoBar', 'Finished {0} ba2. Could not open {1} files').format(verb, num_fail)
     if auto_ignore:
@@ -45,7 +44,6 @@ def show_result_toast(results, _type='scan'):
     else:
         if _type == 'scan':
             success_title = QApplication.translate('InfoBar', 'Ready')
-            # success_message = __tr(f'Finished scanning ba2. Processed {num_success} files.')
             success_message = QApplication.translate(
                 'InfoBar', 'Finished scanning ba2. Processed {0} files.').format(num_success)
             num_ignored = results[3]

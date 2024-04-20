@@ -1,4 +1,3 @@
-import datetime
 from enum import Enum
 
 from PySide6.QtCore import QLocale
@@ -68,7 +67,7 @@ class Config(QConfig):
 YEAR = 2024
 AUTHOR = 'KazumaKuun / Southwest Codeworks'
 VERSION = '0.1.0'
-HELP_URL = "https://pyqt-fluent-widgets.readthedocs.io"
+FEEDBACK_URL = ''
 NEXUS_URL = ''
 GITHUB_URL = 'https://github.com/kazum1kun/ba2-batch-unpack-gui'
 CREDITS_URL = 'https://github.com/kazum1kun/ba2-batch-unpack-gui/blob/master/CREDITS.md'

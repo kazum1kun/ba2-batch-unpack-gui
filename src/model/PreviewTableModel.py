@@ -63,10 +63,7 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
         if not index.isValid():
             return None
 
-        if index.column() == 4:
-            return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsUserCheckable
-        else:
-            return Qt.ItemIsEnabled | Qt.ItemIsSelectable
+        return Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable
 
     def rowCount(self, _parent=None):
         # The length of the outer list.

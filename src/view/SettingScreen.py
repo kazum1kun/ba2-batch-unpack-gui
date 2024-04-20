@@ -1,15 +1,15 @@
 from PySide6.QtCore import Qt, Signal, QUrl
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QWidget, QLabel, QApplication
-from qfluentwidgets import FluentIcon as Fi, PushSettingCard
-from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, HyperlinkCard, PrimaryPushSettingCard, ScrollArea,
+from qfluentwidgets import FluentIcon as Fi
+from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, HyperlinkCard, ScrollArea,
                             ComboBoxSettingCard, ExpandLayout, Theme, InfoBar, CustomColorSettingCard,
                             setTheme, isDarkTheme)
 
-from misc.Config import cfg, HELP_URL, CREDITS_URL, AUTHOR, VERSION, YEAR
+from misc.Config import cfg, FEEDBACK_URL, CREDITS_URL
+from view.AboutSettingCard import AboutSettingCard
 from view.IgnoredSettingCard import IgnoredSettingCard
 from view.PostfixSettingCard import PostfixSettingCard
-from view.AboutSettingCard import AboutSettingCard
 
 
 class SettingsScreen(ScrollArea):
@@ -222,14 +222,6 @@ class SettingsScreen(ScrollArea):
 
         # chang the theme of setting interface
         self.__set_qss()
-
-    def __show_credits_window(self):
-        if not self.credits_window:
-            self.credits_window = CreditsWindow()
-            self.credits_window.show()
-        else:
-            self.credits_window.close()
-            self.credits_window = None
 
     def __connect_signal_to_slot(self):
         """ connect signal to slot """

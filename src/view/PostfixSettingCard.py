@@ -24,13 +24,13 @@ class PostfixItem(QWidget):
         self.remove_button.setIconSize(QSize(12, 12))
 
         self.setFixedHeight(53)
-        self.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Fixed)
+        self.setSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Fixed)
         self.item_layout.setContentsMargins(48, 0, 60, 0)
-        self.item_layout.addWidget(self.postfix_label, 0, Qt.AlignLeft)
+        self.item_layout.addWidget(self.postfix_label, 0, Qt.AlignmentFlag.AlignLeft)
         self.item_layout.addSpacing(16)
         self.item_layout.addStretch(1)
-        self.item_layout.addWidget(self.remove_button, 0, Qt.AlignRight)
-        self.item_layout.setAlignment(Qt.AlignVCenter)
+        self.item_layout.addWidget(self.remove_button, 0, Qt.AlignmentFlag.AlignRight)
+        self.item_layout.setAlignment(Qt.AlignmentFlag.AlignVCenter)
 
         self.remove_button.clicked.connect(
             lambda: self.removed.emit(self))
@@ -81,7 +81,7 @@ class PostfixSettingCard(ExpandSettingCard):
         self.addWidget(self.add_postfix_button)
 
         self.viewLayout.setSpacing(0)
-        self.viewLayout.setAlignment(Qt.AlignTop)
+        self.viewLayout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.viewLayout.setContentsMargins(0, 0, 0, 0)
         for postfix in self.postfixes:
             self.__add_postfix_item(postfix)
@@ -112,17 +112,6 @@ class PostfixSettingCard(ExpandSettingCard):
         item.show()
         self.postfixes_cards.append(item)
         self._adjustViewSize()
-
-    # def __show_confirm_dialog(self, item: PostfixItem):
-    #     """ show confirm dialog """
-    #     name = Path(item.folder).name
-    #     title = self.tr('Are you sure you want to delete the folder?')
-    #     content = self.tr("If you delete the ") + f'"{name}"' + \
-    #         self.tr(" folder and remove it from the list, the folder will no "
-    #                 "longer appear in the list, but will not be deleted.")
-    #     w = Dialog(title, content, self.window())
-    #     w.yesSignal.connect(lambda: self.__removeFolder(item))
-    #     w.exec_()
 
     def __remove_postfix(self, item: PostfixItem):
         """ remove folder """

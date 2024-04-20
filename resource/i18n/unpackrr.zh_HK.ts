@@ -77,22 +77,22 @@
         <translation>被忽略檔案</translation>
     </message>
     <message>
-        <location filename="../../src/view/IgnoredSettingCard.py" line="167"/>
+        <location filename="../../src/view/IgnoredSettingCard.py" line="156"/>
         <source>Check your input</source>
         <translation>請更正輸入</translation>
     </message>
     <message>
-        <location filename="../../src/view/IgnoredSettingCard.py" line="168"/>
+        <location filename="../../src/view/IgnoredSettingCard.py" line="157"/>
         <source>Please enter something</source>
         <translation>請輸入內容</translation>
     </message>
     <message>
-        <location filename="../../src/view/IgnoredSettingCard.py" line="179"/>
+        <location filename="../../src/view/IgnoredSettingCard.py" line="168"/>
         <source>Duplicate</source>
         <translation>重複項</translation>
     </message>
     <message>
-        <location filename="../../src/view/IgnoredSettingCard.py" line="180"/>
+        <location filename="../../src/view/IgnoredSettingCard.py" line="169"/>
         <source>Your input is a duplicate of an existing ignore</source>
         <translation>您的輸入與現有的被忽略檔重複</translation>
     </message>
@@ -110,7 +110,7 @@
         <translation>ba2 {0}完畢。{1} 个檔案無法打開</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="17"/>
+        <location filename="../../src/prefab/InfoBar.py" line="16"/>
         <source>extracting</source>
         <translation>提取</translation>
     </message>
@@ -154,7 +154,7 @@ Extracted {0} files.</source>
         <translation>詳細資訊</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="48"/>
+        <location filename="../../src/prefab/InfoBar.py" line="47"/>
         <source>Ready</source>
         <translation>準備就緒</translation>
     </message>
@@ -164,17 +164,17 @@ Extracted {0} files.</source>
         <translation>ba2 掃描完畢。讀取了 {0} 個檔案。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="51"/>
+        <location filename="../../src/prefab/InfoBar.py" line="52"/>
         <source> Skipped {0} ignored files.</source>
         <translation>跳過了 {0} 被忽略的檔案。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="54"/>
+        <location filename="../../src/prefab/InfoBar.py" line="55"/>
         <source>All set</source>
         <translation>完成</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="54"/>
+        <location filename="../../src/prefab/InfoBar.py" line="56"/>
         <source>Finished extracting ba2. Extracted {0} files.</source>
         <translation>ba2 解壓縮完畢。提取了 {0} 個檔案。</translation>
     </message>
@@ -182,43 +182,43 @@ Extracted {0} files.</source>
 <context>
     <name>MainScreen</name>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="34"/>
+        <location filename="../../src/view/MainScreen.py" line="23"/>
         <source>Extraction setup</source>
         <translation>提取設定</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="40"/>
-        <location filename="../../src/view/MainScreen.py" line="89"/>
+        <location filename="../../src/view/MainScreen.py" line="29"/>
+        <location filename="../../src/view/MainScreen.py" line="77"/>
         <source>Fallout 4 mod folder</source>
         <translation>異塵餘生4 mod 資料夾</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="48"/>
+        <location filename="../../src/view/MainScreen.py" line="37"/>
         <source>Extraction size threshold</source>
         <translation>檔案大小閾值</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="50"/>
+        <location filename="../../src/view/MainScreen.py" line="39"/>
         <source>Auto</source>
         <translation>自動</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="54"/>
+        <location filename="../../src/view/MainScreen.py" line="43"/>
         <source>Start</source>
         <translation>開始提取</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="57"/>
+        <location filename="../../src/view/MainScreen.py" line="46"/>
         <source>Preview</source>
         <translation>預覽</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="66"/>
+        <location filename="../../src/view/MainScreen.py" line="55"/>
         <source>Select or drag &apos;n drop a folder here to get started</source>
         <translation>選擇或拖放資料夾到此處</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="107"/>
+        <location filename="../../src/view/MainScreen.py" line="95"/>
         <source>Automatically attempts to determine a
 threshold so just enough ba2 are
 extracted to get under the ba2 limit</source>
@@ -226,32 +226,32 @@ extracted to get under the ba2 limit</source>
 夠多的 ba2，讓遊戲降到 ba2 上限內</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="200"/>
+        <location filename="../../src/view/MainScreen.py" line="187"/>
         <source>Open your Fallout 4 mod folder</source>
         <translation>打開您的異塵餘生4 mod 資料夾</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="100"/>
+        <location filename="../../src/view/MainScreen.py" line="88"/>
         <source>Threshold</source>
         <translation>閾值</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="289"/>
+        <location filename="../../src/view/MainScreen.py" line="276"/>
         <source>Ignore</source>
         <translation>忽略</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="290"/>
+        <location filename="../../src/view/MainScreen.py" line="277"/>
         <source>Open</source>
         <translation>打開</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="318"/>
+        <location filename="../../src/view/MainScreen.py" line="305"/>
         <source>Drop your Fallout 4 mod folder here</source>
         <translation>將您的異塵餘生4 mod 資料夾拖放到此處</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="325"/>
+        <location filename="../../src/view/MainScreen.py" line="312"/>
         <source>Select a folder to get started</source>
         <translation>選擇一個資料夾即可開始</translation>
     </message>
@@ -277,28 +277,28 @@ extracted to get under the ba2 limit</source>
         <translation>無法載入下列檔案</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/MessageBox.py" line="8"/>
-        <location filename="../../src/prefab/MessageBox.py" line="24"/>
+        <location filename="../../src/prefab/MessageBox.py" line="10"/>
+        <location filename="../../src/prefab/MessageBox.py" line="28"/>
         <source>Ok</source>
         <translation>確定</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/MessageBox.py" line="9"/>
+        <location filename="../../src/prefab/MessageBox.py" line="11"/>
         <source>Copy to clipboard</source>
         <translation>複製到剪貼簿</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/MessageBox.py" line="19"/>
+        <location filename="../../src/prefab/MessageBox.py" line="21"/>
         <source>No unpacking necessary</source>
         <translation>無需提取檔案</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/MessageBox.py" line="21"/>
+        <location filename="../../src/prefab/MessageBox.py" line="25"/>
         <source>It appears that you are not over the ba2 limit (yet). No ba2 unpacking is necessary. To proceed please manually set a threshold.</source>
         <translation>您似乎（暫時）尚未超過 ba2 上限，無需提取 ba2 檔案。 若仍要進行提取，請手動設定一個閾值。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/MessageBox.py" line="26"/>
+        <location filename="../../src/prefab/MessageBox.py" line="30"/>
         <source>Exit Unpackrr</source>
         <translation>退出 Unpackrr</translation>
     </message>
@@ -321,22 +321,22 @@ extracted to get under the ba2 limit</source>
         <translation>重設為預設值</translation>
     </message>
     <message>
-        <location filename="../../src/view/PostfixSettingCard.py" line="153"/>
+        <location filename="../../src/view/PostfixSettingCard.py" line="142"/>
         <source>Check your input</source>
         <translation>請更正輸入</translation>
     </message>
     <message>
-        <location filename="../../src/view/PostfixSettingCard.py" line="154"/>
+        <location filename="../../src/view/PostfixSettingCard.py" line="143"/>
         <source>Make sure your input contains &quot;.ba2&quot; in the end</source>
         <translation>確保您的輸入末尾包含“.ba2”</translation>
     </message>
     <message>
-        <location filename="../../src/view/PostfixSettingCard.py" line="165"/>
+        <location filename="../../src/view/PostfixSettingCard.py" line="154"/>
         <source>Duplicate</source>
         <translation>重複項</translation>
     </message>
     <message>
-        <location filename="../../src/view/PostfixSettingCard.py" line="166"/>
+        <location filename="../../src/view/PostfixSettingCard.py" line="155"/>
         <source>Your input is a duplicate of an existing postfix</source>
         <translation>您的輸入與現有檔案後綴重複</translation>
     </message>

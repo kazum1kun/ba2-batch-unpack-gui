@@ -8,7 +8,7 @@ from PySide6.QtWidgets import QApplication
 from qfluentwidgets import FluentIcon as Fi, NavigationItemPosition, FluentTranslator
 from qfluentwidgets import (SplitFluentWindow)
 
-from misc.Config import cfg, NEXUS_URL
+from misc.Config import cfg
 from view.MainScreen import MainScreen
 from view.SettingScreen import SettingsScreen
 

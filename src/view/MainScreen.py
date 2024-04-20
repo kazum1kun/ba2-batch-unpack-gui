@@ -19,17 +19,6 @@ class MainScreen(QFrame):
         self.setObjectName('MainScreen')
         self.layout = QVBoxLayout(self)
 
-        # Title of the app
-        # self.title_label = LargeTitleLabel('Unpackerr', self)
-
-        # # Subtitles
-        # self.subtitle_layout = QHBoxLayout(self)
-        #
-        # self.subtitle_label_1 = CaptionLabel(' by KazumaKuun | ', self)
-        # self.subtitle_label_2 = HyperlinkLabel(QUrl('https://www.nexusmods.com/fallout4/mods/1'), 'Nexus')
-        # self.subtitle_label_3 = CaptionLabel(' | ', self)
-        # self.subtitle_label_4 = HyperlinkLabel(QUrl('https://github.com/kazum1kun/ba2-batch-unpack'), 'GitHub')
-
         # Subsection Setup
         self.setup_title = SubtitleLabel(self.tr('Extraction setup'), self)
         self.setup_layout = QHBoxLayout(self)
@@ -79,7 +68,6 @@ class MainScreen(QFrame):
 
     def __setup_interface(self):
         self.layout.setAlignment(Qt.AlignmentFlag.AlignTop)
-        # self.layout.addWidget(self.title_label, 0, Qt.AlignmentFlag.AlignLeft)
 
         # Setup section
         self.layout.addWidget(self.setup_title, 0, Qt.AlignmentFlag.AlignLeft)
@@ -190,7 +178,6 @@ class MainScreen(QFrame):
             self.processor = BsaProcessor(selected_folder, self)
 
             self.preview_hint.setHidden(True)
-            # self.show_progress_persistent()
 
             self.processor.done_processing.connect(show_result_toast)
             self.processor.finished.connect(self.__done_loading_ba2)
@@ -199,7 +186,7 @@ class MainScreen(QFrame):
     def __open_folder(self):
         self.folder_input.setText(QFileDialog.getExistingDirectory(self, self.tr('Open your Fallout 4 mod folder'),
                                                                    options=QFileDialog.Option.ShowDirsOnly |
-                                                                           QFileDialog.Option.DontResolveSymlinks))
+                                                                   QFileDialog.Option.DontResolveSymlinks))
         self.__process_folder()
 
     def __extract_files(self):
