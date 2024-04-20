@@ -108,7 +108,7 @@ class SettingsScreen(ScrollArea):
             self.tr('View'),
             Fi.HEART,
             self.tr('Credits'),
-            self.tr('Acknowledgements to those who helped make Unpackrr possible'),
+            self.tr('Open source software that made Unpackrr possible'),
             self.aboutGroup
         )
 

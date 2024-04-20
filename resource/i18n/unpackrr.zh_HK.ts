@@ -1,119 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_HK">
-<context>
-    <name></name>
-    <message>
-        <location filename="../../src/prefab/InfoBar.py" line="18"/>
-        <source>scanning</source>
-        <translation>掃描</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/InfoBar.py" line="20"/>
-        <source>extracting</source>
-        <translation>提取</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/InfoBar.py" line="22"/>
-        <source>Finished {verb} ba2. Could not open {num_fail} files</source>
-        <translation>ba2 {verb}完畢。{num_fail} 个檔案無法打開</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/InfoBar.py" line="24"/>
-        <source> and they will be ignored in the future.</source>
-        <translation>，已將其自動忽略。</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/InfoBar.py" line="26"/>
-        <source>.</source>
-        <translation>。</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/InfoBar.py" line="28"/>
-        <source>
-Processed {num_success} files.</source>
-        <translation>
-讀取了 {num_success} 個檔案。</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/InfoBar.py" line="31"/>
-        <source>
-Extracted {num_success} files.</source>
-        <translation>
-提取了 {num_success} 個檔案。</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/InfoBar.py" line="33"/>
-        <source>Failed to load some files</source>
-        <translation>無法載入部分檔案</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/InfoBar.py" line="35"/>
-        <source>Failed to extract some files</source>
-        <translation>無法提取部分檔案</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/InfoBar.py" line="44"/>
-        <source>Details</source>
-        <translation>詳細資訊</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/InfoBar.py" line="51"/>
-        <source>Ready</source>
-        <translation>準備就緒</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/InfoBar.py" line="52"/>
-        <source>Finished scanning ba2. Processed {num_success} files.</source>
-        <translation>ba2 掃描完畢。 讀取了 {num_success} 個檔案。</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/InfoBar.py" line="55"/>
-        <source> Skipped {num_ignored} ignored files.</source>
-        <translation>跳過了 {num_ignored} 被忽略的檔案。</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/InfoBar.py" line="57"/>
-        <source>All set</source>
-        <translation>完成</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/InfoBar.py" line="58"/>
-        <source>Finished extracting ba2. Extracted {num_success} files.</source>
-        <translation>ba2 解壓縮完畢。提取了 {num_success} 個檔案。</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/MessageBox.py" line="11"/>
-        <source>The following files could not be loaded</source>
-        <translation>無法載入下列檔案</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/MessageBox.py" line="12"/>
-        <location filename="../../src/prefab/MessageBox.py" line="28"/>
-        <source>Ok</source>
-        <translation>確定</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/MessageBox.py" line="13"/>
-        <source>Copy to clipboard</source>
-        <translation>複製到剪貼簿</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/MessageBox.py" line="23"/>
-        <source>No unpacking necessary</source>
-        <translation>無需提取檔案</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/MessageBox.py" line="25"/>
-        <source>It appears that you are not over the ba2 limit (yet). No ba2 unpacking is necessary. To proceed please manually set a threshold.</source>
-        <translation>您似乎（暫時）尚未超過 ba2 上限，無需提取 ba2 檔案。 若仍要進行提取，請手動設定一個閾值。</translation>
-    </message>
-    <message>
-        <location filename="../../src/prefab/MessageBox.py" line="30"/>
-        <source>Exit Unpackrr</source>
-        <translation>退出 Unpackrr</translation>
-    </message>
-</context>
+<TS version="2.1" language="zh_HK" sourcelanguage="en_US">
 <context>
     <name>AboutSettingCard</name>
     <message>
@@ -211,6 +98,88 @@ Extracted {num_success} files.</source>
     </message>
 </context>
 <context>
+    <name>InfoBar</name>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="14"/>
+        <source>scanning</source>
+        <translation>掃描</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="17"/>
+        <source>Finished {0} ba2. Could not open {1} files</source>
+        <translation>ba2 {0}完畢。{1} 个檔案無法打開</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="17"/>
+        <source>extracting</source>
+        <translation>提取</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="20"/>
+        <source> and they will be ignored in the future.</source>
+        <translation>，已將其自動忽略。</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="22"/>
+        <source>.</source>
+        <translation>。</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="23"/>
+        <source>
+Processed {0} files.</source>
+        <translation>
+讀取了 {0} 個檔案。</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="25"/>
+        <source>
+Extracted {0} files.</source>
+        <translation>
+提取了 {0} 個檔案。</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="29"/>
+        <source>Failed to load some files</source>
+        <translation>無法載入部分檔案</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="31"/>
+        <source>Failed to extract some files</source>
+        <translation>無法提取部分檔案</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="40"/>
+        <source>Details</source>
+        <translation>詳細資訊</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="48"/>
+        <source>Ready</source>
+        <translation>準備就緒</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="48"/>
+        <source>Finished scanning ba2. Processed {0} files.</source>
+        <translation>ba2 掃描完畢。讀取了 {0} 個檔案。</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="51"/>
+        <source> Skipped {0} ignored files.</source>
+        <translation>跳過了 {0} 被忽略的檔案。</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="54"/>
+        <source>All set</source>
+        <translation>完成</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="54"/>
+        <source>Finished extracting ba2. Extracted {0} files.</source>
+        <translation>ba2 解壓縮完畢。提取了 {0} 個檔案。</translation>
+    </message>
+</context>
+<context>
     <name>MainScreen</name>
     <message>
         <location filename="../../src/view/MainScreen.py" line="34"/>
@@ -249,30 +218,22 @@ Extracted {num_success} files.</source>
         <translation>選擇或拖放資料夾到此處</translation>
     </message>
     <message>
+        <location filename="../../src/view/MainScreen.py" line="107"/>
+        <source>Automatically attempts to determine a
+threshold so just enough ba2 are
+extracted to get under the ba2 limit</source>
+        <translation>嘗試自動選擇一個閾值，以便提取正好
+夠多的 ba2，讓遊戲降到 ba2 上限內</translation>
+    </message>
+    <message>
         <location filename="../../src/view/MainScreen.py" line="200"/>
         <source>Open your Fallout 4 mod folder</source>
         <translation>打開您的異塵餘生4 mod 資料夾</translation>
     </message>
     <message>
-        <source>Fallout 4 mod directory</source>
-        <translation type="vanished">異塵餘生4 mod 資料夾</translation>
-    </message>
-    <message>
         <location filename="../../src/view/MainScreen.py" line="100"/>
         <source>Threshold</source>
         <translation>閾值</translation>
-    </message>
-    <message>
-        <location filename="../../src/view/MainScreen.py" line="107"/>
-        <source>Automatically attempts to determine a
-threshold so just enough BA2 are
-extracted to get under the BA2 limit</source>
-        <translation>嘗試自動選擇一個閾值以便提取正好
-夠多的 BA2，讓遊戲降到 BA2 上限內</translation>
-    </message>
-    <message>
-        <source>Open your Fallout 4 mod directory</source>
-        <translation type="vanished">打開您的異塵餘生4 mod 資料夾</translation>
     </message>
     <message>
         <location filename="../../src/view/MainScreen.py" line="289"/>
@@ -298,14 +259,48 @@ extracted to get under the BA2 limit</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/MainWindow.py" line="30"/>
+        <location filename="../../src/MainWindow.py" line="31"/>
         <source>Extraction</source>
         <translation>提取</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.py" line="31"/>
+        <location filename="../../src/MainWindow.py" line="32"/>
         <source>Settings</source>
         <translation>設定</translation>
+    </message>
+</context>
+<context>
+    <name>MassageBox</name>
+    <message>
+        <location filename="../../src/prefab/MessageBox.py" line="7"/>
+        <source>The following files could not be loaded</source>
+        <translation>無法載入下列檔案</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/MessageBox.py" line="8"/>
+        <location filename="../../src/prefab/MessageBox.py" line="24"/>
+        <source>Ok</source>
+        <translation>確定</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/MessageBox.py" line="9"/>
+        <source>Copy to clipboard</source>
+        <translation>複製到剪貼簿</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/MessageBox.py" line="19"/>
+        <source>No unpacking necessary</source>
+        <translation>無需提取檔案</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/MessageBox.py" line="21"/>
+        <source>It appears that you are not over the ba2 limit (yet). No ba2 unpacking is necessary. To proceed please manually set a threshold.</source>
+        <translation>您似乎（暫時）尚未超過 ba2 上限，無需提取 ba2 檔案。 若仍要進行提取，請手動設定一個閾值。</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/MessageBox.py" line="26"/>
+        <source>Exit Unpackrr</source>
+        <translation>退出 Unpackrr</translation>
     </message>
 </context>
 <context>
@@ -372,162 +367,145 @@ extracted to get under the BA2 limit</source>
 <context>
     <name>SettingsScreen</name>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="28"/>
+        <location filename="../../src/view/SettingScreen.py" line="27"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="32"/>
+        <location filename="../../src/view/SettingScreen.py" line="31"/>
         <source>Extraction</source>
         <translation>提取</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="37"/>
+        <location filename="../../src/view/SettingScreen.py" line="36"/>
         <source>Postfixes</source>
         <translation>檔案後綴</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="39"/>
+        <location filename="../../src/view/SettingScreen.py" line="38"/>
         <source>File postfixes to extract from. Example: &quot;main.ba2&quot; matches files like
 &quot;xyzmod - Main.ba2&quot; and &quot;abcmod - main.BA2&quot;. Must end in &quot;.ba2&quot;</source>
         <translation>將提取以下後綴結尾的檔案。 例如 “main.ba2” 會匹配 “xyzmod - Main.ba2”
 以及 “abcmod - main.BA2” 等檔案。 必須以 ”.ba2“ 結尾</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="45"/>
+        <location filename="../../src/view/SettingScreen.py" line="44"/>
         <source>Ignored files</source>
         <translation>已忽略文件</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="46"/>
+        <location filename="../../src/view/SettingScreen.py" line="45"/>
         <source>Any file with filename containing them will not be extracted</source>
         <translation>任何包括這些被忽略項的檔案將不會被提取</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="51"/>
+        <location filename="../../src/view/SettingScreen.py" line="50"/>
         <source>Ignore bad files</source>
         <translation>忽略損壞檔案</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="52"/>
+        <location filename="../../src/view/SettingScreen.py" line="51"/>
         <source>Automatically ignore ba2 files that cannot be opened</source>
         <translation>自動忽略無法開啟的 ba2 檔案</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="58"/>
+        <location filename="../../src/view/SettingScreen.py" line="57"/>
         <source>Automatic backup</source>
         <translation>自動備份</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="59"/>
+        <location filename="../../src/view/SettingScreen.py" line="58"/>
         <source>Automatically back up ba2 files extracted</source>
         <translation>自動備份提取過的 ba2 檔案</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="65"/>
+        <location filename="../../src/view/SettingScreen.py" line="64"/>
         <source>Personalization</source>
         <translation>個人化</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="69"/>
+        <location filename="../../src/view/SettingScreen.py" line="68"/>
         <source>Theme</source>
         <translation>主題</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="70"/>
+        <location filename="../../src/view/SettingScreen.py" line="69"/>
         <source>Change the theme of the app</source>
         <translation>改變程式的主題</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="72"/>
+        <location filename="../../src/view/SettingScreen.py" line="71"/>
         <source>Light</source>
         <translation>淺色</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="72"/>
+        <location filename="../../src/view/SettingScreen.py" line="71"/>
         <source>Dark</source>
         <translation>深色</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="74"/>
-        <location filename="../../src/view/SettingScreen.py" line="89"/>
+        <location filename="../../src/view/SettingScreen.py" line="73"/>
+        <location filename="../../src/view/SettingScreen.py" line="88"/>
         <source>Use system setting</source>
         <translation>使用系統設定</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="80"/>
+        <location filename="../../src/view/SettingScreen.py" line="79"/>
         <source>Color</source>
         <translation>主題色</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="81"/>
+        <location filename="../../src/view/SettingScreen.py" line="80"/>
         <source>Change the theme color of the app</source>
         <translation>改變程式的主題色</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="87"/>
+        <location filename="../../src/view/SettingScreen.py" line="86"/>
         <source>Language</source>
         <translation>語言</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="88"/>
+        <location filename="../../src/view/SettingScreen.py" line="87"/>
         <source>Select your preferred language</source>
         <translation>選擇您的首選語言</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="94"/>
+        <location filename="../../src/view/SettingScreen.py" line="93"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="97"/>
+        <location filename="../../src/view/SettingScreen.py" line="96"/>
         <source>Check for updates</source>
         <translation>檢查更新</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="98"/>
+        <location filename="../../src/view/SettingScreen.py" line="97"/>
         <source>Automatically check and notify you of updates</source>
         <translation>自動偵測並提示軟體更新</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="104"/>
+        <location filename="../../src/view/SettingScreen.py" line="103"/>
         <source>About</source>
         <translation>關於</translation>
     </message>
     <message>
-        <source>Provide feedback</source>
-        <translation type="vanished">提交回饋</translation>
+        <location filename="../../src/view/SettingScreen.py" line="108"/>
+        <source>View</source>
+        <translation>查看</translation>
     </message>
     <message>
-        <source>Help us improve Unpackrr by providing feedback</source>
-        <translation type="vanished">提交回饋來幫助我們改進 Unpackrr</translation>
+        <location filename="../../src/view/SettingScreen.py" line="110"/>
+        <source>Credits</source>
+        <translation>致謝</translation>
     </message>
     <message>
-        <source>Open Nexus</source>
-        <translation type="vanished">開啟 Nexus</translation>
+        <location filename="../../src/view/SettingScreen.py" line="111"/>
+        <source>Open source software that made Unpackrr possible</source>
+        <translation>使 Unpackrr 成為可能的開源軟體</translation>
     </message>
     <message>
-        <source>Nexus</source>
-        <translation type="vanished">Nexus</translation>
-    </message>
-    <message>
-        <source>Check out Unpackrr on Nexus</source>
-        <translation type="vanished">查看 Nexus 上的 Unpackrr 頁面</translation>
-    </message>
-    <message>
-        <source>Source code</source>
-        <translation type="vanished">原始碼</translation>
-    </message>
-    <message>
-        <source>Copyright</source>
-        <translation type="vanished">版權所有</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="vanished">版本</translation>
-    </message>
-    <message>
-        <location filename="../../src/view/SettingScreen.py" line="212"/>
+        <location filename="../../src/view/SettingScreen.py" line="213"/>
         <source>Configuration takes effect after restart</source>
         <translation>配置重啟後生效</translation>
     </message>

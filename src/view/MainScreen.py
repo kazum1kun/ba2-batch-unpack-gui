@@ -103,8 +103,8 @@ class MainScreen(QFrame):
         # Perform auto threshold calculation and disable user input box
         self.threshold_button.clicked.connect(self.__auto_toggled)
         self.threshold_button.setToolTip(self.tr('Automatically attempts to determine a\n'
-                                                 'threshold so just enough BA2 are\n'
-                                                 'extracted to get under the BA2 limit'))
+                                                 'threshold so just enough ba2 are\n'
+                                                 'extracted to get under the ba2 limit'))
         self.threshold_button.installEventFilter(ToolTipFilter(self.threshold_button))
 
         self.threshold_layout_inner.addWidget(self.threshold_input)
