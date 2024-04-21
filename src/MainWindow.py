@@ -1,5 +1,6 @@
 import ctypes
 import faulthandler
+import os
 import sys
 
 from PySide6.QtCore import QTranslator, Signal
@@ -9,8 +10,12 @@ from qfluentwidgets import FluentIcon as Fi, NavigationItemPosition, FluentTrans
 from qfluentwidgets import (SplitFluentWindow)
 
 from misc.Config import cfg
+from misc.Utilities import resource_path
+from view.LogView import LogView
 from view.MainScreen import MainScreen
-from view.SettingScreen import SettingsScreen
+from view.SettingScreen import SettingScreen
+
+basedir = os.path.dirname(__file__)
 
 
 class MainWindow(SplitFluentWindow):
@@ -19,7 +24,7 @@ class MainWindow(SplitFluentWindow):
 
         # Create split tabs
         self.mainScreen = MainScreen(self)
-        self.settingsScreen = SettingsScreen(self)
+        self.settingsScreen = SettingScreen(self)
 
         self.init_navigation()
         self.init_window()
@@ -33,7 +38,7 @@ class MainWindow(SplitFluentWindow):
 
     def init_window(self):
         self.setWindowTitle(u'Unpackrr')
-        self.setWindowIcon(QIcon('resource/image/unpackrr.png'))
+        self.setWindowIcon(QIcon(resource_path('resources/images/unpackrr.png')))
         desktop = QApplication.screens()[0].availableGeometry()
         w, h = desktop.width(), desktop.height()
         self.move(w // 2 - self.width(), h // 2 - self.height() // 2)
@@ -42,6 +47,11 @@ class MainWindow(SplitFluentWindow):
 # Hack to install a "global" signal/slot
 class Unpackrr(QApplication):
     ignore_changed = Signal()
+
+    # log_view = LogView()
+    # log_view.resize(640, 480)
+    # log_view.setWindowTitle('Unpackrr Logs')
+    # log_view.setWindowIcon(QIcon('resources/images/unpackrr.png'))
 
 
 if __name__ == '__main__':
@@ -55,7 +65,7 @@ if __name__ == '__main__':
 
     if locale.language().name != 'English':
         unpackrrTranslator = QTranslator()
-        unpackrrTranslator.load(locale, 'unpackrr', '.', 'resource/i18n')
+        unpackrrTranslator.load(locale, 'unpackrr', '.', resource_path('resources/i18n'))
         app.installTranslator(unpackrrTranslator)
 
     # Required to display icons correctly
@@ -65,4 +75,4 @@ if __name__ == '__main__':
     w = MainWindow()
     w.show()
 
-    app.exec()
+    sys.exit(app.exec())

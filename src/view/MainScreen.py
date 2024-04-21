@@ -21,27 +21,26 @@ class MainScreen(QFrame):
 
         # Subsection Setup
         self.setup_title = SubtitleLabel(self.tr('Extraction setup'), self)
-        self.setup_layout = QHBoxLayout(self)
+        self.setup_layout = QHBoxLayout()
 
         # Folder chooser
-        self.folder_layout = QVBoxLayout(self)
-        self.folder_layout_inner = QHBoxLayout(self)
+        self.folder_layout = QVBoxLayout()
+        self.folder_layout_inner = QHBoxLayout()
         self.folder_label = StrongBodyLabel(self.tr('Fallout 4 mod folder'), self)
         self.folder_input = LineEdit(self)
         self.folder_input.returnPressed.connect(self.__process_folder)
         self.folder_button = ToolButton(Fi.FOLDER, self)
 
         # Threshold
-        self.threshold_layout = QVBoxLayout(self)
-        self.threshold_layout_inner = QHBoxLayout(self)
+        self.threshold_layout = QVBoxLayout()
+        self.threshold_layout_inner = QHBoxLayout()
         self.threshold_label = StrongBodyLabel(self.tr('Extraction size threshold'), self)
         self.threshold_input = LineEdit(self)
         self.threshold_button = TogglePushButton(Fi.SYNC, self.tr('Auto'), self)
 
         # Start button
-        self.start_layout = QHBoxLayout(self)
+        self.start_layout = QHBoxLayout()
         self.start_button = PrimaryPushButton(Fi.SEND_FILL, self.tr('Start'), self)
-
         # Subsection Preview
         self.preview_title = SubtitleLabel(self.tr('Preview'), self)
 
@@ -131,6 +130,7 @@ class MainScreen(QFrame):
         self.layout.setContentsMargins(60, 42, 60, 10)
 
         # Drag and drop
+        self.setLayout(self.layout)
         self.setAcceptDrops(True)
 
     def __setup_table(self):

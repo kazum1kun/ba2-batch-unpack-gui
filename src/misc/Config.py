@@ -57,7 +57,8 @@ class Config(QConfig):
 
     # Appearance
     language = OptionsConfigItem(
-        "Appearance", "Language", Language.AUTO, OptionsValidator(Language), LanguageSerializer(), restart=True)
+        "Appearance", "Language", Language.AUTO, OptionsValidator(Language), LanguageSerializer(),
+        restart=True)
 
     # software update
     check_update_at_start_up = ConfigItem(

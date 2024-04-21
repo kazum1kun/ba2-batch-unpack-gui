@@ -2,6 +2,7 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 
 from PySide6.QtCore import QThread, Signal
 from PySide6.QtWidgets import QTableView
@@ -12,6 +13,17 @@ from misc.Config import cfg
 from model.PreviewTableModel import FileEntry
 
 units = {'B': 1, 'KB': 1000, 'MB': 1000 ** 2, 'GB': 1000 ** 3, 'TB': 1000 ** 4}
+
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 
 header_struct = Struct(
     'magic' / Bytes(4),

@@ -3,6 +3,8 @@
 examples/
 config/
 bin/
+build/
+dist/
 
 ### Qt template
 # C++ objects and libs
