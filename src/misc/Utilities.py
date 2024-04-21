@@ -154,7 +154,7 @@ class BsaExtractor(QThread):
 
         for i in range(table.model().rowCount()):
             path = table.model().sourceModel().raw_data()[table_idx].full_path
-            if extract_ba2(path, './bin/bsab.exe') == -1:
+            if extract_ba2(path, resource_path('bin/bsab.exe')) == -1:
                 if cfg.ignore_bad_files.value:
                     failed.add(os.path.abspath(path))
                 source_idx = table.model().mapToSource(table.model().index(table_idx, 0))
