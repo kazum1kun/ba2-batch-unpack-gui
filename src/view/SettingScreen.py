@@ -112,9 +112,10 @@ class SettingScreen(ScrollArea):
             parent=self.advanced_group
         )
 
+        theme_str = 'dark' if isDarkTheme() else 'light'
         self.extraction_path = InputSettingCard(
             cfg.extraction_path,
-            QIcon(resource_path('resources/images/FolderArrowUp.png')),
+            QIcon(resource_path(f'resources/images/FolderArrowUp_{theme_str}.png')),
             self.tr('Extraction path'),
             self.tr('The folder where ba2 files are extracted\n'
                     '(leave empty to extract to the same folder)'),
@@ -229,6 +230,8 @@ class SettingScreen(ScrollArea):
         """ theme changed slot """
         # change the theme of qfluentwidgets
         setTheme(theme)
+        theme_str = 'dark' if isDarkTheme() else 'light'
+        self.extraction_path.iconLabel.setIcon(QIcon(resource_path(f'resources/images/FolderArrowUp_{theme_str}.png')))
 
         # chang the theme of setting interface
         self.__set_qss()

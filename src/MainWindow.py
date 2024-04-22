@@ -52,7 +52,7 @@ class Unpackrr(QApplication):
         self.log_view = LogView()
         self.log_view.resize(640, 480)
         self.log_view.setWindowTitle('Unpackrr Logs')
-        self.log_view.setWindowIcon(QIcon('resources/images/unpackrr.png'))
+        self.log_view.setWindowIcon(QIcon(resource_path('resources/images/unpackrr.png')))
 
         self.log_view.add_log('Unpackrr started', LogLevel.INFO)
 
