@@ -91,7 +91,7 @@ class IgnoredSettingCard(ExpandSettingCard):
         self.clear_ignored_button.setToolTip(self.tr('Clear all'))
         self.clear_ignored_button.installEventFilter(ToolTipFilter(self.clear_ignored_button))
         self.clear_ignored_button.clicked.connect(self.__clear_ignored)
-        self.new_ignored_input.setPlaceholderText(self.tr('Ignored file'))
+        self.new_ignored_input.setPlaceholderText(self.tr('Ignored'))
         self.add_ignored_button.clicked.connect(self.__add_ignored)
 
     def __add_ignored(self, name=None):

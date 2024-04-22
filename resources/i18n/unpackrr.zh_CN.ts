@@ -4,57 +4,57 @@
 <context>
     <name>AboutSettingCard</name>
     <message>
-        <location filename="../../src/view/AboutSettingCard.py" line="13"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="13"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../src/view/AboutSettingCard.py" line="14"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="14"/>
         <source>Copyright</source>
         <translation>版权所有</translation>
     </message>
     <message>
-        <location filename="../../src/view/AboutSettingCard.py" line="14"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="14"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../../src/view/AboutSettingCard.py" line="19"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="19"/>
         <source>Provide feedback</source>
         <translation>提交反馈</translation>
     </message>
     <message>
-        <location filename="../../src/view/AboutSettingCard.py" line="20"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="20"/>
         <source>Feedback</source>
         <translation>反馈</translation>
     </message>
     <message>
-        <location filename="../../src/view/AboutSettingCard.py" line="23"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="23"/>
         <source>Unpackrr on Nexus</source>
         <translation>在 Nexus 查看 Unpackrr</translation>
     </message>
     <message>
-        <location filename="../../src/view/AboutSettingCard.py" line="25"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="25"/>
         <source>Nexus page</source>
         <translation>Nexus 页面</translation>
     </message>
     <message>
-        <location filename="../../src/view/AboutSettingCard.py" line="28"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="28"/>
         <source>Unpackrr on GitHub</source>
         <translation>在 GitHub 查看 Unpackrr</translation>
     </message>
     <message>
-        <location filename="../../src/view/AboutSettingCard.py" line="30"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="30"/>
         <source>Source code</source>
         <translation>源代码</translation>
     </message>
     <message>
-        <location filename="../../src/view/AboutSettingCard.py" line="33"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="33"/>
         <source>Unpackrr on SWC</source>
         <translation>在 SWC 查看 Unpackrr</translation>
     </message>
     <message>
-        <location filename="../../src/view/AboutSettingCard.py" line="35"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="35"/>
         <source>SWC project</source>
         <translation>SWC 项目</translation>
     </message>
@@ -62,37 +62,41 @@
 <context>
     <name>IgnoredSettingCard</name>
     <message>
-        <location filename="../../src/view/IgnoredSettingCard.py" line="70"/>
+        <location filename="../../src/view/setting_card/IgnoredSettingCard.py" line="70"/>
         <source>Add</source>
         <translation>添加</translation>
     </message>
     <message>
-        <location filename="../../src/view/IgnoredSettingCard.py" line="91"/>
+        <location filename="../../src/view/setting_card/IgnoredSettingCard.py" line="91"/>
         <source>Clear all</source>
         <translation>清空</translation>
     </message>
     <message>
-        <location filename="../../src/view/IgnoredSettingCard.py" line="94"/>
         <source>Ignored file</source>
-        <translation>被忽略文件</translation>
+        <translation type="vanished">被忽略文件</translation>
     </message>
     <message>
-        <location filename="../../src/view/IgnoredSettingCard.py" line="156"/>
+        <location filename="../../src/view/setting_card/IgnoredSettingCard.py" line="94"/>
+        <source>Ignored</source>
+        <translation>忽略</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/setting_card/IgnoredSettingCard.py" line="156"/>
         <source>Check your input</source>
         <translation>请更正输入</translation>
     </message>
     <message>
-        <location filename="../../src/view/IgnoredSettingCard.py" line="157"/>
+        <location filename="../../src/view/setting_card/IgnoredSettingCard.py" line="157"/>
         <source>Please enter something</source>
         <translation>请输入内容</translation>
     </message>
     <message>
-        <location filename="../../src/view/IgnoredSettingCard.py" line="168"/>
+        <location filename="../../src/view/setting_card/IgnoredSettingCard.py" line="168"/>
         <source>Duplicate</source>
         <translation>重复项</translation>
     </message>
     <message>
-        <location filename="../../src/view/IgnoredSettingCard.py" line="169"/>
+        <location filename="../../src/view/setting_card/IgnoredSettingCard.py" line="169"/>
         <source>Your input is a duplicate of an existing ignore</source>
         <translation>您的输入与现有的被忽略文件重复</translation>
     </message>
@@ -180,6 +184,20 @@ Extracted {0} files.</source>
     </message>
 </context>
 <context>
+    <name>InputSettingCard</name>
+    <message>
+        <location filename="../../src/view/setting_card/InputSettingCard.py" line="48"/>
+        <source>Enter or choose a folder</source>
+        <translation>输入或选择文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/setting_card/InputSettingCard.py" line="49"/>
+        <location filename="../../src/view/setting_card/InputSettingCard.py" line="59"/>
+        <source>Choose a folder</source>
+        <translation>选择文件夹</translation>
+    </message>
+</context>
+<context>
     <name>MainScreen</name>
     <message>
         <location filename="../../src/view/MainScreen.py" line="23"/>
@@ -188,7 +206,7 @@ Extracted {0} files.</source>
     </message>
     <message>
         <location filename="../../src/view/MainScreen.py" line="29"/>
-        <location filename="../../src/view/MainScreen.py" line="75"/>
+        <location filename="../../src/view/MainScreen.py" line="76"/>
         <source>Fallout 4 mod folder</source>
         <translation>辐射4 mod 文件夹</translation>
     </message>
@@ -218,7 +236,7 @@ Extracted {0} files.</source>
         <translation>选择或拖放文件夹到此处</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="93"/>
+        <location filename="../../src/view/MainScreen.py" line="94"/>
         <source>Automatically attempts to determine a
 threshold so just enough ba2 are
 extracted to get under the ba2 limit</source>
@@ -226,32 +244,32 @@ extracted to get under the ba2 limit</source>
 够多的 ba2，让游戏降到 BA2 上限以内</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="186"/>
+        <location filename="../../src/view/MainScreen.py" line="187"/>
         <source>Open your Fallout 4 mod folder</source>
         <translation>打开您的辐射4 mod 文件夹</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="86"/>
+        <location filename="../../src/view/MainScreen.py" line="87"/>
         <source>Threshold</source>
         <translation>阈值</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="275"/>
+        <location filename="../../src/view/MainScreen.py" line="279"/>
         <source>Ignore</source>
         <translation>忽略</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="276"/>
+        <location filename="../../src/view/MainScreen.py" line="280"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="304"/>
+        <location filename="../../src/view/MainScreen.py" line="308"/>
         <source>Drop your Fallout 4 mod folder here</source>
         <translation>将您的辐射4 mod 文件夹拖放到此处</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="311"/>
+        <location filename="../../src/view/MainScreen.py" line="315"/>
         <source>Select a folder to get started</source>
         <translation>选择一个文件夹即可开始</translation>
     </message>
@@ -259,12 +277,12 @@ extracted to get under the ba2 limit</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/MainWindow.py" line="36"/>
+        <location filename="../../src/MainWindow.py" line="35"/>
         <source>Extraction</source>
         <translation>提取</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.py" line="37"/>
+        <location filename="../../src/MainWindow.py" line="36"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
@@ -306,37 +324,37 @@ extracted to get under the ba2 limit</source>
 <context>
     <name>PostfixSettingCard</name>
     <message>
-        <location filename="../../src/view/PostfixSettingCard.py" line="69"/>
+        <location filename="../../src/view/setting_card/PostfixSettingCard.py" line="69"/>
         <source>Add</source>
         <translation>添加</translation>
     </message>
     <message>
-        <location filename="../../src/view/PostfixSettingCard.py" line="89"/>
+        <location filename="../../src/view/setting_card/PostfixSettingCard.py" line="89"/>
         <source>New postfix</source>
         <translation>添加文件后缀</translation>
     </message>
     <message>
-        <location filename="../../src/view/PostfixSettingCard.py" line="90"/>
+        <location filename="../../src/view/setting_card/PostfixSettingCard.py" line="90"/>
         <source>Reset to default</source>
         <translation>重置为默认值</translation>
     </message>
     <message>
-        <location filename="../../src/view/PostfixSettingCard.py" line="142"/>
+        <location filename="../../src/view/setting_card/PostfixSettingCard.py" line="142"/>
         <source>Check your input</source>
         <translation>请更正输入</translation>
     </message>
     <message>
-        <location filename="../../src/view/PostfixSettingCard.py" line="143"/>
+        <location filename="../../src/view/setting_card/PostfixSettingCard.py" line="143"/>
         <source>Make sure your input contains &quot;.ba2&quot; in the end</source>
         <translation>确保您的输入末尾包含“.ba2”</translation>
     </message>
     <message>
-        <location filename="../../src/view/PostfixSettingCard.py" line="154"/>
+        <location filename="../../src/view/setting_card/PostfixSettingCard.py" line="154"/>
         <source>Duplicate</source>
         <translation>重复项</translation>
     </message>
     <message>
-        <location filename="../../src/view/PostfixSettingCard.py" line="155"/>
+        <location filename="../../src/view/setting_card/PostfixSettingCard.py" line="155"/>
         <source>Your input is a duplicate of an existing postfix</source>
         <translation>您的输入与现有文件后缀重复</translation>
     </message>
@@ -367,145 +385,190 @@ extracted to get under the ba2 limit</source>
 <context>
     <name>SettingScreen</name>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="32"/>
+        <location filename="../../src/view/SettingScreen.py" line="29"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="36"/>
+        <location filename="../../src/view/SettingScreen.py" line="33"/>
         <source>Extraction</source>
         <translation>提取</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="41"/>
+        <location filename="../../src/view/SettingScreen.py" line="38"/>
         <source>Postfixes</source>
         <translation>文件后缀</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="43"/>
+        <location filename="../../src/view/SettingScreen.py" line="40"/>
         <source>File postfixes to extract from. Example: &quot;main.ba2&quot; matches files like
 &quot;xyzmod - Main.ba2&quot; and &quot;abcmod - main.BA2&quot;. Must end in &quot;.ba2&quot;</source>
         <translation>将提取以下后缀结尾的文件。比如 “main.ba2” 会匹配 “xyzmod - Main.ba2”
 以及 ”abcmod - main.BA2” 等文件。必须以 ”.ba2“ 结尾</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="49"/>
+        <location filename="../../src/view/SettingScreen.py" line="46"/>
         <source>Ignored files</source>
         <translation>已忽略文件</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="50"/>
         <source>Any file with filename containing them will not be extracted</source>
-        <translation>任何包括这些被忽略项的文件将不会被提取</translation>
+        <translation type="vanished">任何包括这些被忽略项的文件将不会被提取</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="55"/>
+        <location filename="../../src/view/SettingScreen.py" line="48"/>
+        <source>Any file with filename containing them will not be extracted.
+To use regex, wrap the pattern inside {}, e.g. &quot;{.*[dD]iamond.*}&quot;</source>
+        <translation>任何包括这些被忽略项的文件将不会被提取。
+若要使用正则表达式，请将其模式包括在 {} 中，如 &quot;{.*[dD]iamond.*}&quot;</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/SettingScreen.py" line="53"/>
         <source>Ignore bad files</source>
         <translation>忽略损坏文件</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="56"/>
+        <location filename="../../src/view/SettingScreen.py" line="54"/>
         <source>Automatically ignore ba2 files that cannot be opened</source>
         <translation>自动忽略无法打开的 ba2 文件</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="62"/>
+        <location filename="../../src/view/SettingScreen.py" line="60"/>
         <source>Automatic backup</source>
         <translation>自动备份</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="63"/>
+        <location filename="../../src/view/SettingScreen.py" line="61"/>
         <source>Automatically back up ba2 files extracted</source>
         <translation>自动备份提取过的 ba2 文件</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="69"/>
+        <location filename="../../src/view/SettingScreen.py" line="67"/>
         <source>Personalization</source>
         <translation>个性化</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="73"/>
+        <location filename="../../src/view/SettingScreen.py" line="71"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="74"/>
+        <location filename="../../src/view/SettingScreen.py" line="72"/>
         <source>Change the theme of the app</source>
         <translation>改变程序的主题</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="76"/>
+        <location filename="../../src/view/SettingScreen.py" line="74"/>
         <source>Light</source>
         <translation>浅色</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="76"/>
+        <location filename="../../src/view/SettingScreen.py" line="74"/>
         <source>Dark</source>
         <translation>深色</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="78"/>
-        <location filename="../../src/view/SettingScreen.py" line="93"/>
+        <location filename="../../src/view/SettingScreen.py" line="76"/>
+        <location filename="../../src/view/SettingScreen.py" line="91"/>
         <source>Use system setting</source>
         <translation>使用系统设定</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="84"/>
+        <location filename="../../src/view/SettingScreen.py" line="82"/>
         <source>Color</source>
         <translation>主题色</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="85"/>
+        <location filename="../../src/view/SettingScreen.py" line="83"/>
         <source>Change the theme color of the app</source>
         <translation>改变程序的主题色</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="91"/>
+        <location filename="../../src/view/SettingScreen.py" line="89"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="92"/>
+        <location filename="../../src/view/SettingScreen.py" line="90"/>
         <source>Select your preferred language</source>
         <translation>选择您的首选语言</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="98"/>
+        <location filename="../../src/view/SettingScreen.py" line="96"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="101"/>
+        <location filename="../../src/view/SettingScreen.py" line="99"/>
         <source>Check for updates</source>
         <translation>检查更新</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="102"/>
+        <location filename="../../src/view/SettingScreen.py" line="100"/>
         <source>Automatically check and notify you of updates</source>
         <translation>自动检测并提示软件更新</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="108"/>
+        <location filename="../../src/view/SettingScreen.py" line="106"/>
+        <source>Advanced</source>
+        <translation>高级选项</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/SettingScreen.py" line="109"/>
+        <source>Show log output</source>
+        <translation>显示输出日志</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/SettingScreen.py" line="110"/>
+        <source>Show a separate window with debugging information</source>
+        <translation>显示带有调试信息的单独窗口</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/SettingScreen.py" line="118"/>
+        <source>Extraction path</source>
+        <translation>提取路径</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/SettingScreen.py" line="120"/>
+        <source>The folder where ba2 files are extracted
+(leave empty to extract to the same folder)</source>
+        <translation>解压 ba2 文件的文件夹
+（留空以提取到同一文件夹）</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/SettingScreen.py" line="127"/>
+        <source>Backup path</source>
+        <translation>备份路径</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/SettingScreen.py" line="129"/>
+        <source>The folder where ba2 files are backed up
+(leave empty to back up to &quot;backup&quot; folder in the mod)</source>
+        <translation>ba2 文件备份的文件夹
+（留空以备份到 mod 中的 “backup” 文件夹）</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/SettingScreen.py" line="134"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="113"/>
+        <location filename="../../src/view/SettingScreen.py" line="139"/>
         <source>View</source>
         <translation>查看</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="115"/>
+        <location filename="../../src/view/SettingScreen.py" line="141"/>
         <source>Credits</source>
         <translation>致谢</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="116"/>
+        <location filename="../../src/view/SettingScreen.py" line="142"/>
         <source>Open source software that made Unpackrr possible</source>
         <translation>使 Unpackrr 成为可能的开源软件</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="192"/>
+        <location filename="../../src/view/SettingScreen.py" line="223"/>
         <source>Configuration takes effect after restart</source>
         <translation>配置重启后生效</translation>
     </message>

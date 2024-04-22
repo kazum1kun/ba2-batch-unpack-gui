@@ -44,7 +44,8 @@ class SettingScreen(ScrollArea):
             cfg.ignored,
             Fi.REMOVE_FROM,
             self.tr('Ignored files'),
-            self.tr('Any file with filename containing them will not be extracted'),
+            self.tr('Any file with filename containing them will not be extracted.\n'
+                    'To use regex, wrap the pattern inside {}, e.g. \"{.*[dD]iamond.*}\"'),
             parent=self.extraction_group
         )
         self.ignore_bad_card = SwitchSettingCard(
@@ -105,7 +106,7 @@ class SettingScreen(ScrollArea):
         self.advanced_group = SettingCardGroup(self.tr('Advanced'), self.scrollWidget)
         self.show_debug_card = SwitchSettingCard(
             Fi.COMMAND_PROMPT,
-            self.tr('Show debug output'),
+            self.tr('Show log output'),
             self.tr('Show a separate window with debugging information'),
             cfg.show_debug,
             parent=self.advanced_group
@@ -122,7 +123,7 @@ class SettingScreen(ScrollArea):
 
         self.backup_path = InputSettingCard(
             cfg.backup_path,
-            Fi.FOLDER,
+            Fi.DOCUMENT,
             self.tr('Backup path'),
             self.tr('The folder where ba2 files are backed up\n'
                     '(leave empty to back up to \"backup\" folder in the mod)'),
