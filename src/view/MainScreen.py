@@ -211,6 +211,9 @@ class MainScreen(QFrame):
         model = PreviewTableModel(data)
         self.preview_table.model().setSourceModel(model)
 
+        for i in range(self.preview_table.model().rowCount()):
+            self.preview_table.setRowHidden(i, False)
+
         self.folder_button.setDisabled(False)
         self.table_ready = True
         self.__check_start_ready()

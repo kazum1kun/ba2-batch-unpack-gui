@@ -13,6 +13,25 @@ from misc.Config import cfg, LogLevel
 from model.PreviewTableModel import FileEntry
 
 
+def is_ignored(file):
+    # File is the full path to the file, so we need to perform a full matching and a partial matching based
+    # on the file name
+    # Case 1 - Full path matching
+    if os.path.abspath(file) in cfg.ignored.value:
+        return True
+    # Case 2 - Partial matching
+    base_name = os.path.basename(file)
+    for ignored in qconfig.get(cfg.ignored):
+        if '{' in ignored and '}' in ignored:
+            # Regex pattern
+            pattern = ignored.split('{')[1].split('}')[0]
+            if re.fullmatch(pattern, base_name):
+                return True
+        if ignored in base_name:
+            return True
+    return False
+
+
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
@@ -130,8 +149,9 @@ class BsaProcessor(QThread):
             size = os.stat(f).st_size
             num_files = num_files_in_ba2(f)
             # Auto ignore the blacklisted file if set so
-            if os.path.abspath(f) in cfg.ignored.value or name in cfg.ignored.value:
+            if is_ignored(f):
                 num_ignored += 1
+                QApplication.instance().log_view.add_log(f'Ignoring {f}', LogLevel.INFO)
             elif num_files == -1:
                 num_failed += 1
                 if cfg.ignore_bad_files:
