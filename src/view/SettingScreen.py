@@ -1,17 +1,16 @@
-import os
-
 from PySide6.QtCore import Qt, Signal, QUrl
-from PySide6.QtGui import QDesktopServices
+from PySide6.QtGui import QDesktopServices, QIcon
 from PySide6.QtWidgets import QWidget, QLabel, QApplication
-from qfluentwidgets import FluentIcon as Fi
+from qfluentwidgets import FluentIcon as Fi, qconfig
 from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, HyperlinkCard, ScrollArea,
                             ComboBoxSettingCard, ExpandLayout, Theme, InfoBar, CustomColorSettingCard,
                             setTheme, isDarkTheme, setThemeColor)
 
 from misc.Config import cfg, FEEDBACK_URL, CREDITS_URL
-from view.AboutSettingCard import AboutSettingCard
-from view.IgnoredSettingCard import IgnoredSettingCard
-from view.PostfixSettingCard import PostfixSettingCard
+from view.setting_card.AboutSettingCard import AboutSettingCard
+from view.setting_card.IgnoredSettingCard import IgnoredSettingCard
+from view.setting_card.InputSettingCard import InputSettingCard
+from view.setting_card.PostfixSettingCard import PostfixSettingCard
 from misc.Utilities import resource_path
 
 
@@ -102,6 +101,34 @@ class SettingScreen(ScrollArea):
             parent=self.updateSoftwareGroup
         )
 
+        # Advanced
+        self.advanced_group = SettingCardGroup(self.tr('Advanced'), self.scrollWidget)
+        self.show_debug_card = SwitchSettingCard(
+            Fi.COMMAND_PROMPT,
+            self.tr('Show debug output'),
+            self.tr('Show a separate window with debugging information'),
+            cfg.show_debug,
+            parent=self.advanced_group
+        )
+
+        self.extraction_path = InputSettingCard(
+            cfg.extraction_path,
+            QIcon(resource_path('resources/images/FolderArrowUp.png')),
+            self.tr('Extraction path'),
+            self.tr('The folder where ba2 files are extracted\n'
+                    '(leave empty to extract to the same folder)'),
+            self.advanced_group
+        )
+
+        self.backup_path = InputSettingCard(
+            cfg.backup_path,
+            Fi.FOLDER,
+            self.tr('Backup path'),
+            self.tr('The folder where ba2 files are backed up\n'
+                    '(leave empty to back up to \"backup\" folder in the mod)'),
+            self.advanced_group
+        )
+
         # application
         self.aboutGroup = SettingCardGroup(self.tr('About'), self.scrollWidget)
         self.aboutSettingCard = AboutSettingCard(self.aboutGroup)
@@ -150,6 +177,10 @@ class SettingScreen(ScrollArea):
 
         self.updateSoftwareGroup.addSettingCard(self.updateOnStartUpCard)
 
+        self.advanced_group.addSettingCard(self.show_debug_card)
+        self.advanced_group.addSettingCard(self.extraction_path)
+        self.advanced_group.addSettingCard(self.backup_path)
+
         self.aboutGroup.addSettingCard(self.aboutSettingCard)
         self.aboutGroup.addSettingCard(self.credits_card)
         # self.aboutGroup.addSettingCard(self.helpCard)
@@ -163,6 +194,7 @@ class SettingScreen(ScrollArea):
         self.expandLayout.addWidget(self.extraction_group)
         self.expandLayout.addWidget(self.personalGroup)
         self.expandLayout.addWidget(self.updateSoftwareGroup)
+        self.expandLayout.addWidget(self.advanced_group)
         self.expandLayout.addWidget(self.aboutGroup)
 
     def showEvent(self, event):
@@ -204,11 +236,19 @@ class SettingScreen(ScrollArea):
         """ theme color changed slot """
         setThemeColor(color)
 
+    def __on_debug_changed(self):
+        if qconfig.get(cfg.show_debug):
+            QApplication.instance().log_view.show()
+        else:
+            QApplication.instance().log_view.hide()
+
     def __connect_signal_to_slot(self):
         """ connect signal to slot """
         cfg.appRestartSig.connect(self.__show_restart_tooltip)
         cfg.themeChanged.connect(self.__on_theme_changed)
         cfg.themeColorChanged.connect(self.__on_theme_color_changed)
+
+        self.show_debug_card.checkedChanged.connect(self.__on_debug_changed)
 
         # about
         # self.aboutCard.clicked.connect(self.checkUpdateSig)

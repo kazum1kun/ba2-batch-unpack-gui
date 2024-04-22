@@ -60,6 +60,11 @@ class Config(QConfig):
         "Appearance", "Language", Language.AUTO, OptionsValidator(Language), LanguageSerializer(),
         restart=True)
 
+    # Advanced
+    show_debug = ConfigItem('Advanced', 'ShowDebug', False, BoolValidator())
+    extraction_path = ConfigItem('Advanced', 'ExtractionPath', '')
+    backup_path = ConfigItem('Advanced', 'BackupPath', '')
+
     # software update
     check_update_at_start_up = ConfigItem(
         "Update", "CheckUpdateAtStartUp", True, BoolValidator())

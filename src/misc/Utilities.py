@@ -7,12 +7,10 @@ import sys
 from PySide6.QtCore import QThread, Signal
 from PySide6.QtWidgets import QTableView
 from construct import Struct, Bytes, Int32ul, Int64ul, PaddedString, StreamError
-from qfluentwidgets import ProgressBar
+from qfluentwidgets import ProgressBar, qconfig
 
 from misc.Config import cfg
 from model.PreviewTableModel import FileEntry
-
-units = {'B': 1, 'KB': 1000, 'MB': 1000 ** 2, 'GB': 1000 ** 3, 'TB': 1000 ** 4}
 
 
 def resource_path(relative_path):
@@ -32,6 +30,8 @@ header_struct = Struct(
     'file_count' / Int32ul,
     'names_offset' / Int64ul,
 )
+
+units = {'B': 1, 'KB': 1000, 'MB': 1000 ** 2, 'GB': 1000 ** 3, 'TB': 1000 ** 4}
 
 
 def parse_size(size):
@@ -79,12 +79,23 @@ def num_files_in_ba2(file):
 
 
 def extract_ba2(file, bsab_exe_path):
-    base_path = os.path.dirname(file)
+    cfg_path = qconfig.get(cfg.extraction_path)
+    if cfg_path:
+        if os.path.isabs(cfg_path):
+            extraction_path = cfg_path
+        else:
+            extraction_path = os.path.join(os.path.dirname(file), cfg_path)
+    else:
+        extraction_path = os.path.dirname(file)
+
+    if not os.path.isdir(extraction_path):
+        os.makedirs(extraction_path)
+
     args = [
         bsab_exe_path,
         '-e',
         file,
-        base_path
+        extraction_path
     ]
     proc = subprocess.run(args)
     if proc.returncode != 0:
@@ -157,6 +168,7 @@ class BsaExtractor(QThread):
             if extract_ba2(path, resource_path('bin/bsab.exe')) == -1:
                 if cfg.ignore_bad_files.value:
                     failed.add(os.path.abspath(path))
+                # Highlight the failed files in the table
                 source_idx = table.model().mapToSource(table.model().index(table_idx, 0))
                 table.model().sourceModel().add_bad_file(source_idx.row())
                 progress.error()
@@ -164,12 +176,21 @@ class BsaExtractor(QThread):
             else:
                 # Back up the file if user requests so
                 if cfg.auto_backup.value:
-                    backup_path = os.path.join(os.path.dirname(path), 'backup')
+                    cfg_path = qconfig.get(cfg.backup_path)
+                    if cfg_path:
+                        if os.path.isabs(cfg_path):
+                            backup_path = cfg_path
+                        else:
+                            backup_path = os.path.join(os.path.dirname(path), cfg_path)
+                    else:
+                        backup_path = os.path.join(os.path.dirname(path), 'backup')
+
                     if not os.path.isdir(backup_path):
-                        os.mkdir(backup_path)
+                        os.makedirs(backup_path)
                     shutil.move(path, os.path.join(backup_path, os.path.basename(path)))
                 else:
                     os.remove(path)
+                # Remove the row from the preview
                 table.hideRow(table_idx)
                 ok_count += 1
             table_idx += 1
