@@ -5,11 +5,11 @@ import subprocess
 import sys
 
 from PySide6.QtCore import QThread, Signal
-from PySide6.QtWidgets import QTableView
+from PySide6.QtWidgets import QTableView, QApplication
 from construct import Struct, Bytes, Int32ul, Int64ul, PaddedString, StreamError
 from qfluentwidgets import ProgressBar, qconfig
 
-from misc.Config import cfg
+from misc.Config import cfg, LogLevel
 from model.PreviewTableModel import FileEntry
 
 
@@ -74,7 +74,7 @@ def num_files_in_ba2(file):
             result = header_struct.parse_stream(fs)
             return result.file_count
         except StreamError as e:
-            print(e)
+            QApplication.instance().log_view.add_log(f'Error parsing {file}: {e}', LogLevel.WARNING)
             return -1
 
 
@@ -97,11 +97,12 @@ def extract_ba2(file, bsab_exe_path):
         file,
         extraction_path
     ]
-    proc = subprocess.run(args)
+    proc = subprocess.run(args, text=True, capture_output=True)
     if proc.returncode != 0:
-        print(f'{file} fails to open!')
+        QApplication.instance().log_view.add_log(f'Error extracting {file}', LogLevel.WARNING)
         return -1
     else:
+        QApplication.instance().log_view.add_log(f'{proc.stdout}', LogLevel.INFO)
         return 0
 
 

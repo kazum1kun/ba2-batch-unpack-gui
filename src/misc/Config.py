@@ -5,6 +5,15 @@ from qfluentwidgets import (qconfig, QConfig, ConfigItem, OptionsConfigItem, Boo
                             OptionsValidator, ConfigSerializer, ConfigValidator)
 
 
+class LogLevel(Enum):
+    FATAL = 0
+    ERROR = 1
+    WARNING = 2
+    INFO = 3
+    DEBUG = 4
+    TRACE = 5
+
+
 class Ba2ListValidator(ConfigValidator):
     def validate(self, value):
         return all((len(postfix) >= 4 and postfix[-4:] == '.ba2') for postfix in value)
@@ -41,6 +50,17 @@ class LanguageSerializer(ConfigSerializer):
         return Language(QLocale(value)) if value != "Auto" else Language.AUTO
 
 
+class LogLevelSerializer(ConfigSerializer):
+    def serialize(self, level):
+        return level.name
+
+    def deserialize(self, value: str):
+        try:
+            return LogLevel[value]
+        except KeyError:
+            return LogLevel.WARNING
+
+
 class Config(QConfig):
     # Extraction
     postfixes = ConfigItem(
@@ -62,6 +82,8 @@ class Config(QConfig):
 
     # Advanced
     show_debug = ConfigItem('Advanced', 'ShowDebug', False, BoolValidator())
+    # This is a hidden config item
+    log_level = ConfigItem('Advanced', 'DebugLevel', LogLevel.WARNING, serializer=LogLevelSerializer())
     extraction_path = ConfigItem('Advanced', 'ExtractionPath', '')
     backup_path = ConfigItem('Advanced', 'BackupPath', '')
 

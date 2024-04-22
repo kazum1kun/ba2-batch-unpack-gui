@@ -5,12 +5,12 @@ import sys
 from PySide6.QtCore import QTranslator, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
-from qfluentwidgets import FluentIcon as Fi, NavigationItemPosition, FluentTranslator
+from qfluentwidgets import FluentIcon as Fi, NavigationItemPosition, FluentTranslator, qconfig
 from qfluentwidgets import (SplitFluentWindow)
 
 from misc.Config import cfg
 from misc.Utilities import resource_path
-from view.LogView import LogView
+from view.LogView import LogView, LogLevel
 from view.MainScreen import MainScreen
 from view.SettingScreen import SettingScreen
 
@@ -54,6 +54,11 @@ class Unpackrr(QApplication):
         self.log_view.setWindowTitle('Unpackrr Logs')
         self.log_view.setWindowIcon(QIcon('resources/images/unpackrr.png'))
 
+        self.log_view.add_log('Unpackrr started', LogLevel.INFO)
+
+        self.old_hook = sys.excepthook
+        sys.excepthook = self.log_view.catch_exception
+
 
 if __name__ == '__main__':
     app = Unpackrr(sys.argv)
@@ -67,6 +72,9 @@ if __name__ == '__main__':
         unpackrrTranslator = QTranslator()
         unpackrrTranslator.load(locale, 'unpackrr', '.', resource_path('resources/i18n'))
         app.installTranslator(unpackrrTranslator)
+
+    if qconfig.get(cfg.show_debug):
+        app.log_view.show()
 
     # Required to display icons correctly
     app_id = 'unpackrr'
