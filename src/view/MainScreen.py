@@ -1,9 +1,9 @@
 import os.path
 
 from PySide6.QtCore import QSortFilterProxyModel
-from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog, QHeaderView, QBoxLayout
+from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog, QHeaderView, QBoxLayout, QAbstractItemView
 from qfluentwidgets import FluentIcon as Fi, TableView, PrimaryPushButton, \
-    StrongBodyLabel, RoundMenu, Action
+    StrongBodyLabel, RoundMenu, Action, BodyLabel
 from qfluentwidgets import (SubtitleLabel, LineEdit, ToolButton,
                             TogglePushButton, ToolTipFilter)
 
@@ -18,6 +18,7 @@ class MainScreen(QFrame):
         super().__init__(parent=parent)
         self.setObjectName('MainScreen')
         self.layout = QVBoxLayout(self)
+
         # Subsection Setup
         self.setup_title = SubtitleLabel(self.tr('Extraction setup'), self)
         self.setup_layout = QHBoxLayout()
@@ -40,8 +41,11 @@ class MainScreen(QFrame):
         # Start button
         self.start_layout = QHBoxLayout()
         self.start_button = PrimaryPushButton(Fi.SEND_FILL, self.tr('Start'), self)
+
         # Subsection Preview
+        self.above_table_layout = QHBoxLayout()
         self.preview_title = SubtitleLabel(self.tr('Preview'), self)
+        self.preview_text = BodyLabel('', self)
 
         self.preview_progress = ProgressBar()
 
@@ -114,7 +118,11 @@ class MainScreen(QFrame):
         self.start_layout.addWidget(self.start_button)
         self.layout.addLayout(self.start_layout)
 
-        self.layout.addWidget(self.preview_title, 0, Qt.AlignmentFlag.AlignLeft)
+        # Preview section
+        self.above_table_layout.addWidget(self.preview_title)
+        self.above_table_layout.addStretch(1)
+        self.above_table_layout.addWidget(self.preview_text)
+        self.layout.addLayout(self.above_table_layout)
 
         self.__setup_table()
 
@@ -142,12 +150,16 @@ class MainScreen(QFrame):
         vh.hide()
         self.preview_table.setVerticalHeader(vh)
 
+        # Context menu and double click
         self.preview_table.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.preview_table.customContextMenuRequested.connect(self.__table_custom_menu)
+        self.preview_table.doubleClicked.connect(self.__table_double_click)
 
         sp = self.preview_table.sizePolicy()
         sp.setRetainSizeWhenHidden(True)
         self.preview_table.setSizePolicy(sp)
+
+        self.preview_table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
 
         self.layout.addWidget(self.preview_table)
 
@@ -215,6 +227,7 @@ class MainScreen(QFrame):
 
         self.folder_button.setDisabled(False)
         self.table_ready = True
+        self.__update_preview_text()
         self.__check_start_ready()
 
     def __update_ignored(self):
@@ -244,6 +257,7 @@ class MainScreen(QFrame):
         self.preview_table.repaint()
 
         self.__update_ignored()
+        self.preview_text.setText('')
 
     def __adjust_column_size(self):
         total_width = self.preview_table.width()
@@ -267,6 +281,16 @@ class MainScreen(QFrame):
         filtered = self.__get_filtered_files(threshold_byte)
         self.__refresh_table(filtered)
 
+    def __table_double_click(self, item_idx):
+        if not item_idx.isValid():
+            return
+
+        raw_idx = self.preview_table.model().mapToSource(item_idx)
+        raw_data = self.preview_table.model().sourceModel().raw_data()
+        data = raw_data[raw_idx.row()]
+        self.__open_ba2_ext(data.full_path)
+
+
     def __table_custom_menu(self, pos):
         item_idx = self.preview_table.indexAt(pos)
         if not item_idx.isValid():
@@ -280,7 +304,7 @@ class MainScreen(QFrame):
         data = raw_data[raw_idx.row()]
 
         menu.addAction(Action(Fi.REMOVE_FROM, self.tr('Ignore'),
-                              triggered=lambda: self.__ignore_file(data.full_path, raw_data, raw_idx.row())))
+                              triggered=lambda: self.__ignore_file(data.full_path, raw_idx.row())))
         menu.addAction(Action(Fi.LINK, self.tr('Open'),
                               triggered=lambda: self.__open_ba2_ext(data.full_path)))
 
@@ -308,14 +332,15 @@ class MainScreen(QFrame):
             qconfig.set(cfg.saved_threshold, threshold_byte)
             return [entry for entry in self.file_data if entry.file_size <= threshold_byte]
 
-    def __ignore_file(self, file_name, data, idx):
+    def __ignore_file(self, file_name, idx):
         temp = set(qconfig.get(cfg.ignored))
-        temp.add(os.path.abspath(data))
+        temp.add(os.path.abspath(file_name))
         qconfig.set(cfg.ignored, list(temp))
         # Update the ignored items accordingly
         QApplication.instance().ignore_changed.emit()
 
-        del data[idx]
+        self.preview_table.model().sourceModel().removeRow(idx)
+        self.__update_preview_text()
 
     def __open_ba2_ext(self, file_path):
         if os.path.isfile(file_path):
@@ -324,6 +349,14 @@ class MainScreen(QFrame):
                 file_path
             ]
             subprocess.run(args)
+
+    def __update_preview_text(self):
+        if self.preview_table.model().rowCount() > 0:
+            self.preview_text.setText(
+                self.tr('Total files: {0}, total size: {1}, extracted file count: {2}').format(
+                    len(self.file_data), naturalsize(sum([x.file_size for x in self.file_data])),
+                    sum([x.num_files for x in self.file_data]))
+            )
 
     # Drag and drop
     def dragEnterEvent(self, event):

@@ -1,7 +1,7 @@
 from typing import NamedTuple
 
 from PySide6 import QtCore
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QModelIndex
 from PySide6.QtGui import QBrush, QColor
 from humanize import naturalsize
 
@@ -58,6 +58,11 @@ class PreviewTableModel(QtCore.QAbstractTableModel):
             return self.files[index].file_size
         else:
             return -1
+
+    def removeRow(self, row, parent=QModelIndex()):
+        self.beginRemoveRows(parent, row, row)
+        self.files.pop(row)
+        self.endRemoveRows()
 
     def flags(self, index):
         if not index.isValid():
