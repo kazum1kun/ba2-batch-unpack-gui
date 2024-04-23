@@ -82,5 +82,8 @@ if __name__ == '__main__':
 
     w = MainWindow()
     w.show()
+    ret = app.exec()
 
-    sys.exit(app.exec())
+    qconfig.set(cfg.first_launch, False)
+
+    sys.exit(ret)

@@ -10,7 +10,8 @@ class InputSettingCard(SettingCard):
     """ A setting card with a line input """
 
     def __init__(self, config_item: ConfigItem, icon: Union[str, QIcon, FluentIconBase], title: str,
-                 content: str = None, parent=None):
+                 content: str = None, parent=None, extensions=None, folder=True,
+                 options=QFileDialog.Option.ShowDirsOnly | QFileDialog.Option.DontResolveSymlinks):
         """
         Parameters
         ----------
@@ -28,6 +29,7 @@ class InputSettingCard(SettingCard):
         """
         super().__init__(icon, title, content, parent)
 
+        self.extensions = extensions
         self.input = LineEdit(self)
         self.button = ToolButton(Fi.FOLDER, self)
 
@@ -35,6 +37,8 @@ class InputSettingCard(SettingCard):
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button)
         self.hBoxLayout.addSpacing(16)
+
+        self.options = options
 
         self.config_item = config_item
         if config_item:
@@ -46,15 +50,23 @@ class InputSettingCard(SettingCard):
         self.button.setToolTip(self.tr('Choose a folder'))
 
         self.input.textChanged.connect(lambda: self.setValue(self.input.text()))
-        self.button.clicked.connect(self.__open_folder)
+
+        if folder:
+            self.button.clicked.connect(self.__open_folder)
+        else:
+            self.button.clicked.connect(self.__open_file)
 
     def setValue(self, value):
         if self.config_item:
             qconfig.set(self.config_item, value)
 
+    def __open_file(self):
+        _filter = ';;'.join([f'{ext} files (*.{ext})' for ext in self.extensions] + ['All files (*)'])
+        file, _ = QFileDialog.getOpenFileName(self, self.tr('Choose a ba2 utility'), filter=_filter)
+        if file:
+            self.input.setText(file)
+
     def __open_folder(self):
-        folder = QFileDialog.getExistingDirectory(self, self.tr('Choose a folder'),
-                                                  options=QFileDialog.Option.ShowDirsOnly |
-                                                  QFileDialog.Option.DontResolveSymlinks)
+        folder = QFileDialog.getExistingDirectory(self, self.tr('Choose a folder'), options=self.options)
         if folder:
             self.input.setText(folder)

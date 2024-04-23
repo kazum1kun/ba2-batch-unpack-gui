@@ -3,6 +3,8 @@ import re
 import shutil
 import subprocess
 import sys
+import shlex
+import winreg
 
 from PySide6.QtCore import QThread, Signal
 from PySide6.QtWidgets import QTableView, QApplication
@@ -40,6 +42,16 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
+
+
+def get_default_windows_app(suffix):
+    try:
+        class_root = winreg.QueryValue(winreg.HKEY_CLASSES_ROOT, suffix)
+        with winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, r'{}\shell\open\command'.format(class_root)) as key:
+            command = winreg.QueryValueEx(key, '')[0]
+            return shlex.split(command)[0]
+    except FileNotFoundError:
+        return ''
 
 
 header_struct = Struct(

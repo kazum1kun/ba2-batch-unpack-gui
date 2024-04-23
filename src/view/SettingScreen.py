@@ -1,13 +1,13 @@
 from PySide6.QtCore import Qt, Signal, QUrl
 from PySide6.QtGui import QDesktopServices, QIcon
-from PySide6.QtWidgets import QWidget, QLabel, QApplication
+from PySide6.QtWidgets import QWidget, QLabel, QApplication, QFileDialog
 from qfluentwidgets import FluentIcon as Fi, qconfig
 from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, HyperlinkCard, ScrollArea,
                             ComboBoxSettingCard, ExpandLayout, Theme, InfoBar, CustomColorSettingCard,
                             setTheme, isDarkTheme, setThemeColor)
 
 from misc.Config import cfg, FEEDBACK_URL, CREDITS_URL, KOFI_URL
-from misc.Utilities import resource_path
+from misc.Utilities import resource_path, get_default_windows_app
 from view.setting_card.AboutSettingCard import AboutSettingCard
 from view.setting_card.IgnoredSettingCard import IgnoredSettingCard
 from view.setting_card.InputSettingCard import InputSettingCard
@@ -131,6 +131,17 @@ class SettingScreen(ScrollArea):
             self.advanced_group
         )
 
+        self.ext_ba2_card = InputSettingCard(
+            cfg.ext_ba2_exe,
+            Fi.APPLICATION,
+            self.tr('External ba2 tool'),
+            self.tr('Path to an external ba2 tool that\'s used for the\n'
+                    '\"Open\" command in the table context menu'),
+            self.advanced_group,
+            ['exe'],
+            False
+        )
+
         # application
         self.about_group = SettingCardGroup(self.tr('About'), self.scroll_widget)
         self.about_setting_card = AboutSettingCard(self.about_group)
@@ -165,6 +176,11 @@ class SettingScreen(ScrollArea):
         self.setWidget(self.scroll_widget)
         self.setWidgetResizable(True)
 
+        self.ext_ba2_card.input.setPlaceholderText(self.tr('Choose your external ba2 tool'))
+        # Not ideal, but doing it in the Config will result in a circular import
+        if qconfig.get(cfg.first_launch):
+            self.ext_ba2_card.input.setText(get_default_windows_app('.ba2'))
+
         # initialize style sheet
         self.__set_qss()
 
@@ -190,6 +206,7 @@ class SettingScreen(ScrollArea):
         self.advanced_group.addSettingCard(self.show_debug_card)
         self.advanced_group.addSettingCard(self.extraction_path_card)
         self.advanced_group.addSettingCard(self.backup_path_card)
+        self.advanced_group.addSettingCard(self.ext_ba2_card)
 
         self.about_group.addSettingCard(self.about_setting_card)
         self.about_group.addSettingCard(self.kofi_card)

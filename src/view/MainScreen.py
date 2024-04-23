@@ -18,7 +18,6 @@ class MainScreen(QFrame):
         super().__init__(parent=parent)
         self.setObjectName('MainScreen')
         self.layout = QVBoxLayout(self)
-
         # Subsection Setup
         self.setup_title = SubtitleLabel(self.tr('Extraction setup'), self)
         self.setup_layout = QHBoxLayout()
@@ -220,7 +219,7 @@ class MainScreen(QFrame):
 
     def __update_ignored(self):
         if len(self.failed) > 0:
-            temp = set(cfg.ignored.value)
+            temp = set(qconfig.get(cfg.ignored))
             temp.update(self.failed)
             qconfig.set(cfg.ignored, list(temp))
             # Update the ignored items accordingly
@@ -276,8 +275,14 @@ class MainScreen(QFrame):
         menu = RoundMenu()
 
         # Add actions one by one, Action inherits from QAction and accepts icons of type FluentIconBase
-        menu.addAction(Action(Fi.REMOVE_FROM, self.tr('Ignore'), triggered=lambda: print(f'{item_idx.data()}')))
-        menu.addAction(Action(Fi.LINK, self.tr('Open'), triggered=lambda: print("Cut successful")))
+        raw_idx = self.preview_table.model().mapToSource(item_idx)
+        raw_data = self.preview_table.model().sourceModel().raw_data()
+        data = raw_data[raw_idx.row()]
+
+        menu.addAction(Action(Fi.REMOVE_FROM, self.tr('Ignore'),
+                              triggered=lambda: self.__ignore_file(data.full_path, raw_data, raw_idx.row())))
+        menu.addAction(Action(Fi.LINK, self.tr('Open'),
+                              triggered=lambda: self.__open_ba2_ext(data.full_path)))
 
         menu.exec_(self.preview_table.viewport().mapToGlobal(pos))
 
@@ -302,6 +307,23 @@ class MainScreen(QFrame):
             # Persist the size info
             qconfig.set(cfg.saved_threshold, threshold_byte)
             return [entry for entry in self.file_data if entry.file_size <= threshold_byte]
+
+    def __ignore_file(self, file_name, data, idx):
+        temp = set(qconfig.get(cfg.ignored))
+        temp.add(os.path.abspath(data))
+        qconfig.set(cfg.ignored, list(temp))
+        # Update the ignored items accordingly
+        QApplication.instance().ignore_changed.emit()
+
+        del data[idx]
+
+    def __open_ba2_ext(self, file_path):
+        if os.path.isfile(file_path):
+            args = [
+                qconfig.get(cfg.ext_ba2_exe),
+                file_path
+            ]
+            subprocess.run(args)
 
     # Drag and drop
     def dragEnterEvent(self, event):
