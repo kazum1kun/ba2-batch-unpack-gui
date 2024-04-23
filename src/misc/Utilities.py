@@ -98,7 +98,7 @@ def num_files_in_ba2(file):
 
 
 def extract_ba2(file, bsab_exe_path):
-    cfg_path = qconfig.get(cfg.extraction_path_card)
+    cfg_path = qconfig.get(cfg.extraction_path)
     if cfg_path:
         if os.path.isabs(cfg_path):
             extraction_path = cfg_path
@@ -110,13 +110,17 @@ def extract_ba2(file, bsab_exe_path):
     if not os.path.isdir(extraction_path):
         os.makedirs(extraction_path)
 
+    # Hide the console window
+    si = subprocess.STARTUPINFO()
+    si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
     args = [
         bsab_exe_path,
         '-e',
         file,
         extraction_path
     ]
-    proc = subprocess.run(args, text=True, capture_output=True)
+    proc = subprocess.run(args, text=True, capture_output=True, startupinfo=si)
     if proc.returncode != 0:
         QApplication.instance().log_view.add_log(f'Error extracting {file}', LogLevel.WARNING)
         return -1
@@ -197,7 +201,7 @@ class BsaExtractor(QThread):
             else:
                 # Back up the file if user requests so
                 if cfg.auto_backup.value:
-                    cfg_path = qconfig.get(cfg.backup_path_card)
+                    cfg_path = qconfig.get(cfg.backup_path)
                     if cfg_path:
                         if os.path.isabs(cfg_path):
                             backup_path = cfg_path

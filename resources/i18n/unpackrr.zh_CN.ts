@@ -186,14 +186,18 @@ Extracted {0} files.</source>
         <translation>跳过了 {0} 被忽略的文件。</translation>
     </message>
     <message>
+        <location filename="../../src/prefab/InfoBar.py" line="55"/>
+        <source>All done</source>
+        <translation>完成</translation>
+    </message>
+    <message>
         <location filename="../../src/prefab/InfoBar.py" line="56"/>
         <source>Finished extracting ba2. Extracted {0} files.</source>
         <translation>ba2 解压完毕。提取了 {0} 个文件。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="55"/>
         <source>All set</source>
-        <translation>完成</translation>
+        <translation type="vanished">完成</translation>
     </message>
     <message>
         <location filename="../../src/prefab/InfoBar.py" line="17"/>

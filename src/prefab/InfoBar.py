@@ -51,7 +51,7 @@ def show_result_toast(results, _type='scan'):
                 success_message += QApplication.translate(
                     'InfoBar', ' Skipped {0} ignored files.').format(num_ignored)
         else:
-            success_title = QApplication.translate('InfoBar', 'All set')
+            success_title = QApplication.translate('InfoBar', 'All done')
             success_message = QApplication.translate(
                 'InfoBar', 'Finished extracting ba2. Extracted {0} files.').format(num_success)
         InfoBar.success(

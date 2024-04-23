@@ -188,8 +188,12 @@ Extracted {0} files.</source>
     </message>
     <message>
         <location filename="../../src/prefab/InfoBar.py" line="55"/>
-        <source>All set</source>
+        <source>All done</source>
         <translation>完成</translation>
+    </message>
+    <message>
+        <source>All set</source>
+        <translation type="vanished">完成</translation>
     </message>
     <message>
         <location filename="../../src/prefab/InfoBar.py" line="56"/>
