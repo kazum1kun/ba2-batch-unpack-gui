@@ -98,7 +98,7 @@ def num_files_in_ba2(file):
 
 
 def extract_ba2(file, bsab_exe_path):
-    cfg_path = qconfig.get(cfg.extraction_path)
+    cfg_path = qconfig.get(cfg.extraction_path_card)
     if cfg_path:
         if os.path.isabs(cfg_path):
             extraction_path = cfg_path
@@ -197,7 +197,7 @@ class BsaExtractor(QThread):
             else:
                 # Back up the file if user requests so
                 if cfg.auto_backup.value:
-                    cfg_path = qconfig.get(cfg.backup_path)
+                    cfg_path = qconfig.get(cfg.backup_path_card)
                     if cfg_path:
                         if os.path.isabs(cfg_path):
                             backup_path = cfg_path

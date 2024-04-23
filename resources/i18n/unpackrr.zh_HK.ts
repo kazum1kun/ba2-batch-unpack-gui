@@ -30,8 +30,24 @@
     </message>
     <message>
         <location filename="../../src/view/setting_card/AboutSettingCard.py" line="23"/>
+        <source>Check manual/information</source>
+        <translation>查看使用說明或訊息</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="34"/>
+        <source>Organically &amp; locally produced by Southwest Codeworks
+Made with ❤️ in Arizona</source>
+        <translation>來自 Southwest Codeworks 的本地有機產品
+❤️ 來自亞利桑那</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="36"/>
+        <source>Project page</source>
+        <translation>專案頁面</translation>
+    </message>
+    <message>
         <source>Unpackrr on Nexus</source>
-        <translation>在 Nexus 查看 Unpackrr</translation>
+        <translation type="vanished">在 Nexus 查看 Unpackrr</translation>
     </message>
     <message>
         <location filename="../../src/view/setting_card/AboutSettingCard.py" line="25"/>
@@ -49,14 +65,12 @@
         <translation>原始碼</translation>
     </message>
     <message>
-        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="33"/>
         <source>Unpackrr on SWC</source>
-        <translation>在 SWC 查看 Unpackrr</translation>
+        <translation type="vanished">在 SWC 查看 Unpackrr</translation>
     </message>
     <message>
-        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="35"/>
         <source>SWC project</source>
-        <translation>SWC 項目</translation>
+        <translation type="vanished">SWC 項目</translation>
     </message>
 </context>
 <context>
@@ -186,13 +200,13 @@ Extracted {0} files.</source>
 <context>
     <name>InputSettingCard</name>
     <message>
-        <location filename="../../src/view/setting_card/InputSettingCard.py" line="48"/>
+        <location filename="../../src/view/setting_card/InputSettingCard.py" line="45"/>
         <source>Enter or choose a folder</source>
         <translation>輸入或選擇資料夾</translation>
     </message>
     <message>
-        <location filename="../../src/view/setting_card/InputSettingCard.py" line="49"/>
-        <location filename="../../src/view/setting_card/InputSettingCard.py" line="59"/>
+        <location filename="../../src/view/setting_card/InputSettingCard.py" line="46"/>
+        <location filename="../../src/view/setting_card/InputSettingCard.py" line="56"/>
         <source>Choose a folder</source>
         <translation>選擇資料夾</translation>
     </message>
@@ -524,51 +538,66 @@ To use regex, wrap the pattern inside {}, e.g. &quot;{.*[dD]iamond.*}&quot;</sou
         <translation>顯示帶有調試資訊的單獨窗口</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="118"/>
+        <location filename="../../src/view/SettingScreen.py" line="119"/>
         <source>Extraction path</source>
         <translation>提取路徑</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="120"/>
+        <location filename="../../src/view/SettingScreen.py" line="121"/>
         <source>The folder where ba2 files are extracted
 (leave empty to extract to the same folder)</source>
         <translation>解壓縮 ba2 檔案的資料夾
 （留空以提取到同一資料夾）</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="127"/>
+        <location filename="../../src/view/SettingScreen.py" line="128"/>
         <source>Backup path</source>
         <translation>備份路徑</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="129"/>
+        <location filename="../../src/view/SettingScreen.py" line="130"/>
         <source>The folder where ba2 files are backed up
 (leave empty to back up to &quot;backup&quot; folder in the mod)</source>
         <translation>ba2 檔案備份的資料夾
 （留空以備份到 mod 中的 “backup” 資料夾）</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="134"/>
+        <location filename="../../src/view/SettingScreen.py" line="135"/>
         <source>About</source>
         <translation>關於</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="139"/>
+        <location filename="../../src/view/SettingScreen.py" line="140"/>
+        <source>Buy me a coffee</source>
+        <translation>給我買杯咖啡</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/SettingScreen.py" line="142"/>
+        <source>Support me</source>
+        <translation>支持我</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/SettingScreen.py" line="143"/>
+        <source>If you like Unpackrr, consider supporting me by buying me a coffee</source>
+        <translation>如果您喜歡 Unpackrr，請考慮為我買杯咖啡來支持我</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/SettingScreen.py" line="149"/>
         <source>View</source>
         <translation>查看</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="141"/>
+        <location filename="../../src/view/SettingScreen.py" line="151"/>
         <source>Credits</source>
         <translation>致謝</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="142"/>
+        <location filename="../../src/view/SettingScreen.py" line="152"/>
         <source>Open source software that made Unpackrr possible</source>
         <translation>使 Unpackrr 成為可能的開源軟體</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="223"/>
+        <location filename="../../src/view/SettingScreen.py" line="230"/>
         <source>Configuration takes effect after restart</source>
         <translation>配置重啟後生效</translation>
     </message>

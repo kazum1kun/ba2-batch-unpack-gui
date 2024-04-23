@@ -3,7 +3,7 @@ import os.path
 from PySide6.QtCore import QSortFilterProxyModel
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QFileDialog, QHeaderView, QBoxLayout
 from qfluentwidgets import FluentIcon as Fi, TableView, PrimaryPushButton, \
-    StrongBodyLabel, RoundMenu, Action, qconfig
+    StrongBodyLabel, RoundMenu, Action
 from qfluentwidgets import (SubtitleLabel, LineEdit, ToolButton,
                             TogglePushButton, ToolTipFilter)
 

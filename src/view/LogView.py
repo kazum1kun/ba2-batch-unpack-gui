@@ -1,9 +1,8 @@
-from enum import Enum
 from traceback import format_exception
 from types import TracebackType
 from typing import Type
 
-from PySide6 import QtWidgets, QtCore
+from PySide6 import QtCore
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QTextEdit
 from qfluentwidgets import qconfig

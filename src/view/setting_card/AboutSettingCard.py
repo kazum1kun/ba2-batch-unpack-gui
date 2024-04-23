@@ -20,7 +20,7 @@ class AboutSettingCard(ExpandGroupSettingCard):
         self.feedback_button = PrimaryPushButton(self.tr('Feedback'), self)
 
         # Nexus
-        self.nexus_label = BodyLabel(self.tr('Unpackrr on Nexus'), self)
+        self.nexus_label = BodyLabel(self.tr('Check manual/information'), self)
         self.nexus_link = HyperlinkLabel(NEXUS_URL, self)
         self.nexus_link.setText(self.tr('Nexus page'))
 
@@ -30,9 +30,10 @@ class AboutSettingCard(ExpandGroupSettingCard):
         self.github_link.setText(self.tr('Source code'))
 
         # SWC
-        self.swc_label = BodyLabel(self.tr('Unpackrr on SWC'), self)
+        self.swc_label = BodyLabel(self.tr('Organically & locally produced by Southwest Codeworks\n'
+                                           'Made with ❤️ in Arizona'), self)
         self.swc_link = HyperlinkLabel(SWC_URL, self)
-        self.swc_link.setText(self.tr('SWC project'))
+        self.swc_link.setText(self.tr('Project page'))
 
         self.__add(self.feedback_label, self.feedback_button)
         self.__add(self.nexus_label, self.nexus_link)

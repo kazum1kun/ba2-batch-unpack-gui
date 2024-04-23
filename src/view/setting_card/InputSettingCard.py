@@ -1,11 +1,8 @@
-from typing import List, Union
+from typing import Union
 
-from PySide6.QtCore import Qt, Signal, QSize
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import (QWidget, QLabel,
-                               QHBoxLayout, QSizePolicy, QFileDialog)
-from qfluentwidgets import ExpandSettingCard, ConfigItem, FluentIconBase, PushButton, qconfig, LineEdit, TeachingTip, \
-    InfoBarIcon, TeachingTipTailPosition, ToolButton, ToolTipFilter, SettingCard
+from PySide6.QtWidgets import (QFileDialog)
+from qfluentwidgets import ConfigItem, FluentIconBase, qconfig, LineEdit, ToolButton, SettingCard
 from qfluentwidgets import FluentIcon as Fi
 
 

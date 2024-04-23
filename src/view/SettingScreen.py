@@ -6,12 +6,12 @@ from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, HyperlinkCard, 
                             ComboBoxSettingCard, ExpandLayout, Theme, InfoBar, CustomColorSettingCard,
                             setTheme, isDarkTheme, setThemeColor)
 
-from misc.Config import cfg, FEEDBACK_URL, CREDITS_URL
+from misc.Config import cfg, FEEDBACK_URL, CREDITS_URL, KOFI_URL
+from misc.Utilities import resource_path
 from view.setting_card.AboutSettingCard import AboutSettingCard
 from view.setting_card.IgnoredSettingCard import IgnoredSettingCard
 from view.setting_card.InputSettingCard import InputSettingCard
 from view.setting_card.PostfixSettingCard import PostfixSettingCard
-from misc.Utilities import resource_path
 
 
 class SettingScreen(ScrollArea):
@@ -20,17 +20,17 @@ class SettingScreen(ScrollArea):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
 
-        self.setObjectName('SettingsScreen')
+        self.setObjectName('SettingScreen')
 
-        self.scrollWidget = QWidget()
-        self.expandLayout = ExpandLayout(self.scrollWidget)
+        self.scroll_widget = QWidget()
+        self.expand_layout = ExpandLayout(self.scroll_widget)
 
         # setting label
-        self.settingLabel = QLabel(self.tr("Settings"), self)
+        self.setting_label = QLabel(self.tr("Settings"), self)
 
         # extraction
         self.extraction_group = SettingCardGroup(
-            self.tr('Extraction'), self.scrollWidget
+            self.tr('Extraction'), self.scroll_widget
         )
         self.postfixes_card = PostfixSettingCard(
             cfg.postfixes,
@@ -64,8 +64,8 @@ class SettingScreen(ScrollArea):
         )
 
         # personalization
-        self.personalGroup = SettingCardGroup(self.tr('Personalization'), self.scrollWidget)
-        self.themeCard = ComboBoxSettingCard(
+        self.personal_group = SettingCardGroup(self.tr('Personalization'), self.scroll_widget)
+        self.theme_card = ComboBoxSettingCard(
             cfg.themeMode,
             Fi.BRUSH,
             self.tr('Theme'),
@@ -74,36 +74,36 @@ class SettingScreen(ScrollArea):
                 self.tr('Light'), self.tr('Dark'),
                 self.tr('Use system setting')
             ],
-            parent=self.personalGroup
+            parent=self.personal_group
         )
-        self.themeColorCard = CustomColorSettingCard(
+        self.theme_color_card = CustomColorSettingCard(
             cfg.themeColor,
             Fi.PALETTE,
             self.tr('Color'),
             self.tr('Change the theme color of the app'),
-            self.personalGroup
+            self.personal_group
         )
-        self.languageCard = ComboBoxSettingCard(
+        self.language_card = ComboBoxSettingCard(
             cfg.language,
             Fi.LANGUAGE,
             self.tr('Language'),
             self.tr('Select your preferred language'),
             texts=[self.tr('Use system setting'), 'English', '简体中文', '繁體中文', 'English'],
-            parent=self.personalGroup
+            parent=self.personal_group
         )
 
         # update software
-        self.updateSoftwareGroup = SettingCardGroup(self.tr("Update"), self.scrollWidget)
-        self.updateOnStartUpCard = SwitchSettingCard(
+        self.update_group = SettingCardGroup(self.tr("Update"), self.scroll_widget)
+        self.update_card = SwitchSettingCard(
             Fi.UPDATE,
             self.tr('Check for updates'),
             self.tr('Automatically check and notify you of updates'),
             configItem=cfg.check_update_at_start_up,
-            parent=self.updateSoftwareGroup
+            parent=self.update_group
         )
 
         # Advanced
-        self.advanced_group = SettingCardGroup(self.tr('Advanced'), self.scrollWidget)
+        self.advanced_group = SettingCardGroup(self.tr('Advanced'), self.scroll_widget)
         self.show_debug_card = SwitchSettingCard(
             Fi.COMMAND_PROMPT,
             self.tr('Show log output'),
@@ -113,7 +113,7 @@ class SettingScreen(ScrollArea):
         )
 
         theme_str = 'dark' if isDarkTheme() else 'light'
-        self.extraction_path = InputSettingCard(
+        self.extraction_path_card = InputSettingCard(
             cfg.extraction_path,
             QIcon(resource_path(f'resources/images/FolderArrowUp_{theme_str}.png')),
             self.tr('Extraction path'),
@@ -122,7 +122,7 @@ class SettingScreen(ScrollArea):
             self.advanced_group
         )
 
-        self.backup_path = InputSettingCard(
+        self.backup_path_card = InputSettingCard(
             cfg.backup_path,
             Fi.DOCUMENT,
             self.tr('Backup path'),
@@ -132,20 +132,28 @@ class SettingScreen(ScrollArea):
         )
 
         # application
-        self.aboutGroup = SettingCardGroup(self.tr('About'), self.scrollWidget)
-        self.aboutSettingCard = AboutSettingCard(self.aboutGroup)
+        self.about_group = SettingCardGroup(self.tr('About'), self.scroll_widget)
+        self.about_setting_card = AboutSettingCard(self.about_group)
+
+        self.kofi_card = HyperlinkCard(
+            KOFI_URL,
+            self.tr('Buy me a coffee'),
+            Fi.HEART,
+            self.tr('Support me'),
+            self.tr('If you like Unpackrr, consider supporting me by buying me a coffee'),
+            self.about_group
+        )
 
         self.credits_card = HyperlinkCard(
             CREDITS_URL,
             self.tr('View'),
-            Fi.HEART,
+            Fi.BOOK_SHELF,
             self.tr('Credits'),
             self.tr('Open source software that made Unpackrr possible'),
-            self.aboutGroup
+            self.about_group
         )
 
         self.pending_update = False
-        self.credits_window = None
 
         self.__init_widget()
 
@@ -154,7 +162,7 @@ class SettingScreen(ScrollArea):
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.setViewportMargins(0, 120, 0, 20)
-        self.setWidget(self.scrollWidget)
+        self.setWidget(self.scroll_widget)
         self.setWidgetResizable(True)
 
         # initialize style sheet
@@ -165,7 +173,7 @@ class SettingScreen(ScrollArea):
         self.__connect_signal_to_slot()
 
     def __init_layout(self):
-        self.settingLabel.move(60, 63)
+        self.setting_label.move(60, 63)
 
         self.extraction_group.addSettingCard(self.postfixes_card)
         self.extraction_group.addSettingCard(self.ignored_card)
@@ -173,31 +181,29 @@ class SettingScreen(ScrollArea):
         self.extraction_group.addSettingCard(self.auto_backup_card)
 
         # add cards to group
-        self.personalGroup.addSettingCard(self.themeCard)
-        self.personalGroup.addSettingCard(self.themeColorCard)
-        self.personalGroup.addSettingCard(self.languageCard)
+        self.personal_group.addSettingCard(self.theme_card)
+        self.personal_group.addSettingCard(self.theme_color_card)
+        self.personal_group.addSettingCard(self.language_card)
 
-        self.updateSoftwareGroup.addSettingCard(self.updateOnStartUpCard)
+        self.update_group.addSettingCard(self.update_card)
 
         self.advanced_group.addSettingCard(self.show_debug_card)
-        self.advanced_group.addSettingCard(self.extraction_path)
-        self.advanced_group.addSettingCard(self.backup_path)
+        self.advanced_group.addSettingCard(self.extraction_path_card)
+        self.advanced_group.addSettingCard(self.backup_path_card)
 
-        self.aboutGroup.addSettingCard(self.aboutSettingCard)
-        self.aboutGroup.addSettingCard(self.credits_card)
-        # self.aboutGroup.addSettingCard(self.helpCard)
-        # self.aboutGroup.addSettingCard(self.feedbackCard)
-        # self.aboutGroup.addSettingCard(self.aboutCard)
+        self.about_group.addSettingCard(self.about_setting_card)
+        self.about_group.addSettingCard(self.kofi_card)
+        self.about_group.addSettingCard(self.credits_card)
 
         # add setting card group to layout
-        self.expandLayout.setSpacing(28)
-        self.expandLayout.setContentsMargins(60, 10, 60, 0)
+        self.expand_layout.setSpacing(28)
+        self.expand_layout.setContentsMargins(60, 10, 60, 0)
 
-        self.expandLayout.addWidget(self.extraction_group)
-        self.expandLayout.addWidget(self.personalGroup)
-        self.expandLayout.addWidget(self.updateSoftwareGroup)
-        self.expandLayout.addWidget(self.advanced_group)
-        self.expandLayout.addWidget(self.aboutGroup)
+        self.expand_layout.addWidget(self.extraction_group)
+        self.expand_layout.addWidget(self.personal_group)
+        self.expand_layout.addWidget(self.update_group)
+        self.expand_layout.addWidget(self.advanced_group)
+        self.expand_layout.addWidget(self.about_group)
 
     def showEvent(self, event):
         super().showEvent(event)
@@ -210,8 +216,8 @@ class SettingScreen(ScrollArea):
 
     def __set_qss(self):
         """ set style sheet """
-        self.scrollWidget.setObjectName('scrollWidget')
-        self.settingLabel.setObjectName('settingLabel')
+        self.scroll_widget.setObjectName('scrollWidget')
+        self.setting_label.setObjectName('settingLabel')
 
         theme = 'dark' if isDarkTheme() else 'light'
         with open(resource_path(f'resources/qss/{theme}/setting_interface.qss'), encoding='utf-8') as f:
@@ -231,7 +237,8 @@ class SettingScreen(ScrollArea):
         # change the theme of qfluentwidgets
         setTheme(theme)
         theme_str = 'dark' if isDarkTheme() else 'light'
-        self.extraction_path.iconLabel.setIcon(QIcon(resource_path(f'resources/images/FolderArrowUp_{theme_str}.png')))
+        self.extraction_path_card.iconLabel.setIcon(
+            QIcon(resource_path(f'resources/images/FolderArrowUp_{theme_str}.png')))
 
         # chang the theme of setting interface
         self.__set_qss()
@@ -256,7 +263,7 @@ class SettingScreen(ScrollArea):
 
         # about
         # self.aboutCard.clicked.connect(self.checkUpdateSig)
-        self.aboutSettingCard.feedback_button.clicked.connect(
+        self.about_setting_card.feedback_button.clicked.connect(
             lambda: QDesktopServices.openUrl(QUrl(FEEDBACK_URL)))
 
         QApplication.instance().ignore_changed.connect(self.notify_ignore)

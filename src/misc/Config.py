@@ -100,6 +100,7 @@ NEXUS_URL = ''
 GITHUB_URL = 'https://github.com/kazum1kun/ba2-batch-unpack-gui'
 CREDITS_URL = 'https://github.com/kazum1kun/ba2-batch-unpack-gui/blob/master/CREDITS.md'
 SWC_URL = ''
+KOFI_URL = 'https://ko-fi.com/kazblog'
 
 cfg = Config()
 qconfig.load('config/config.json', cfg)
