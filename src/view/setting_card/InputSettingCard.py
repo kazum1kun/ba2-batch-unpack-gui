@@ -44,7 +44,6 @@ class InputSettingCard(SettingCard):
         if config_item:
             self.setValue(qconfig.get(config_item))
 
-        self.input.setMinimumWidth(250)
         self.input.setText(qconfig.get(config_item))
         self.input.setPlaceholderText(self.tr('Enter or choose a folder'))
         self.button.setToolTip(self.tr('Choose a folder'))
@@ -59,6 +58,10 @@ class InputSettingCard(SettingCard):
     def setValue(self, value):
         if self.config_item:
             qconfig.set(self.config_item, value)
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self.input.setMinimumWidth(self.width() - 450)
 
     def __open_file(self):
         _filter = ';;'.join([f'{ext} files (*.{ext})' for ext in self.extensions] + ['All files (*)'])
