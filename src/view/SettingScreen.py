@@ -1,7 +1,7 @@
 from PySide6.QtCore import Qt, Signal, QUrl
 from PySide6.QtGui import QDesktopServices, QIcon
 from PySide6.QtWidgets import QWidget, QLabel, QApplication
-from qfluentwidgets import FluentIcon as Fi, qconfig
+from qfluentwidgets import FluentIcon as Fi
 from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, HyperlinkCard, ScrollArea,
                             ComboBoxSettingCard, ExpandLayout, Theme, InfoBar, CustomColorSettingCard,
                             setTheme, isDarkTheme, setThemeColor)
@@ -178,7 +178,7 @@ class SettingScreen(ScrollArea):
 
         self.ext_ba2_card.input.setPlaceholderText(self.tr('Choose your external ba2 tool'))
         # Not ideal, but doing it in the Config will result in a circular import
-        if qconfig.get(cfg.first_launch):
+        if cfg.get(cfg.first_launch):
             self.ext_ba2_card.input.setText(get_default_windows_app('.ba2'))
 
         # initialize style sheet
@@ -265,7 +265,7 @@ class SettingScreen(ScrollArea):
         setThemeColor(color)
 
     def __on_debug_changed(self):
-        if qconfig.get(cfg.show_debug):
+        if cfg.get(cfg.show_debug):
             QApplication.instance().log_view.show()
         else:
             QApplication.instance().log_view.hide()

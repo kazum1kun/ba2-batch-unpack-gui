@@ -5,7 +5,6 @@ from typing import Type
 from PySide6 import QtCore
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QTextEdit
-from qfluentwidgets import qconfig
 
 from misc.Config import cfg, LogLevel
 
@@ -28,7 +27,7 @@ class LogView(QTextEdit):
     def add_log(self, message, level=LogLevel.INFO):
         # The higher the level the more trivial the message is
         # (perhaps the opposite of what you would expect)
-        if level.value > qconfig.get(cfg.log_level).value:
+        if level.value > cfg.get(cfg.log_level).value:
             return
         if level == LogLevel.FATAL or level == LogLevel.ERROR:
             color = QColor('red')
@@ -58,4 +57,4 @@ class LogView(QTextEdit):
     # Revert the show_debug setting to False when the window is closed
     def closeEvent(self, event):
         super().closeEvent(event)
-        qconfig.set(cfg.show_debug, False)
+        cfg.set(cfg.show_debug, False)

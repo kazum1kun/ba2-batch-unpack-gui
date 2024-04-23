@@ -183,7 +183,7 @@ class MainScreen(QFrame):
 
         # Only process if the folder selected is not empty
         if selected_folder and os.path.isdir(selected_folder):
-            qconfig.set(cfg.saved_dir, selected_folder)
+            cfg.set(cfg.saved_dir, selected_folder)
             self.folder_button.setDisabled(True)
             # Animate the progress bar
             self.processor = BsaProcessor(selected_folder, self)
@@ -232,9 +232,9 @@ class MainScreen(QFrame):
 
     def __update_ignored(self):
         if len(self.failed) > 0:
-            temp = set(qconfig.get(cfg.ignored))
+            temp = set(cfg.get(cfg.ignored))
             temp.update(self.failed)
-            qconfig.set(cfg.ignored, list(temp))
+            cfg.set(cfg.ignored, list(temp))
             # Update the ignored items accordingly
             QApplication.instance().ignore_changed.emit()
 
@@ -328,13 +328,13 @@ class MainScreen(QFrame):
     def __get_filtered_files(self, threshold_byte):
         if threshold_byte != -1:
             # Persist the size info
-            qconfig.set(cfg.saved_threshold, threshold_byte)
+            cfg.set(cfg.saved_threshold, threshold_byte)
             return [entry for entry in self.file_data if entry.file_size <= threshold_byte]
 
     def __ignore_file(self, file_name, idx):
-        temp = set(qconfig.get(cfg.ignored))
+        temp = set(cfg.get(cfg.ignored))
         temp.add(os.path.abspath(file_name))
-        qconfig.set(cfg.ignored, list(temp))
+        cfg.set(cfg.ignored, list(temp))
         # Update the ignored items accordingly
         QApplication.instance().ignore_changed.emit()
 
@@ -344,7 +344,7 @@ class MainScreen(QFrame):
     def __open_ba2_ext(self, file_path):
         if os.path.isfile(file_path):
             args = [
-                qconfig.get(cfg.ext_ba2_exe),
+                cfg.get(cfg.ext_ba2_exe),
                 file_path
             ]
             subprocess.run(args)

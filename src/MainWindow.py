@@ -5,7 +5,7 @@ import sys
 from PySide6.QtCore import QTranslator, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
-from qfluentwidgets import FluentIcon as Fi, NavigationItemPosition, FluentTranslator, qconfig, SplashScreen, Theme
+from qfluentwidgets import FluentIcon as Fi, NavigationItemPosition, FluentTranslator, SplashScreen, Theme
 from qfluentwidgets import (SplitFluentWindow)
 
 from misc.Config import cfg
@@ -71,7 +71,7 @@ if __name__ == '__main__':
     app = Unpackrr(sys.argv)
 
     # internationalization
-    locale = qconfig.get(cfg.language)
+    locale = cfg.get(cfg.language).value
     fluentTranslator = FluentTranslator(locale)
     app.installTranslator(fluentTranslator)
 
@@ -80,7 +80,7 @@ if __name__ == '__main__':
         unpackrrTranslator.load(locale, 'unpackrr', '.', resource_path('resources/i18n'))
         app.installTranslator(unpackrrTranslator)
 
-    if qconfig.get(cfg.show_debug):
+    if cfg.get(cfg.show_debug):
         app.log_view.show()
 
     # Required to display icons correctly
@@ -88,12 +88,12 @@ if __name__ == '__main__':
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
 
     # Set the default theme to Auto
-    if qconfig.get(cfg.first_launch):
-        qconfig.set(cfg.themeMode, Theme.AUTO)
+    if cfg.get(cfg.first_launch):
+        cfg.set(cfg.themeMode, Theme.AUTO)
 
     w = MainWindow()
     ret = app.exec()
 
-    qconfig.set(cfg.first_launch, False)
+    cfg.set(cfg.first_launch, False)
 
     sys.exit(ret)

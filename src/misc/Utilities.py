@@ -9,7 +9,7 @@ import winreg
 from PySide6.QtCore import QThread, Signal
 from PySide6.QtWidgets import QTableView, QApplication
 from construct import Struct, Bytes, Int32ul, Int64ul, PaddedString, StreamError
-from qfluentwidgets import ProgressBar, qconfig
+from qfluentwidgets import ProgressBar
 
 from misc.Config import cfg, LogLevel
 from model.PreviewTableModel import FileEntry
@@ -19,11 +19,11 @@ def is_ignored(file):
     # File is the full path to the file, so we need to perform a full matching and a partial matching based
     # on the file name
     # Case 1 - Full path matching
-    if os.path.abspath(file) in qconfig.get(cfg.ignored):
+    if os.path.abspath(file) in cfg.get(cfg.ignored):
         return True
     # Case 2 - Partial matching
     base_name = os.path.basename(file)
-    for ignored in qconfig.get(cfg.ignored):
+    for ignored in cfg.get(cfg.ignored):
         if '{' in ignored and '}' in ignored:
             # Regex pattern
             pattern = ignored.split('{')[1].split('}')[0]
@@ -110,7 +110,7 @@ def num_files_in_ba2(file):
 
 
 def extract_ba2(file, bsab_exe_path):
-    cfg_path = qconfig.get(cfg.extraction_path)
+    cfg_path = cfg.get(cfg.extraction_path)
     if cfg_path:
         if os.path.isabs(cfg_path):
             extraction_path = cfg_path
@@ -152,7 +152,7 @@ class BsaProcessor(QThread):
         self._parent = _parent
 
     def run(self):
-        ba2_paths = scan_for_ba2(self._path, qconfig.get(cfg.postfixes))
+        ba2_paths = scan_for_ba2(self._path, cfg.get(cfg.postfixes))
 
         num_failed = 0
         num_ignored = 0
@@ -203,7 +203,7 @@ class BsaExtractor(QThread):
         for i in range(table.model().rowCount()):
             path = table.model().sourceModel().raw_data()[table_idx].full_path
             if extract_ba2(path, resource_path('bin/bsab.exe')) == -1:
-                if qconfig.get(cfg.ignore_bad_files):
+                if cfg.get(cfg.ignore_bad_files):
                     failed.add(os.path.abspath(path))
                 # Highlight the failed files in the table
                 source_idx = table.model().mapToSource(table.model().index(table_idx, 0))
@@ -212,8 +212,8 @@ class BsaExtractor(QThread):
                 failed_count += 1
             else:
                 # Back up the file if user requests so
-                if qconfig.get(cfg.auto_backup):
-                    cfg_path = qconfig.get(cfg.backup_path)
+                if cfg.get(cfg.auto_backup):
+                    cfg_path = cfg.get(cfg.backup_path)
                     if cfg_path:
                         if os.path.isabs(cfg_path):
                             backup_path = cfg_path

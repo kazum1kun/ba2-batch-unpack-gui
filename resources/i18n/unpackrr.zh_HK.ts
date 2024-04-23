@@ -204,15 +204,20 @@ Extracted {0} files.</source>
 <context>
     <name>InputSettingCard</name>
     <message>
-        <location filename="../../src/view/setting_card/InputSettingCard.py" line="45"/>
+        <location filename="../../src/view/setting_card/InputSettingCard.py" line="49"/>
         <source>Enter or choose a folder</source>
         <translation>輸入或選擇資料夾</translation>
     </message>
     <message>
-        <location filename="../../src/view/setting_card/InputSettingCard.py" line="46"/>
-        <location filename="../../src/view/setting_card/InputSettingCard.py" line="56"/>
+        <location filename="../../src/view/setting_card/InputSettingCard.py" line="50"/>
+        <location filename="../../src/view/setting_card/InputSettingCard.py" line="70"/>
         <source>Choose a folder</source>
         <translation>選擇資料夾</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/setting_card/InputSettingCard.py" line="65"/>
+        <source>Choose a ba2 utility</source>
+        <translation>選擇 ba2 工具</translation>
     </message>
 </context>
 <context>
@@ -224,7 +229,7 @@ Extracted {0} files.</source>
     </message>
     <message>
         <location filename="../../src/view/MainScreen.py" line="29"/>
-        <location filename="../../src/view/MainScreen.py" line="76"/>
+        <location filename="../../src/view/MainScreen.py" line="79"/>
         <source>Fallout 4 mod folder</source>
         <translation>異塵餘生4 mod 資料夾</translation>
     </message>
@@ -244,17 +249,17 @@ Extracted {0} files.</source>
         <translation>開始提取</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="45"/>
+        <location filename="../../src/view/MainScreen.py" line="47"/>
         <source>Preview</source>
         <translation>預覽</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="54"/>
+        <location filename="../../src/view/MainScreen.py" line="57"/>
         <source>Select or drag &apos;n drop a folder here to get started</source>
         <translation>選擇或拖放資料夾到此處</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="94"/>
+        <location filename="../../src/view/MainScreen.py" line="97"/>
         <source>Automatically attempts to determine a
 threshold so just enough ba2 are
 extracted to get under the ba2 limit</source>
@@ -262,32 +267,37 @@ extracted to get under the ba2 limit</source>
 夠多的 ba2，讓遊戲降到 ba2 上限內</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="187"/>
+        <location filename="../../src/view/MainScreen.py" line="198"/>
         <source>Open your Fallout 4 mod folder</source>
         <translation>打開您的異塵餘生4 mod 資料夾</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="87"/>
+        <location filename="../../src/view/MainScreen.py" line="90"/>
         <source>Threshold</source>
         <translation>閾值</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="279"/>
+        <location filename="../../src/view/MainScreen.py" line="305"/>
         <source>Ignore</source>
         <translation>忽略</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="280"/>
+        <location filename="../../src/view/MainScreen.py" line="307"/>
         <source>Open</source>
         <translation>打開</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="308"/>
+        <location filename="../../src/view/MainScreen.py" line="355"/>
+        <source>Total files: {0}, total size: {1}, extracted file count: {2}</source>
+        <translation>檔案總數：{0}，總大小：{1}，提取後的檔案數：{2}</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/MainScreen.py" line="362"/>
         <source>Drop your Fallout 4 mod folder here</source>
         <translation>將您的異塵餘生4 mod 資料夾拖放到此處</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="315"/>
+        <location filename="../../src/view/MainScreen.py" line="369"/>
         <source>Select a folder to get started</source>
         <translation>選擇一個資料夾即可開始</translation>
     </message>
@@ -295,12 +305,12 @@ extracted to get under the ba2 limit</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/MainWindow.py" line="35"/>
+        <location filename="../../src/MainWindow.py" line="38"/>
         <source>Extraction</source>
         <translation>提取</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.py" line="36"/>
+        <location filename="../../src/MainWindow.py" line="39"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
@@ -566,42 +576,59 @@ To use regex, wrap the pattern inside {}, e.g. &quot;{.*[dD]iamond.*}&quot;</sou
 （留空以備份到 mod 中的 “backup” 資料夾）</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="135"/>
+        <location filename="../../src/view/SettingScreen.py" line="137"/>
+        <source>External ba2 tool</source>
+        <translation>外部 ba2 工具</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/SettingScreen.py" line="139"/>
+        <source>Path to an external ba2 tool that&apos;s used for the
+&quot;Open&quot; command in the table context menu</source>
+        <translation>外部 ba2 工具的路徑
+用於表格中「開啟」上下文選單</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/SettingScreen.py" line="146"/>
         <source>About</source>
         <translation>關於</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="140"/>
+        <location filename="../../src/view/SettingScreen.py" line="151"/>
         <source>Buy me a coffee</source>
         <translation>給我買杯咖啡</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="142"/>
+        <location filename="../../src/view/SettingScreen.py" line="153"/>
         <source>Support me</source>
         <translation>支持我</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="143"/>
+        <location filename="../../src/view/SettingScreen.py" line="154"/>
         <source>If you like Unpackrr, consider supporting me by buying me a coffee</source>
         <translation>如果您喜歡 Unpackrr，請考慮為我買杯咖啡來支持我</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="149"/>
+        <location filename="../../src/view/SettingScreen.py" line="160"/>
         <source>View</source>
         <translation>查看</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="151"/>
+        <location filename="../../src/view/SettingScreen.py" line="162"/>
         <source>Credits</source>
         <translation>致謝</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="152"/>
+        <location filename="../../src/view/SettingScreen.py" line="163"/>
         <source>Open source software that made Unpackrr possible</source>
         <translation>使 Unpackrr 成為可能的開源軟體</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="230"/>
+        <location filename="../../src/view/SettingScreen.py" line="179"/>
+        <source>Choose your external ba2 tool</source>
+        <translation>選擇您的外部 ba2 工具</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/SettingScreen.py" line="247"/>
         <source>Configuration takes effect after restart</source>
         <translation>配置重啟後生效</translation>
     </message>
