@@ -2,10 +2,10 @@ import ctypes
 import os
 import sys
 
-from PySide6.QtCore import QTranslator, Signal
+from PySide6.QtCore import QTranslator, Signal, QSize, QEventLoop, QTimer
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
-from qfluentwidgets import FluentIcon as Fi, NavigationItemPosition, FluentTranslator, qconfig
+from qfluentwidgets import FluentIcon as Fi, NavigationItemPosition, FluentTranslator, qconfig, SplashScreen
 from qfluentwidgets import (SplitFluentWindow)
 
 from misc.Config import cfg
@@ -21,14 +21,17 @@ class MainWindow(SplitFluentWindow):
     def __init__(self):
         super().__init__()
 
+        self.splash = SplashScreen(QIcon(resource_path('resources/images/unpackrr.png')), self)
+        self.init_window()
+        self.show()
+
         # Create split tabs
         self.mainScreen = MainScreen(self)
         self.settingsScreen = SettingScreen(self)
 
         self.init_navigation()
-        self.init_window()
-        self.setMinimumSize(800, 500)
-        self.resize(1000, 700)
+
+        self.splash.finish()
 
     def init_navigation(self):
         self.navigationInterface.setReturnButtonVisible(False)
@@ -38,9 +41,13 @@ class MainWindow(SplitFluentWindow):
     def init_window(self):
         self.setWindowTitle(u'Unpackrr')
         self.setWindowIcon(QIcon(resource_path('resources/images/unpackrr.png')))
+        # Center window
         desktop = QApplication.screens()[0].availableGeometry()
         w, h = desktop.width(), desktop.height()
         self.move(w // 2 - self.width(), h // 2 - self.height() // 2)
+        # Set size
+        self.setMinimumSize(800, 500)
+        self.resize(1000, 700)
 
 
 # Hack to install a "global" signal/slot
@@ -81,7 +88,6 @@ if __name__ == '__main__':
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
 
     w = MainWindow()
-    w.show()
     ret = app.exec()
 
     qconfig.set(cfg.first_launch, False)
