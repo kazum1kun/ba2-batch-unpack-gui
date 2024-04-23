@@ -2,10 +2,10 @@ import ctypes
 import os
 import sys
 
-from PySide6.QtCore import QTranslator, Signal, QSize, QEventLoop, QTimer
+from PySide6.QtCore import QTranslator, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
-from qfluentwidgets import FluentIcon as Fi, NavigationItemPosition, FluentTranslator, qconfig, SplashScreen
+from qfluentwidgets import FluentIcon as Fi, NavigationItemPosition, FluentTranslator, qconfig, SplashScreen, Theme
 from qfluentwidgets import (SplitFluentWindow)
 
 from misc.Config import cfg
@@ -71,7 +71,7 @@ if __name__ == '__main__':
     app = Unpackrr(sys.argv)
 
     # internationalization
-    locale = cfg.get(cfg.language).value
+    locale = qconfig.get(cfg.language)
     fluentTranslator = FluentTranslator(locale)
     app.installTranslator(fluentTranslator)
 
@@ -86,6 +86,10 @@ if __name__ == '__main__':
     # Required to display icons correctly
     app_id = 'unpackrr'
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
+
+    # Set the default theme to Auto
+    if qconfig.get(cfg.first_launch):
+        qconfig.set(cfg.themeMode, Theme.AUTO)
 
     w = MainWindow()
     ret = app.exec()

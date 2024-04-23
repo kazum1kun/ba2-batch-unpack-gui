@@ -197,7 +197,7 @@ class MainScreen(QFrame):
     def __open_folder(self):
         self.folder_input.setText(QFileDialog.getExistingDirectory(self, self.tr('Open your Fallout 4 mod folder'),
                                                                    options=QFileDialog.Option.ShowDirsOnly |
-                                                                   QFileDialog.Option.DontResolveSymlinks))
+                                                                           QFileDialog.Option.DontResolveSymlinks))
         self.__process_folder()
 
     def __extract_files(self):
@@ -289,7 +289,6 @@ class MainScreen(QFrame):
         raw_data = self.preview_table.model().sourceModel().raw_data()
         data = raw_data[raw_idx.row()]
         self.__open_ba2_ext(data.full_path)
-
 
     def __table_custom_menu(self, pos):
         item_idx = self.preview_table.indexAt(pos)

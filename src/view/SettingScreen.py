@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt, Signal, QUrl
 from PySide6.QtGui import QDesktopServices, QIcon
-from PySide6.QtWidgets import QWidget, QLabel, QApplication, QFileDialog
+from PySide6.QtWidgets import QWidget, QLabel, QApplication
 from qfluentwidgets import FluentIcon as Fi, qconfig
 from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, HyperlinkCard, ScrollArea,
                             ComboBoxSettingCard, ExpandLayout, Theme, InfoBar, CustomColorSettingCard,

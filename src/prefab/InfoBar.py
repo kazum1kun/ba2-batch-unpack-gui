@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QApplication
-from qfluentwidgets import InfoBar, InfoBarIcon, InfoBarPosition, PushButton
+from qfluentwidgets import InfoBar, InfoBarIcon, InfoBarPosition, PushButton, qconfig
 
 from misc.Config import cfg
 from prefab.MessageBox import show_failed_files
@@ -8,7 +8,7 @@ from prefab.MessageBox import show_failed_files
 def show_result_toast(results, _type='scan'):
     num_success = results[1]
     num_fail = results[2]
-    auto_ignore = cfg.ignore_bad_files.value
+    auto_ignore = qconfig(cfg.ignore_bad_files)
     if _type == 'scan':
         verb = QApplication.translate('InfoBar', 'scanning')
     else:
