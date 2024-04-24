@@ -10,6 +10,8 @@ from qfluentwidgets import (SplitFluentWindow)
 
 from misc.Config import cfg
 from misc.Utilities import resource_path
+from prefab.CustomIcon import CustomIcon
+from view.CheckFileScreen import CheckFileScreen
 from view.LogView import LogView, LogLevel
 from view.MainScreen import MainScreen
 from view.SettingScreen import SettingScreen
@@ -26,8 +28,9 @@ class MainWindow(SplitFluentWindow):
         self.show()
 
         # Create split tabs
-        self.mainScreen = MainScreen(self)
-        self.settingsScreen = SettingScreen(self)
+        self.main_screen = MainScreen(self)
+        self.check_file_screen = CheckFileScreen(self)
+        self.setting_screen = SettingScreen(self)
 
         self.init_navigation()
 
@@ -35,8 +38,9 @@ class MainWindow(SplitFluentWindow):
 
     def init_navigation(self):
         self.navigationInterface.setReturnButtonVisible(False)
-        self.addSubInterface(self.mainScreen, Fi.HOME, self.tr('Extraction'))
-        self.addSubInterface(self.settingsScreen, Fi.SETTING, self.tr('Settings'), NavigationItemPosition.BOTTOM)
+        self.addSubInterface(self.main_screen, Fi.HOME, self.tr('Extraction'))
+        self.addSubInterface(self.check_file_screen, CustomIcon.STETHOSCOPE, self.tr('Check Files'))
+        self.addSubInterface(self.setting_screen, Fi.SETTING, self.tr('Settings'), NavigationItemPosition.BOTTOM)
 
     def init_window(self):
         self.setWindowTitle(u'Unpackrr')
@@ -53,6 +57,7 @@ class MainWindow(SplitFluentWindow):
 # Hack to install a "global" signal/slot
 class Unpackrr(QApplication):
     ignore_changed = Signal()
+    theme_changed = Signal()
 
     def __init__(self, argv):
         super().__init__(argv)
@@ -72,13 +77,13 @@ if __name__ == '__main__':
 
     # internationalization
     locale = cfg.get(cfg.language).value
-    fluentTranslator = FluentTranslator(locale)
-    app.installTranslator(fluentTranslator)
+    fluent_translator = FluentTranslator(locale)
+    app.installTranslator(fluent_translator)
 
     if locale.language().name != 'English':
-        unpackrrTranslator = QTranslator()
-        unpackrrTranslator.load(locale, 'unpackrr', '.', resource_path('resources/i18n'))
-        app.installTranslator(unpackrrTranslator)
+        unpackrr_translator = QTranslator()
+        unpackrr_translator.load(locale, 'unpackrr', '.', resource_path('resources/i18n'))
+        app.installTranslator(unpackrr_translator)
 
     if cfg.get(cfg.show_debug):
         app.log_view.show()

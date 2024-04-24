@@ -8,6 +8,7 @@ from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, HyperlinkCard, 
 
 from misc.Config import cfg, FEEDBACK_URL, CREDITS_URL, KOFI_URL
 from misc.Utilities import resource_path, get_default_windows_app
+from prefab.CustomIcon import CustomIcon
 from view.setting_card.AboutSettingCard import AboutSettingCard
 from view.setting_card.IgnoredSettingCard import IgnoredSettingCard
 from view.setting_card.InputSettingCard import InputSettingCard
@@ -112,10 +113,9 @@ class SettingScreen(ScrollArea):
             parent=self.advanced_group
         )
 
-        theme_str = 'dark' if isDarkTheme() else 'light'
         self.extraction_path_card = InputSettingCard(
             cfg.extraction_path,
-            QIcon(resource_path(f'resources/images/FolderArrowUp_{theme_str}.png')),
+            CustomIcon.FOLDER_ARROW_UP,
             self.tr('Extraction path'),
             self.tr('The folder where ba2 files are extracted\n'
                     '(leave empty to extract to the same folder)'),
@@ -253,9 +253,6 @@ class SettingScreen(ScrollArea):
         """ theme changed slot """
         # change the theme of qfluentwidgets
         setTheme(theme)
-        theme_str = 'dark' if isDarkTheme() else 'light'
-        self.extraction_path_card.iconLabel.setIcon(
-            QIcon(resource_path(f'resources/images/FolderArrowUp_{theme_str}.png')))
 
         # chang the theme of setting interface
         self.__set_qss()
