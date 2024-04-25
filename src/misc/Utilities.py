@@ -1,18 +1,15 @@
 import os
 import re
 import shlex
-import shutil
 import subprocess
 import sys
+import tempfile
 import winreg
 
-from PySide6.QtCore import QThread, Signal
-from PySide6.QtWidgets import QTableView, QApplication
+from PySide6.QtWidgets import QApplication
 from construct import Struct, Bytes, Int32ul, Int64ul, PaddedString, StreamError
-from qfluentwidgets import ProgressBar
 
 from misc.Config import cfg, LogLevel
-from model.PreviewTableModel import FileEntry
 
 
 def is_ignored(file):
@@ -109,18 +106,23 @@ def num_files_in_ba2(file):
             return -1
 
 
-def extract_ba2(file, bsab_exe_path):
-    cfg_path = cfg.get(cfg.extraction_path)
-    if cfg_path:
-        if os.path.isabs(cfg_path):
-            extraction_path = cfg_path
-        else:
-            extraction_path = os.path.join(os.path.dirname(file), cfg_path)
+def extract_ba2(file, bsab_exe_path, use_temp=False):
+    tmp_dir = None
+    if use_temp:
+        tmp_dir = tempfile.TemporaryDirectory()
+        extraction_path = tmp_dir.name
     else:
-        extraction_path = os.path.dirname(file)
+        cfg_path = cfg.get(cfg.extraction_path)
+        if cfg_path:
+            if os.path.isabs(cfg_path):
+                extraction_path = cfg_path
+            else:
+                extraction_path = os.path.join(os.path.dirname(file), cfg_path)
+        else:
+            extraction_path = os.path.dirname(file)
 
-    if not os.path.isdir(extraction_path):
-        os.makedirs(extraction_path)
+        if not os.path.isdir(extraction_path):
+            os.makedirs(extraction_path)
 
     # Hide the console window
     si = subprocess.STARTUPINFO()
@@ -133,6 +135,9 @@ def extract_ba2(file, bsab_exe_path):
         extraction_path
     ]
     proc = subprocess.run(args, text=True, capture_output=True, startupinfo=si)
+
+    if use_temp:
+        tmp_dir.cleanup()
     if proc.returncode != 0:
         QApplication.instance().log_view.add_log(f'Error extracting {file}', LogLevel.WARNING)
         return -1
@@ -141,96 +146,19 @@ def extract_ba2(file, bsab_exe_path):
         return 0
 
 
-# A function-turned-thread to prevent main UI lockup
-class BsaProcessor(QThread):
-    done_processing = Signal(list)
+def list_ba2(file, bsab_exe_path):
+    # Hide the console window
+    si = subprocess.STARTUPINFO()
+    si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
-    def __init__(self, mod_folder, _parent):
-        super().__init__()
-
-        self._path = mod_folder
-        self._parent = _parent
-
-    def run(self):
-        ba2_paths = scan_for_ba2(self._path, cfg.get(cfg.postfixes))
-
-        num_failed = 0
-        num_ignored = 0
-        num_success = 0
-        temp = []
-        # Populate ba2 files and their properties
-        for f in ba2_paths:
-            _dir = os.path.basename(os.path.dirname(f))
-            name = os.path.basename(f)
-            size = os.stat(f).st_size
-            num_files = num_files_in_ba2(f)
-            # Auto ignore the blacklisted file if set so
-            if is_ignored(f):
-                num_ignored += 1
-                QApplication.instance().log_view.add_log(f'Ignoring {f}', LogLevel.INFO)
-            elif num_files == -1:
-                num_failed += 1
-                if cfg.ignore_bad_files:
-                    self._parent.failed.add(os.path.abspath(f))
-            else:
-                num_success += 1
-                temp.append(FileEntry(name, size, num_files, _dir, f))
-
-        temp = sorted(temp, key=lambda entry: entry.file_size)
-        self._parent.file_data = temp
-        self.done_processing.emit([self._parent, num_success, num_failed, num_ignored])
-
-
-class BsaExtractor(QThread):
-    done_processing = Signal(list)
-
-    def __init__(self, parent):
-        super().__init__()
-        self._parent = parent
-
-    def run(self):
-        table: QTableView = self._parent.preview_table
-        progress: ProgressBar = self._parent.preview_progress
-        failed: set = self._parent.failed
-
-        progress.show()
-        progress.setMaximum(table.model().rowCount())
-
-        table_idx = 0
-        ok_count = 0
-        failed_count = 0
-
-        for i in range(table.model().rowCount()):
-            path = table.model().sourceModel().raw_data()[table_idx].full_path
-            if extract_ba2(path, resource_path('bin/bsab.exe')) == -1:
-                if cfg.get(cfg.ignore_bad_files):
-                    failed.add(os.path.abspath(path))
-                # Highlight the failed files in the table
-                source_idx = table.model().mapToSource(table.model().index(table_idx, 0))
-                table.model().sourceModel().add_bad_file(source_idx.row())
-                progress.error()
-                failed_count += 1
-            else:
-                # Back up the file if user requests so
-                if cfg.get(cfg.auto_backup):
-                    cfg_path = cfg.get(cfg.backup_path)
-                    if cfg_path:
-                        if os.path.isabs(cfg_path):
-                            backup_path = cfg_path
-                        else:
-                            backup_path = os.path.join(os.path.dirname(path), cfg_path)
-                    else:
-                        backup_path = os.path.join(os.path.dirname(path), 'backup')
-
-                    if not os.path.isdir(backup_path):
-                        os.makedirs(backup_path)
-                    shutil.move(path, os.path.join(backup_path, os.path.basename(path)))
-                else:
-                    os.remove(path)
-                # Remove the row from the preview
-                table.hideRow(table_idx)
-                ok_count += 1
-            table_idx += 1
-            progress.setValue(progress.value() + 1)
-
-        self.done_processing.emit([ok_count, failed_count])
+    args = [
+        bsab_exe_path,
+        '-l',
+        file
+    ]
+    proc = subprocess.run(args, startupinfo=si)
+    if proc.returncode != 0:
+        QApplication.instance().log_view.add_log(f'Error reading {file}', LogLevel.WARNING)
+        return -1
+    else:
+        return 0

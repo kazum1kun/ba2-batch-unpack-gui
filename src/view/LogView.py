@@ -4,13 +4,13 @@ from typing import Type
 
 from PySide6 import QtCore
 from PySide6.QtGui import QColor
-from PySide6.QtWidgets import QTextEdit
+from qfluentwidgets import TextEdit
 
 from misc.Config import cfg, LogLevel
 
 
 # Adopted from a code snippet by eyllanesc from StackOverflow. Original post at https://stackoverflow.com/a/63853259
-class LogView(QTextEdit):
+class LogView(TextEdit):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setReadOnly(True)

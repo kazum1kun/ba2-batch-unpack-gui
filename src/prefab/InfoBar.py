@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QApplication
-from qfluentwidgets import InfoBar, InfoBarIcon, InfoBarPosition, PushButton, qconfig
+from qfluentwidgets import InfoBar, InfoBarIcon, InfoBarPosition, PushButton
 
 from misc.Config import cfg
 from prefab.MessageBox import show_failed_files
@@ -11,21 +11,29 @@ def show_result_toast(results, _type='scan'):
     auto_ignore = cfg.get(cfg.ignore_bad_files)
     if _type == 'scan':
         verb = QApplication.translate('InfoBar', 'scanning')
+    elif _type == 'check':
+        verb = QApplication.translate('InfoBar', 'checking')
     else:
         verb = QApplication.translate('InfoBar', 'extracting')
     fail_message = QApplication.translate(
         'InfoBar', 'Finished {0} ba2. Could not open {1} files').format(verb, num_fail)
-    if auto_ignore:
+    if auto_ignore and _type != 'check':
         fail_message += QApplication.translate('InfoBar', ' and they will be ignored in the future.')
+    elif _type == 'check':
+        fail_message += QApplication.translate('InfoBar', '. Please check the output above.')
     else:
         fail_message += QApplication.translate('InfoBar', '.')
     if _type == 'scan':
         fail_message += QApplication.translate('InfoBar', '\nProcessed {0} files.').format(num_success)
+    elif _type == 'check':
+        fail_message += QApplication.translate('InfoBar', '\nChecked {0} files.').format(num_success)
     else:
         fail_message += QApplication.translate('InfoBar', '\nExtracted {0} files.').format(num_success)
 
     if _type == 'scan':
         fail_title = QApplication.translate('InfoBar', 'Failed to load some files')
+    elif _type == 'check':
+        fail_title = QApplication.translate('InfoBar', 'Some files did not pass the check')
     else:
         fail_title = QApplication.translate('InfoBar', 'Failed to extract some files')
     if num_fail > 0:
@@ -37,9 +45,11 @@ def show_result_toast(results, _type='scan'):
             position=InfoBarPosition.BOTTOM,
             parent=results[0]
         )
-        more_info_button = PushButton(QApplication.translate('InfoBar', 'Details'), warning_info)
-        more_info_button.clicked.connect(lambda: show_failed_files(results[0]))
-        warning_info.addWidget(more_info_button)
+
+        if _type != 'check':
+            more_info_button = PushButton(QApplication.translate('InfoBar', 'Details'), warning_info)
+            more_info_button.clicked.connect(lambda: show_failed_files(results[0]))
+            warning_info.addWidget(more_info_button)
         warning_info.show()
     else:
         if _type == 'scan':
@@ -50,6 +60,10 @@ def show_result_toast(results, _type='scan'):
             if num_ignored > 0:
                 success_message += QApplication.translate(
                     'InfoBar', ' Skipped {0} ignored files.').format(num_ignored)
+        elif _type == 'check':
+            success_title = QApplication.translate('InfoBar', 'All good')
+            success_message = QApplication.translate(
+                'InfoBar', 'Finished checking ba2. Checked {0} files.').format(num_success)
         else:
             success_title = QApplication.translate('InfoBar', 'All done')
             success_message = QApplication.translate(
