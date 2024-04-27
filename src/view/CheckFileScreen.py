@@ -29,7 +29,7 @@ class CheckFileScreen(QFrame):
 
         # Deep scan
         self.deep_scan_title = StrongBodyLabel(self.tr('Deep scan'), self)
-        self.deep_scan_checkbox = CheckBox('Enable', self)
+        self.deep_scan_checkbox = CheckBox(self.tr('Enable'), self)
         self.deep_scan_layout = QVBoxLayout()
 
         # Start button

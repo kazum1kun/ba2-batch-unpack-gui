@@ -78,6 +78,83 @@ Made with ❤️ in Arizona</source>
     </message>
 </context>
 <context>
+    <name>CheckFileScreen</name>
+    <message>
+        <location filename="../../src/view/CheckFileScreen.py" line="20"/>
+        <source>ba2 checkup setup</source>
+        <translation>ba2 检查设置</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/CheckFileScreen.py" line="25"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="60"/>
+        <source>Fallout 4 mod folder</source>
+        <translation>辐射4 mod 文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/CheckFileScreen.py" line="31"/>
+        <source>Deep scan</source>
+        <translation>深度扫描</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/CheckFileScreen.py" line="32"/>
+        <source>Enable</source>
+        <translation>启用</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/CheckFileScreen.py" line="37"/>
+        <source>Start</source>
+        <translation>开始检查</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/CheckFileScreen.py" line="40"/>
+        <source>Results</source>
+        <translation>结果</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/CheckFileScreen.py" line="46"/>
+        <source>Select or drag &apos;n drop a folder here to get started</source>
+        <translation>选择或拖放文件夹到此处</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/CheckFileScreen.py" line="73"/>
+        <source>In addition to reading the content of the ba2 files,
+this will also extract the ba2 files to a temporary
+location to check for errors. Usually not necessary.</source>
+        <translation>在读取 ba2 文件的基础上，另将 ba2 提取到
+一个临时文件夹以检查错误。通常没有必要。</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/CheckFileScreen.py" line="116"/>
+        <source>Checking ba2 files...</source>
+        <translation>正在检查 ba2 文件...</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/CheckFileScreen.py" line="134"/>
+        <source>Done!</source>
+        <translation>完成！</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/CheckFileScreen.py" line="141"/>
+        <source>The following files did not pass the check:</source>
+        <translation>以下文件未通过检查：</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/CheckFileScreen.py" line="157"/>
+        <source>Open your Fallout 4 mod folder</source>
+        <translation>打开您的辐射4 mod 文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/CheckFileScreen.py" line="165"/>
+        <source>Drop your Fallout 4 mod folder here</source>
+        <translation>将您的辐射4 mod 文件夹拖放到此处</translation>
+    </message>
+    <message>
+        <location filename="../../src/view/CheckFileScreen.py" line="172"/>
+        <source>Select a folder to get started</source>
+        <translation>选择一个文件夹即可开始</translation>
+    </message>
+</context>
+<context>
     <name>IgnoredSettingCard</name>
     <message>
         <location filename="../../src/view/setting_card/IgnoredSettingCard.py" line="70"/>
@@ -128,70 +205,102 @@ Made with ❤️ in Arizona</source>
     </message>
     <message>
         <location filename="../../src/prefab/InfoBar.py" line="16"/>
+        <source>checking</source>
+        <translation>检查</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="18"/>
         <source>extracting</source>
         <translation>提取</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="20"/>
+        <location filename="../../src/prefab/InfoBar.py" line="22"/>
         <source> and they will be ignored in the future.</source>
         <translation>，已将其自动忽略。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="22"/>
+        <location filename="../../src/prefab/InfoBar.py" line="24"/>
+        <source>. Please check the output above.</source>
+        <translation>。请查看上面的输出。</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="26"/>
         <source>.</source>
         <translation>。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="23"/>
+        <location filename="../../src/prefab/InfoBar.py" line="27"/>
         <source>
 Processed {0} files.</source>
         <translation>
 读取了 {0} 个文件。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="25"/>
+        <location filename="../../src/prefab/InfoBar.py" line="29"/>
+        <source>
+Checked {0} files.</source>
+        <translation>
+检查了 {0} 个文件。</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="31"/>
         <source>
 Extracted {0} files.</source>
         <translation>
 提取了 {0} 个文件。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="29"/>
+        <location filename="../../src/prefab/InfoBar.py" line="35"/>
         <source>Failed to load some files</source>
         <translation>无法加载部分文件</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="31"/>
+        <location filename="../../src/prefab/InfoBar.py" line="37"/>
+        <source>Some files did not pass the check</source>
+        <translation>部分文件未通过检查</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="39"/>
         <source>Failed to extract some files</source>
         <translation>无法提取部分文件</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="40"/>
+        <location filename="../../src/prefab/InfoBar.py" line="50"/>
         <source>Details</source>
         <translation>详细信息</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="47"/>
+        <location filename="../../src/prefab/InfoBar.py" line="57"/>
         <source>Ready</source>
         <translation>准备就绪</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="48"/>
+        <location filename="../../src/prefab/InfoBar.py" line="58"/>
         <source>Finished scanning ba2. Processed {0} files.</source>
         <translation>ba2 扫描完毕。读取了 {0} 个文件。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="52"/>
+        <location filename="../../src/prefab/InfoBar.py" line="62"/>
         <source> Skipped {0} ignored files.</source>
         <translation>跳过了 {0} 被忽略的文件。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="55"/>
+        <location filename="../../src/prefab/InfoBar.py" line="65"/>
+        <source>All good</source>
+        <translation>没有问题</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="66"/>
+        <source>Finished checking ba2. Checked {0} files.</source>
+        <translation>ba2 检查完毕。检查了 {0} 个文件。</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="69"/>
         <source>All done</source>
         <translation>完成</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="56"/>
+        <location filename="../../src/prefab/InfoBar.py" line="70"/>
         <source>Finished extracting ba2. Extracted {0} files.</source>
         <translation>ba2 解压完毕。提取了 {0} 个文件。</translation>
     </message>
@@ -200,7 +309,7 @@ Extracted {0} files.</source>
         <translation type="vanished">完成</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="17"/>
+        <location filename="../../src/prefab/InfoBar.py" line="19"/>
         <source>Finished {0} ba2. Could not open {1} files</source>
         <translation>ba2 {0}完毕。{1} 个文件无法打开</translation>
     </message>
@@ -208,18 +317,18 @@ Extracted {0} files.</source>
 <context>
     <name>InputSettingCard</name>
     <message>
-        <location filename="../../src/view/setting_card/InputSettingCard.py" line="49"/>
+        <location filename="../../src/view/setting_card/InputSettingCard.py" line="48"/>
         <source>Enter or choose a folder</source>
         <translation>输入或选择文件夹</translation>
     </message>
     <message>
-        <location filename="../../src/view/setting_card/InputSettingCard.py" line="50"/>
-        <location filename="../../src/view/setting_card/InputSettingCard.py" line="70"/>
+        <location filename="../../src/view/setting_card/InputSettingCard.py" line="49"/>
+        <location filename="../../src/view/setting_card/InputSettingCard.py" line="73"/>
         <source>Choose a folder</source>
         <translation>选择文件夹</translation>
     </message>
     <message>
-        <location filename="../../src/view/setting_card/InputSettingCard.py" line="65"/>
+        <location filename="../../src/view/setting_card/InputSettingCard.py" line="68"/>
         <source>Choose a ba2 utility</source>
         <translation>选择 ba2 工具</translation>
     </message>
@@ -227,43 +336,43 @@ Extracted {0} files.</source>
 <context>
     <name>MainScreen</name>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="23"/>
+        <location filename="../../src/view/MainScreen.py" line="25"/>
         <source>Extraction setup</source>
         <translation>提取设置</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="29"/>
-        <location filename="../../src/view/MainScreen.py" line="79"/>
+        <location filename="../../src/view/MainScreen.py" line="31"/>
+        <location filename="../../src/view/MainScreen.py" line="81"/>
         <source>Fallout 4 mod folder</source>
         <translation>辐射4 mod 文件夹</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="37"/>
+        <location filename="../../src/view/MainScreen.py" line="39"/>
         <source>Extraction size threshold</source>
         <translation>文件大小阈值</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="39"/>
+        <location filename="../../src/view/MainScreen.py" line="41"/>
         <source>Auto</source>
         <translation>自动</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="43"/>
+        <location filename="../../src/view/MainScreen.py" line="45"/>
         <source>Start</source>
         <translation>开始提取</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="47"/>
+        <location filename="../../src/view/MainScreen.py" line="49"/>
         <source>Preview</source>
         <translation>预览</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="57"/>
+        <location filename="../../src/view/MainScreen.py" line="59"/>
         <source>Select or drag &apos;n drop a folder here to get started</source>
         <translation>选择或拖放文件夹到此处</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="97"/>
+        <location filename="../../src/view/MainScreen.py" line="99"/>
         <source>Automatically attempts to determine a
 threshold so just enough ba2 are
 extracted to get under the ba2 limit</source>
@@ -271,37 +380,37 @@ extracted to get under the ba2 limit</source>
 够多的 ba2，让游戏降到 BA2 上限以内</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="198"/>
+        <location filename="../../src/view/MainScreen.py" line="200"/>
         <source>Open your Fallout 4 mod folder</source>
         <translation>打开您的辐射4 mod 文件夹</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="90"/>
+        <location filename="../../src/view/MainScreen.py" line="92"/>
         <source>Threshold</source>
         <translation>阈值</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="305"/>
+        <location filename="../../src/view/MainScreen.py" line="307"/>
         <source>Ignore</source>
         <translation>忽略</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="307"/>
+        <location filename="../../src/view/MainScreen.py" line="309"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="355"/>
+        <location filename="../../src/view/MainScreen.py" line="357"/>
         <source>Total files: {0}, total size: {1}, extracted file count: {2}</source>
         <translation>文件总数：{0}，总大小：{1}，提取后的文件数：{2}</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="362"/>
+        <location filename="../../src/view/MainScreen.py" line="364"/>
         <source>Drop your Fallout 4 mod folder here</source>
         <translation>将您的辐射4 mod 文件夹拖放到此处</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="369"/>
+        <location filename="../../src/view/MainScreen.py" line="371"/>
         <source>Select a folder to get started</source>
         <translation>选择一个文件夹即可开始</translation>
     </message>
@@ -309,12 +418,17 @@ extracted to get under the ba2 limit</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/MainWindow.py" line="38"/>
+        <location filename="../../src/MainWindow.py" line="41"/>
         <source>Extraction</source>
         <translation>提取</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.py" line="39"/>
+        <location filename="../../src/MainWindow.py" line="42"/>
+        <source>Check Files</source>
+        <translation>检查文件</translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.py" line="43"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
@@ -417,29 +531,29 @@ extracted to get under the ba2 limit</source>
 <context>
     <name>SettingScreen</name>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="29"/>
+        <location filename="../../src/view/SettingScreen.py" line="30"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="33"/>
+        <location filename="../../src/view/SettingScreen.py" line="34"/>
         <source>Extraction</source>
         <translation>提取</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="38"/>
+        <location filename="../../src/view/SettingScreen.py" line="39"/>
         <source>Postfixes</source>
         <translation>文件后缀</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="40"/>
+        <location filename="../../src/view/SettingScreen.py" line="41"/>
         <source>File postfixes to extract from. Example: &quot;main.ba2&quot; matches files like
 &quot;xyzmod - Main.ba2&quot; and &quot;abcmod - main.BA2&quot;. Must end in &quot;.ba2&quot;</source>
         <translation>将提取以下后缀结尾的文件。比如 “main.ba2” 会匹配 “xyzmod - Main.ba2”
 以及 ”abcmod - main.BA2” 等文件。必须以 ”.ba2“ 结尾</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="46"/>
+        <location filename="../../src/view/SettingScreen.py" line="47"/>
         <source>Ignored files</source>
         <translation>已忽略文件</translation>
     </message>
@@ -448,110 +562,110 @@ extracted to get under the ba2 limit</source>
         <translation type="vanished">任何包括这些被忽略项的文件将不会被提取</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="48"/>
+        <location filename="../../src/view/SettingScreen.py" line="49"/>
         <source>Any file with filename containing them will not be extracted.
 To use regex, wrap the pattern inside {}, e.g. &quot;{.*[dD]iamond.*}&quot;</source>
         <translation>任何包括这些被忽略项的文件将不会被提取。
 若要使用正则表达式，请将其模式包括在 {} 中，如 &quot;{.*[dD]iamond.*}&quot;</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="53"/>
+        <location filename="../../src/view/SettingScreen.py" line="54"/>
         <source>Ignore bad files</source>
         <translation>忽略损坏文件</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="54"/>
+        <location filename="../../src/view/SettingScreen.py" line="55"/>
         <source>Automatically ignore ba2 files that cannot be opened</source>
         <translation>自动忽略无法打开的 ba2 文件</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="60"/>
+        <location filename="../../src/view/SettingScreen.py" line="61"/>
         <source>Automatic backup</source>
         <translation>自动备份</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="61"/>
+        <location filename="../../src/view/SettingScreen.py" line="62"/>
         <source>Automatically back up ba2 files extracted</source>
         <translation>自动备份提取过的 ba2 文件</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="67"/>
+        <location filename="../../src/view/SettingScreen.py" line="68"/>
         <source>Personalization</source>
         <translation>个性化</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="71"/>
+        <location filename="../../src/view/SettingScreen.py" line="72"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="72"/>
+        <location filename="../../src/view/SettingScreen.py" line="73"/>
         <source>Change the theme of the app</source>
         <translation>改变程序的主题</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="74"/>
+        <location filename="../../src/view/SettingScreen.py" line="75"/>
         <source>Light</source>
         <translation>浅色</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="74"/>
+        <location filename="../../src/view/SettingScreen.py" line="75"/>
         <source>Dark</source>
         <translation>深色</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="76"/>
-        <location filename="../../src/view/SettingScreen.py" line="91"/>
+        <location filename="../../src/view/SettingScreen.py" line="77"/>
+        <location filename="../../src/view/SettingScreen.py" line="92"/>
         <source>Use system setting</source>
         <translation>使用系统设定</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="82"/>
+        <location filename="../../src/view/SettingScreen.py" line="83"/>
         <source>Color</source>
         <translation>主题色</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="83"/>
+        <location filename="../../src/view/SettingScreen.py" line="84"/>
         <source>Change the theme color of the app</source>
         <translation>改变程序的主题色</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="89"/>
+        <location filename="../../src/view/SettingScreen.py" line="90"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="90"/>
+        <location filename="../../src/view/SettingScreen.py" line="91"/>
         <source>Select your preferred language</source>
         <translation>选择您的首选语言</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="96"/>
+        <location filename="../../src/view/SettingScreen.py" line="97"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="99"/>
+        <location filename="../../src/view/SettingScreen.py" line="100"/>
         <source>Check for updates</source>
         <translation>检查更新</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="100"/>
+        <location filename="../../src/view/SettingScreen.py" line="101"/>
         <source>Automatically check and notify you of updates</source>
         <translation>自动检测并提示软件更新</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="106"/>
+        <location filename="../../src/view/SettingScreen.py" line="107"/>
         <source>Advanced</source>
         <translation>高级选项</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="109"/>
+        <location filename="../../src/view/SettingScreen.py" line="110"/>
         <source>Show log output</source>
         <translation>显示输出日志</translation>
     </message>
     <message>
-        <location filename="../../src/view/SettingScreen.py" line="110"/>
+        <location filename="../../src/view/SettingScreen.py" line="111"/>
         <source>Show a separate window with debugging information</source>
         <translation>显示带有调试信息的单独窗口</translation>
     </message>
