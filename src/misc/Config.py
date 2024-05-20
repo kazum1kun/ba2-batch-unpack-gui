@@ -102,7 +102,7 @@ FEEDBACK_URL = 'https://www.nexusmods.com/fallout4/mods/82082?tab=posts'
 NEXUS_URL = 'https://www.nexusmods.com/fallout4/mods/82082'
 GITHUB_URL = 'https://github.com/kazum1kun/ba2-batch-unpack-gui'
 CREDITS_URL = 'https://github.com/kazum1kun/ba2-batch-unpack-gui/blob/master/CREDITS.md'
-SWC_URL = ''
+SWC_URL = 'https://codes.llc/projects/unpackrr'
 KOFI_URL = 'https://ko-fi.com/kazblog'
 
 cfg = Config()

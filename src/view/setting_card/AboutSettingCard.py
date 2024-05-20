@@ -1,3 +1,4 @@
+from PySide6.QtCore import QUrl
 from PySide6.QtWidgets import (QWidget, QHBoxLayout)
 from qfluentwidgets import ExpandGroupSettingCard, BodyLabel, HyperlinkLabel, \
     PrimaryPushButton
@@ -21,18 +22,18 @@ class AboutSettingCard(ExpandGroupSettingCard):
 
         # Nexus
         self.nexus_label = BodyLabel(self.tr('Check manual/information'), self)
-        self.nexus_link = HyperlinkLabel(NEXUS_URL, self)
+        self.nexus_link = HyperlinkLabel(QUrl(NEXUS_URL), self)
         self.nexus_link.setText(self.tr('Nexus page'))
 
         # GitHub
         self.github_label = BodyLabel(self.tr('Unpackrr on GitHub'), self)
-        self.github_link = HyperlinkLabel(GITHUB_URL, self)
+        self.github_link = HyperlinkLabel(QUrl(GITHUB_URL), self)
         self.github_link.setText(self.tr('Source code'))
 
         # SWC
         self.swc_label = BodyLabel(self.tr('Organically & locally produced by Southwest Codeworks\n'
                                            'Made with ❤️ in Arizona'), self)
-        self.swc_link = HyperlinkLabel(SWC_URL, self)
+        self.swc_link = HyperlinkLabel(QUrl(SWC_URL), self)
         self.swc_link.setText(self.tr('Project page'))
 
         self.__add(self.feedback_label, self.feedback_button)
