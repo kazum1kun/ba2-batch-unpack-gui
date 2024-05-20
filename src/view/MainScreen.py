@@ -198,6 +198,7 @@ class MainScreen(QFrame):
 
     def __open_folder(self):
         self.folder_input.setText(QFileDialog.getExistingDirectory(self, self.tr('Open your Fallout 4 mod folder'),
+                                                                   dir=cfg.get(cfg.saved_dir),
                                                                    options=QFileDialog.Option.ShowDirsOnly |
                                                                            QFileDialog.Option.DontResolveSymlinks))
         self.__process_folder()

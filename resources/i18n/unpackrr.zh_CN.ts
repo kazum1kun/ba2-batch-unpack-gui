@@ -112,6 +112,7 @@ Made with ❤️ in Arizona</source>
     </message>
     <message>
         <location filename="../../src/view/CheckFileScreen.py" line="46"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="173"/>
         <source>Select or drag &apos;n drop a folder here to get started</source>
         <translation>选择或拖放文件夹到此处</translation>
     </message>
@@ -139,19 +140,18 @@ location to check for errors. Usually not necessary.</source>
         <translation>以下文件未通过检查：</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="157"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="158"/>
         <source>Open your Fallout 4 mod folder</source>
         <translation>打开您的辐射4 mod 文件夹</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="165"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="166"/>
         <source>Drop your Fallout 4 mod folder here</source>
         <translation>将您的辐射4 mod 文件夹拖放到此处</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="172"/>
         <source>Select a folder to get started</source>
-        <translation>选择一个文件夹即可开始</translation>
+        <translation type="vanished">选择一个文件夹即可开始</translation>
     </message>
 </context>
 <context>
@@ -400,17 +400,17 @@ extracted to get under the ba2 limit</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="357"/>
+        <location filename="../../src/view/MainScreen.py" line="358"/>
         <source>Total files: {0}, total size: {1}, extracted file count: {2}</source>
         <translation>文件总数：{0}，总大小：{1}，提取后的文件数：{2}</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="364"/>
+        <location filename="../../src/view/MainScreen.py" line="365"/>
         <source>Drop your Fallout 4 mod folder here</source>
         <translation>将您的辐射4 mod 文件夹拖放到此处</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="371"/>
+        <location filename="../../src/view/MainScreen.py" line="372"/>
         <source>Select a folder to get started</source>
         <translation>选择一个文件夹即可开始</translation>
     </message>

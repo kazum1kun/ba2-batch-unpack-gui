@@ -7,6 +7,7 @@ from qfluentwidgets import FluentIcon as Fi, PrimaryPushButton, \
 from qfluentwidgets import (SubtitleLabel, LineEdit, ToolButton)
 
 from misc.BsaChecker import BsaChecker
+from misc.Config import cfg
 from prefab.InfoBar import show_result_toast
 
 
@@ -153,6 +154,7 @@ class CheckFileScreen(QFrame):
             return
         self.start_button.setEnabled(True)
         self.preview_hint.setText('')
+        cfg.set(cfg.saved_dir, folder)
 
     def __open_folder(self):
         self.folder_input.setText(QFileDialog.getExistingDirectory(self, self.tr('Open your Fallout 4 mod folder'),

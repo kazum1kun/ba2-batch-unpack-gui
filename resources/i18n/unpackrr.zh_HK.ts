@@ -108,6 +108,7 @@ Made with ❤️ in Arizona</source>
     </message>
     <message>
         <location filename="../../src/view/CheckFileScreen.py" line="46"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="173"/>
         <source>Select or drag &apos;n drop a folder here to get started</source>
         <translation>選擇或拖放資料夾到此處</translation>
     </message>
@@ -135,19 +136,18 @@ location to check for errors. Usually not necessary.</source>
         <translation>以下檔案未通過檢查：</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="157"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="158"/>
         <source>Open your Fallout 4 mod folder</source>
         <translation>打開您的異塵餘生4 mod 資料夾</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="165"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="166"/>
         <source>Drop your Fallout 4 mod folder here</source>
         <translation>將您的異塵餘生4 mod 資料夾拖放到此處</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="172"/>
         <source>Select a folder to get started</source>
-        <translation>選擇一個資料夾即可開始</translation>
+        <translation type="vanished">選擇一個資料夾即可開始</translation>
     </message>
 </context>
 <context>
@@ -396,17 +396,17 @@ extracted to get under the ba2 limit</source>
         <translation>打開</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="357"/>
+        <location filename="../../src/view/MainScreen.py" line="358"/>
         <source>Total files: {0}, total size: {1}, extracted file count: {2}</source>
         <translation>檔案總數：{0}，總大小：{1}，提取後的檔案數：{2}</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="364"/>
+        <location filename="../../src/view/MainScreen.py" line="365"/>
         <source>Drop your Fallout 4 mod folder here</source>
         <translation>將您的異塵餘生4 mod 資料夾拖放到此處</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="371"/>
+        <location filename="../../src/view/MainScreen.py" line="372"/>
         <source>Select a folder to get started</source>
         <translation>選擇一個資料夾即可開始</translation>
     </message>
