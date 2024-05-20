@@ -30,7 +30,7 @@ class BsaExtractor(QThread):
 
         for i in range(table.model().rowCount()):
             path = table.model().sourceModel().raw_data()[table_idx].full_path
-            if extract_ba2(path, resource_path('bin/bsab.exe')) == -1:
+            if extract_ba2(path, resource_path('bin/BSArch.exe')) == -1:
                 if cfg.get(cfg.ignore_bad_files):
                     failed.add(os.path.abspath(path))
                 # Highlight the failed files in the table

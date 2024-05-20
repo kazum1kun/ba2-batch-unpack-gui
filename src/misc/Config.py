@@ -97,9 +97,9 @@ class Config(QConfig):
 
 YEAR = 2024
 AUTHOR = 'KazumaKuun / Southwest Codeworks'
-VERSION = '0.1.0'
-FEEDBACK_URL = ''
-NEXUS_URL = ''
+VERSION = '0.2.0'
+FEEDBACK_URL = 'https://www.nexusmods.com/fallout4/mods/82082?tab=posts'
+NEXUS_URL = 'https://www.nexusmods.com/fallout4/mods/82082'
 GITHUB_URL = 'https://github.com/kazum1kun/ba2-batch-unpack-gui'
 CREDITS_URL = 'https://github.com/kazum1kun/ba2-batch-unpack-gui/blob/master/CREDITS.md'
 SWC_URL = ''

@@ -152,6 +152,7 @@ class CheckFileScreen(QFrame):
             self.start_button.setEnabled(False)
             return
         self.start_button.setEnabled(True)
+        self.preview_hint.setText('')
 
     def __open_folder(self):
         self.folder_input.setText(QFileDialog.getExistingDirectory(self, self.tr('Open your Fallout 4 mod folder'),
@@ -169,7 +170,7 @@ class CheckFileScreen(QFrame):
             event.ignore()
 
     def dragLeaveEvent(self, event):
-        self.preview_hint.setText(self.tr('Select a folder to get started'))
+        self.preview_hint.setText(self.tr('Select or drag \'n drop a folder here to get started'))
 
     def dropEvent(self, event):
         files = [u.toLocalFile() for u in event.mimeData().urls()]

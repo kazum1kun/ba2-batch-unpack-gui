@@ -353,10 +353,11 @@ class MainScreen(QFrame):
 
     def __update_preview_text(self):
         if self.preview_table.model().rowCount() > 0:
+            curr_data = self.preview_table.model().sourceModel().files
             self.preview_text.setText(
                 self.tr('Total files: {0}, total size: {1}, extracted file count: {2}').format(
-                    len(self.file_data), naturalsize(sum([x.file_size for x in self.file_data])),
-                    sum([x.num_files for x in self.file_data]))
+                    len(curr_data), naturalsize(sum([x.file_size for x in curr_data])),
+                    sum([x.num_files for x in curr_data]))
             )
 
     # Drag and drop

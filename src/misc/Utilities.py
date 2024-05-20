@@ -130,7 +130,6 @@ def extract_ba2(file, bsab_exe_path, use_temp=False):
 
     args = [
         bsab_exe_path,
-        '-e',
         file,
         extraction_path
     ]
@@ -138,12 +137,18 @@ def extract_ba2(file, bsab_exe_path, use_temp=False):
 
     if use_temp:
         tmp_dir.cleanup()
-    if proc.returncode != 0:
-        QApplication.instance().log_view.add_log(f'Error extracting {file}', LogLevel.WARNING)
+    results = proc.stdout.strip().split('\n')
+    if 'Error:' in results[-1] or 'error:' in results[-1]:
+        QApplication.instance().log_view.add_log(f'Error reading {file}', LogLevel.WARNING)
         return -1
     else:
-        QApplication.instance().log_view.add_log(f'{proc.stdout}', LogLevel.INFO)
         return 0
+    # if proc.returncode != 0:
+    #     QApplication.instance().log_view.add_log(f'Error extracting {file}', LogLevel.WARNING)
+    #     return -1
+    # else:
+    #     QApplication.instance().log_view.add_log(f'{proc.stdout}', LogLevel.INFO)
+    #     return 0
 
 
 def list_ba2(file, bsab_exe_path):
@@ -153,12 +158,20 @@ def list_ba2(file, bsab_exe_path):
 
     args = [
         bsab_exe_path,
-        '-l',
-        file
+        file,
+        '-list'
     ]
-    proc = subprocess.run(args, startupinfo=si)
-    if proc.returncode != 0:
+    proc = subprocess.run(args, text=True, capture_output=True, startupinfo=si)
+    results = proc.stdout.strip().split('\n')
+    if 'Error:' in results[-1] or 'error:' in results[-1]:
         QApplication.instance().log_view.add_log(f'Error reading {file}', LogLevel.WARNING)
         return -1
     else:
         return 0
+
+    # # BSArch does not return the status code correctly, we have to check for the error message
+    # if proc.returncode != 0:
+    #     QApplication.instance().log_view.add_log(f'Error reading {file}', LogLevel.WARNING)
+    #     return -1
+    # else:
+    #     return 0

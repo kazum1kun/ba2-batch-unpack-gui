@@ -25,9 +25,9 @@ class BsaChecker(QThread):
 
         for f in ba2_paths:
             if not self.deep_scan:
-                result = list_ba2(f, resource_path('bin/bsab.exe'))
+                result = list_ba2(f, resource_path('bin/BSArch.exe'))
             else:
-                result = extract_ba2(f, resource_path('bin/bsab.exe'), use_temp=True)
+                result = extract_ba2(f, resource_path('bin/BSArch.exe'), use_temp=True)
             if result != 0:
                 num_failed += 1
                 self.issue_found.emit(os.path.abspath(f))
