@@ -130,6 +130,7 @@ def extract_ba2(file, bsab_exe_path, use_temp=False):
 
     args = [
         bsab_exe_path,
+        'unpack',
         file,
         extraction_path
     ]
