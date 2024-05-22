@@ -36,6 +36,10 @@ class MainWindow(SplitFluentWindow):
 
         self.splash.finish()
 
+        # Fix the weird InfoBar sizing issue
+        self.resize(1001, 700)
+        self.resize(1000, 700)
+
     def init_navigation(self):
         self.navigationInterface.setReturnButtonVisible(False)
         self.addSubInterface(self.main_screen, Fi.HOME, self.tr('Extraction'))

@@ -4,37 +4,37 @@
 <context>
     <name>AboutSettingCard</name>
     <message>
-        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="13"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="14"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="14"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="15"/>
         <source>Copyright</source>
         <translation>版权所有</translation>
     </message>
     <message>
-        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="14"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="15"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="19"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="20"/>
         <source>Provide feedback</source>
         <translation>提交反馈</translation>
     </message>
     <message>
-        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="20"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="21"/>
         <source>Feedback</source>
         <translation>反馈</translation>
     </message>
     <message>
-        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="23"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="24"/>
         <source>Check manual/information</source>
         <translation>查看使用说明或信息</translation>
     </message>
     <message>
-        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="34"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="35"/>
         <source>Organically &amp; locally produced by Southwest Codeworks
 Made with ❤️ in Arizona</source>
         <translation>来自 Southwest Codeworks 的本地有机产品
@@ -59,7 +59,7 @@ Made with ❤️ in Arizona</source>
         <translation>Nexus 页面</translation>
     </message>
     <message>
-        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="28"/>
+        <location filename="../../src/view/setting_card/AboutSettingCard.py" line="29"/>
         <source>Unpackrr on GitHub</source>
         <translation>在 GitHub 查看 Unpackrr</translation>
     </message>
@@ -80,44 +80,44 @@ Made with ❤️ in Arizona</source>
 <context>
     <name>CheckFileScreen</name>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="20"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="21"/>
         <source>ba2 checkup setup</source>
         <translation>ba2 检查设置</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="25"/>
-        <location filename="../../src/view/CheckFileScreen.py" line="60"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="26"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="61"/>
         <source>Fallout 4 mod folder</source>
         <translation>辐射4 mod 文件夹</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="31"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="32"/>
         <source>Deep scan</source>
         <translation>深度扫描</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="32"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="33"/>
         <source>Enable</source>
         <translation>启用</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="37"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="38"/>
         <source>Start</source>
         <translation>开始检查</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="40"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="41"/>
         <source>Results</source>
         <translation>结果</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="46"/>
-        <location filename="../../src/view/CheckFileScreen.py" line="173"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="47"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="175"/>
         <source>Select or drag &apos;n drop a folder here to get started</source>
         <translation>选择或拖放文件夹到此处</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="73"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="74"/>
         <source>In addition to reading the content of the ba2 files,
 this will also extract the ba2 files to a temporary
 location to check for errors. Usually not necessary.</source>
@@ -125,27 +125,27 @@ location to check for errors. Usually not necessary.</source>
 一个临时文件夹以检查错误。通常没有必要。</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="116"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="117"/>
         <source>Checking ba2 files...</source>
         <translation>正在检查 ba2 文件...</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="134"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="135"/>
         <source>Done!</source>
         <translation>完成！</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="141"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="142"/>
         <source>The following files did not pass the check:</source>
         <translation>以下文件未通过检查：</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="158"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="160"/>
         <source>Open your Fallout 4 mod folder</source>
         <translation>打开您的辐射4 mod 文件夹</translation>
     </message>
     <message>
-        <location filename="../../src/view/CheckFileScreen.py" line="166"/>
+        <location filename="../../src/view/CheckFileScreen.py" line="168"/>
         <source>Drop your Fallout 4 mod folder here</source>
         <translation>将您的辐射4 mod 文件夹拖放到此处</translation>
     </message>
@@ -199,117 +199,134 @@ location to check for errors. Usually not necessary.</source>
 <context>
     <name>InfoBar</name>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="14"/>
+        <location filename="../../src/prefab/InfoBar.py" line="15"/>
         <source>scanning</source>
         <translation>扫描</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="16"/>
+        <location filename="../../src/prefab/InfoBar.py" line="17"/>
         <source>checking</source>
         <translation>检查</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="18"/>
+        <location filename="../../src/prefab/InfoBar.py" line="19"/>
         <source>extracting</source>
         <translation>提取</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="22"/>
+        <location filename="../../src/prefab/InfoBar.py" line="23"/>
         <source> and they will be ignored in the future.</source>
         <translation>，已将其自动忽略。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="24"/>
+        <location filename="../../src/prefab/InfoBar.py" line="25"/>
         <source>. Please check the output above.</source>
         <translation>。请查看上面的输出。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="26"/>
+        <location filename="../../src/prefab/InfoBar.py" line="27"/>
         <source>.</source>
         <translation>。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="27"/>
+        <location filename="../../src/prefab/InfoBar.py" line="28"/>
         <source>
 Processed {0} files.</source>
         <translation>
 读取了 {0} 个文件。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="29"/>
+        <location filename="../../src/prefab/InfoBar.py" line="30"/>
         <source>
 Checked {0} files.</source>
         <translation>
 检查了 {0} 个文件。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="31"/>
+        <location filename="../../src/prefab/InfoBar.py" line="32"/>
         <source>
 Extracted {0} files.</source>
         <translation>
 提取了 {0} 个文件。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="35"/>
+        <location filename="../../src/prefab/InfoBar.py" line="36"/>
         <source>Failed to load some files</source>
         <translation>无法加载部分文件</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="37"/>
+        <location filename="../../src/prefab/InfoBar.py" line="38"/>
         <source>Some files did not pass the check</source>
         <translation>部分文件未通过检查</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="39"/>
+        <location filename="../../src/prefab/InfoBar.py" line="40"/>
         <source>Failed to extract some files</source>
         <translation>无法提取部分文件</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="50"/>
+        <location filename="../../src/prefab/InfoBar.py" line="51"/>
         <source>Details</source>
         <translation>详细信息</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="57"/>
+        <location filename="../../src/prefab/InfoBar.py" line="58"/>
         <source>Ready</source>
         <translation>准备就绪</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="58"/>
+        <location filename="../../src/prefab/InfoBar.py" line="59"/>
         <source>Finished scanning ba2. Processed {0} files.</source>
         <translation>ba2 扫描完毕。读取了 {0} 个文件。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="62"/>
+        <location filename="../../src/prefab/InfoBar.py" line="63"/>
         <source> Skipped {0} ignored files.</source>
         <translation>跳过了 {0} 被忽略的文件。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="65"/>
+        <location filename="../../src/prefab/InfoBar.py" line="66"/>
         <source>All good</source>
         <translation>没有问题</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="66"/>
+        <location filename="../../src/prefab/InfoBar.py" line="67"/>
         <source>Finished checking ba2. Checked {0} files.</source>
         <translation>ba2 检查完毕。检查了 {0} 个文件。</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="69"/>
+        <location filename="../../src/prefab/InfoBar.py" line="70"/>
         <source>All done</source>
         <translation>完成</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="70"/>
+        <location filename="../../src/prefab/InfoBar.py" line="71"/>
         <source>Finished extracting ba2. Extracted {0} files.</source>
         <translation>ba2 解压完毕。提取了 {0} 个文件。</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="86"/>
+        <source>Update available</source>
+        <translation>程序更新</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="89"/>
+        <source>A new version of Unpackrr is available.
+Current: {0}, latest: {1}</source>
+        <translation>Unpackrr 可以更新到新版本。
+当前版本：{0}，最新版本：{1}</translation>
+    </message>
+    <message>
+        <location filename="../../src/prefab/InfoBar.py" line="94"/>
+        <source>Download</source>
+        <translation>下载</translation>
     </message>
     <message>
         <source>All set</source>
         <translation type="vanished">完成</translation>
     </message>
     <message>
-        <location filename="../../src/prefab/InfoBar.py" line="19"/>
+        <location filename="../../src/prefab/InfoBar.py" line="20"/>
         <source>Finished {0} ba2. Could not open {1} files</source>
         <translation>ba2 {0}完毕。{1} 个文件无法打开</translation>
     </message>
@@ -342,7 +359,7 @@ Extracted {0} files.</source>
     </message>
     <message>
         <location filename="../../src/view/MainScreen.py" line="31"/>
-        <location filename="../../src/view/MainScreen.py" line="81"/>
+        <location filename="../../src/view/MainScreen.py" line="82"/>
         <source>Fallout 4 mod folder</source>
         <translation>辐射4 mod 文件夹</translation>
     </message>
@@ -372,7 +389,7 @@ Extracted {0} files.</source>
         <translation>选择或拖放文件夹到此处</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="99"/>
+        <location filename="../../src/view/MainScreen.py" line="100"/>
         <source>Automatically attempts to determine a
 threshold so just enough ba2 are
 extracted to get under the ba2 limit</source>
@@ -380,37 +397,37 @@ extracted to get under the ba2 limit</source>
 够多的 ba2，让游戏降到 BA2 上限以内</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="200"/>
+        <location filename="../../src/view/MainScreen.py" line="201"/>
         <source>Open your Fallout 4 mod folder</source>
         <translation>打开您的辐射4 mod 文件夹</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="92"/>
+        <location filename="../../src/view/MainScreen.py" line="93"/>
         <source>Threshold</source>
         <translation>阈值</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="307"/>
+        <location filename="../../src/view/MainScreen.py" line="309"/>
         <source>Ignore</source>
         <translation>忽略</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="309"/>
+        <location filename="../../src/view/MainScreen.py" line="311"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="358"/>
+        <location filename="../../src/view/MainScreen.py" line="360"/>
         <source>Total files: {0}, total size: {1}, extracted file count: {2}</source>
         <translation>文件总数：{0}，总大小：{1}，提取后的文件数：{2}</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="365"/>
+        <location filename="../../src/view/MainScreen.py" line="373"/>
         <source>Drop your Fallout 4 mod folder here</source>
         <translation>将您的辐射4 mod 文件夹拖放到此处</translation>
     </message>
     <message>
-        <location filename="../../src/view/MainScreen.py" line="372"/>
+        <location filename="../../src/view/MainScreen.py" line="380"/>
         <source>Select a folder to get started</source>
         <translation>选择一个文件夹即可开始</translation>
     </message>
@@ -418,17 +435,17 @@ extracted to get under the ba2 limit</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/MainWindow.py" line="41"/>
+        <location filename="../../src/MainWindow.py" line="45"/>
         <source>Extraction</source>
         <translation>提取</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.py" line="42"/>
+        <location filename="../../src/MainWindow.py" line="46"/>
         <source>Check Files</source>
         <translation>检查文件</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.py" line="43"/>
+        <location filename="../../src/MainWindow.py" line="47"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>

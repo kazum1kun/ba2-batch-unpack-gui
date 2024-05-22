@@ -1,7 +1,8 @@
 from PySide6.QtWidgets import QApplication
-from qfluentwidgets import InfoBar, InfoBarIcon, InfoBarPosition, PushButton
+from qfluentwidgets import InfoBar, InfoBarIcon, InfoBarPosition, PushButton, HyperlinkButton
 
 from misc.Config import cfg
+from misc.Config import VERSION, NEXUS_URL
 from prefab.MessageBox import show_failed_files
 
 
@@ -75,3 +76,21 @@ def show_result_toast(results, _type='scan'):
             position=InfoBarPosition.BOTTOM,
             parent=results[0]
         )
+
+
+def show_update_available(parent, new_ver):
+    if 'v' in new_ver:
+        new_ver = new_ver[1:]
+    update_info = InfoBar(
+        icon=InfoBarIcon.INFORMATION,
+        title=QApplication.translate('InfoBar', 'Update available'),
+        content=QApplication.translate('InfoBar',
+                                       'A new version of Unpackrr is available.\n'
+                                       'Current: {0}, latest: {1}').format(VERSION, new_ver),
+        duration=-1,
+        position=InfoBarPosition.BOTTOM,
+        parent=parent
+    )
+    download_button = HyperlinkButton(NEXUS_URL+'?tab=files', QApplication.translate('InfoBar', 'Download'))
+    update_info.addWidget(download_button)
+    update_info.show()

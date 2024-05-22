@@ -6,10 +6,12 @@ import sys
 import tempfile
 import winreg
 
+import requests
+from packaging.version import Version
 from PySide6.QtWidgets import QApplication
 from construct import Struct, Bytes, Int32ul, Int64ul, PaddedString, StreamError
 
-from misc.Config import cfg, LogLevel
+from misc.Config import cfg, LogLevel, GITHUB_RELEASE_URL, VERSION
 
 
 def is_ignored(file):
@@ -176,3 +178,12 @@ def list_ba2(file, bsab_exe_path):
     #     return -1
     # else:
     #     return 0
+
+
+def check_latest_version():
+    r = requests.get(GITHUB_RELEASE_URL)
+    version = r.url.split('/')[-1]
+    if Version(version) > Version(VERSION):
+        return version
+    else:
+        return None

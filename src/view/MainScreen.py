@@ -69,6 +69,7 @@ class MainScreen(QFrame):
         self.persistent_tooltip = None
 
         self.__setup_interface()
+        self.__check_update()
 
     def __setup_interface(self):
         self.layout.setAlignment(Qt.AlignmentFlag.AlignTop)
@@ -360,6 +361,12 @@ class MainScreen(QFrame):
                     len(curr_data), naturalsize(sum([x.file_size for x in curr_data])),
                     sum([x.num_files for x in curr_data]))
             )
+
+    def __check_update(self):
+        if cfg.get(cfg.check_update_at_start_up):
+            latest = check_latest_version()
+            if latest:
+                show_update_available(self, latest)
 
     # Drag and drop
     def dragEnterEvent(self, event):
