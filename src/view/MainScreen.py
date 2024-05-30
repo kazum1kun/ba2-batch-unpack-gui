@@ -49,7 +49,7 @@ class MainScreen(QFrame):
         self.preview_title = SubtitleLabel(self.tr('Preview'), self)
         self.preview_text = BodyLabel('', self)
 
-        self.preview_progress = ProgressBar()
+        # self.preview_progress = ProgressBar()
 
         # File table
         self.preview_table = TableView(self)
@@ -130,11 +130,11 @@ class MainScreen(QFrame):
         self.__setup_table()
 
         # Hide the progress bar in the beginning
-        sp = self.preview_progress.sizePolicy()
-        sp.setRetainSizeWhenHidden(True)
-        self.preview_progress.setSizePolicy(sp)
-        self.preview_progress.setHidden(True)
-        self.layout.addWidget(self.preview_progress)
+        # sp = self.preview_progress.sizePolicy()
+        # sp.setRetainSizeWhenHidden(True)
+        # self.preview_progress.setSizePolicy(sp)
+        # self.preview_progress.setHidden(True)
+        # self.layout.addWidget(self.preview_progress)
 
         # Leave some space for the title bar
         self.layout.setContentsMargins(60, 42, 60, 10)
@@ -210,6 +210,8 @@ class MainScreen(QFrame):
 
         self.extractor = BsaExtractor(self)
         self.extractor.done_processing.connect(self.__done_extracting)
+        self.preview_hint.setText(self.tr('Extracting files...'))
+        self.preview_hint.setHidden(False)
 
         self.extractor.start()
 
@@ -262,6 +264,8 @@ class MainScreen(QFrame):
 
         self.__update_ignored()
         self.preview_text.setText('')
+        self.preview_hint.setText(self.tr('Select or drag \'n drop a folder here to get started'))
+        self.preview_hint.setHidden(True)
 
     def __adjust_column_size(self):
         total_width = self.preview_table.width()

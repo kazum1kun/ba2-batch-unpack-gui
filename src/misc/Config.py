@@ -97,7 +97,7 @@ class Config(QConfig):
 
 YEAR = 2024
 AUTHOR = 'KazumaKuun / Southwest Codeworks'
-VERSION = '0.2.2'
+VERSION = '0.3.0'
 FEEDBACK_URL = 'https://www.nexusmods.com/fallout4/mods/82082?tab=posts'
 NEXUS_URL = 'https://www.nexusmods.com/fallout4/mods/82082'
 GITHUB_URL = 'https://github.com/kazum1kun/ba2-batch-unpack-gui'

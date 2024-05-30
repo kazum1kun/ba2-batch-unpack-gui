@@ -18,11 +18,11 @@ class BsaExtractor(QThread):
 
     def run(self):
         table: QTableView = self._parent.preview_table
-        progress: ProgressBar = self._parent.preview_progress
+        # progress: ProgressBar = self._parent.preview_progress
         failed: set = self._parent.failed
 
-        progress.show()
-        progress.setMaximum(table.model().rowCount())
+        # progress.show()
+        # progress.setMaximum(table.model().rowCount())
 
         table_idx = 0
         ok_count = 0
@@ -36,7 +36,7 @@ class BsaExtractor(QThread):
                 # Highlight the failed files in the table
                 source_idx = table.model().mapToSource(table.model().index(table_idx, 0))
                 table.model().sourceModel().add_bad_file(source_idx.row())
-                progress.error()
+                # progress.error()
                 failed_count += 1
             else:
                 # Back up the file if user requests so
@@ -59,6 +59,6 @@ class BsaExtractor(QThread):
                 table.hideRow(table_idx)
                 ok_count += 1
             table_idx += 1
-            progress.setValue(progress.value() + 1)
+            # progress.setValue(progress.value() + 1)
 
         self.done_processing.emit([ok_count, failed_count])

@@ -40,7 +40,7 @@ class CheckFileScreen(QFrame):
         # Results
         self.preview_title = SubtitleLabel(self.tr('Results'), self)
         self.results_box = TextEdit(self)
-        self.preview_progress = ProgressBar()
+        # self.preview_progress = ProgressBar()
 
         # Hint on top of the preview table
         self.preview_hint_layout = QBoxLayout(QBoxLayout.Direction.LeftToRight, self.results_box)
@@ -96,11 +96,11 @@ class CheckFileScreen(QFrame):
         self.layout.addWidget(self.results_box)
 
         # Hide the progress bar in the beginning
-        sp = self.preview_progress.sizePolicy()
-        sp.setRetainSizeWhenHidden(True)
-        self.preview_progress.setSizePolicy(sp)
-        self.preview_progress.setHidden(True)
-        self.layout.addWidget(self.preview_progress)
+        # sp = self.preview_progress.sizePolicy()
+        # sp.setRetainSizeWhenHidden(True)
+        # self.preview_progress.setSizePolicy(sp)
+        # self.preview_progress.setHidden(True)
+        # self.layout.addWidget(self.preview_progress)
 
         # Leave some space for the title bar
         self.layout.setContentsMargins(60, 42, 60, 10)
@@ -114,10 +114,10 @@ class CheckFileScreen(QFrame):
 
     def __check_files(self):
         self.results_box.clear()
-        self.results_box.append(self.tr('Checking ba2 files...'))
-        self.preview_progress.setHidden(False)
-        self.preview_progress.setValue(0)
-        self.preview_progress.setError(False)
+        self.results_box.append(self.tr('Checking ba2 files... Please wait.'))
+        # self.preview_progress.setHidden(False)
+        # self.preview_progress.setValue(0)
+        # self.preview_progress.setError(False)
 
         # deep scan
         if self.deep_scan_checkbox.isChecked():
@@ -127,12 +127,14 @@ class CheckFileScreen(QFrame):
             self.checker = BsaChecker(self, self.folder_input.text(), False)
         self.checker.done_processing.connect(self.__show_results)
         self.checker.issue_found.connect(self.__update_output)
+        self.start_button.setEnabled(False)
         self.checker.start()
         self.checker.finished.connect(self.__check_finished)
 
     def __check_finished(self):
         del self.checker
         self.results_box.append(self.tr('Done!'))
+        self.start_button.setEnabled(True)
 
     def __update_output(self, text):
         if self.first_output:

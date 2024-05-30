@@ -12,7 +12,7 @@ class BsaChecker(QThread):
     def __init__(self, parent, path, deep_scan=False):
         super().__init__()
         self._parent = parent
-        self.progress = self._parent.preview_progress
+        # self.progress = self._parent.preview_progress
         self.path = path
         self.deep_scan = deep_scan
 
@@ -21,7 +21,7 @@ class BsaChecker(QThread):
         num_failed = 0
         num_ok = 0
 
-        self.progress.setMaximum(len(ba2_paths))
+        # self.progress.setMaximum(len(ba2_paths))
 
         for f in ba2_paths:
             if not self.deep_scan:
@@ -31,9 +31,9 @@ class BsaChecker(QThread):
             if result != 0:
                 num_failed += 1
                 self.issue_found.emit(os.path.abspath(f))
-                self.progress.error()
+                # self.progress.error()
             else:
                 num_ok += 1
-            self.progress.setValue(self.progress.value() + 1)
+            # self.progress.setValue(self.progress.value() + 1)
 
         self.done_processing.emit([self._parent, num_ok, num_failed])
